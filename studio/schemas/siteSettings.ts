@@ -55,20 +55,46 @@ export default {
       type: 'url',
     },
     {
-      title: 'Footer Media',
-      name: 'footerMedia',
+      title: 'Personal Contacts',
+      name: 'personalContacts',
       type: 'array',
       of: [
         {
           type: 'object',
           fields: [
             {
-              title: 'Media',
-              name: 'media',
-              type: 'object',
-              fields: mediaBlock,
+              title: 'Name',
+              name: 'name',
+              type: 'string',
+            },
+            {
+              title: 'Role',
+              name: 'role',
+              type: 'string',
+            },
+            {
+              title: 'Email',
+              name: 'email',
+              type: 'string',
+            },
+            {
+              title: 'Image',
+              name: 'image',
+              type: 'image',
             },
           ],
+        },
+      ],
+    },
+    {
+      title: 'Footer Media',
+      name: 'footerMedia',
+      type: 'array',
+      of: [
+        {
+          title: 'Image',
+          name: 'image',
+          type: 'image',
         },
       ],
     },

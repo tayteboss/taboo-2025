@@ -231,6 +231,11 @@ export default {
               type: 'object',
               fields: [
                 {
+                  title: 'Image',
+                  name: 'image',
+                  type: 'image',
+                },
+                {
                   title: 'Name',
                   name: 'name',
                   type: 'string',
@@ -241,9 +246,33 @@ export default {
                   type: 'string',
                 },
                 {
-                  title: 'Image',
-                  name: 'image',
-                  type: 'image',
+                  title: 'description',
+                  name: 'description',
+                  type: 'text',
+                },
+                {
+                  title: 'Social Links',
+                  name: 'socialLinks',
+                  type: 'array',
+                  of: [
+                    {
+                      title: 'Social Link',
+                      name: 'socialLink',
+                      type: 'object',
+                      fields: [
+                        {
+                          title: 'Title',
+                          name: 'title',
+                          type: 'string',
+                        },
+                        {
+                          title: 'Link',
+                          name: 'link',
+                          type: 'url',
+                        },
+                      ],
+                    },
+                  ],
                 },
               ],
             },
@@ -279,7 +308,7 @@ export default {
                 },
                 {
                   title: 'List',
-                  name: 'list',
+                  name: 'itemList',
                   type: 'array',
                   of: [
                     {

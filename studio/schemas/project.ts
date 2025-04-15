@@ -1,10 +1,15 @@
+import {CaseIcon} from '@sanity/icons'
 import {fullMedia, mediaBlock, ratioList, statisticBlock, twoColumn} from '../objects'
+import {orderRankField, orderRankOrdering} from '@sanity/orderable-document-list'
 
 export default {
   title: 'Project',
   name: 'project',
   type: 'document',
+  icon: CaseIcon,
+  orderings: [orderRankOrdering],
   fields: [
+    orderRankField({type: 'project'}),
     {
       title: 'Title',
       name: 'title',
@@ -24,7 +29,8 @@ export default {
     {
       title: 'Client',
       name: 'client',
-      type: 'string',
+      type: 'reference',
+      to: [{type: 'client'}],
     },
     {
       title: 'Year',
@@ -79,12 +85,6 @@ export default {
         list: ratioList,
       },
     },
-    // {
-    //   title: 'List Thumbnail Media',
-    //   name: 'listThumbnailMedia',
-    //   type: 'object',
-    //   fields: mediaBlock,
-    // },
 
     {
       title: 'Page Builder',

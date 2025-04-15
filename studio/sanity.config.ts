@@ -5,6 +5,7 @@ import {schemaTypes} from './schemas'
 import {muxInput} from 'sanity-plugin-mux-input'
 import {vercelDeployTool} from 'sanity-plugin-vercel-deploy'
 import {EarthGlobeIcon, DocumentIcon, CaseIcon} from '@sanity/icons'
+import {orderableDocumentListDeskItem} from '@sanity/orderable-document-list'
 
 export default defineConfig({
   name: 'default',
@@ -48,6 +49,14 @@ export default defineConfig({
                   .filter('_type == "project"'),
               ),
             S.divider(),
+            S.listItem()
+              .title('Client')
+              .icon(CaseIcon)
+              .child(
+                S.documentList().title('Client').schemaType('client').filter('_type == "client"'),
+              ),
+            S.divider(),
+            orderableDocumentListDeskItem({type: 'project', S, context}),
           ])
       },
     }),

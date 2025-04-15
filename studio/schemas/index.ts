@@ -4,6 +4,7 @@ import informationPage from './informationPage'
 import workPage from './workPage'
 import project from './project'
 import {fullMedia, statisticBlock, twoColumn} from '../objects'
+import client from './client'
 
 export const schemaTypes = [
   homePage,
@@ -11,6 +12,7 @@ export const schemaTypes = [
   siteSettings,
   workPage,
   project,
+  client,
   fullMedia,
   twoColumn,
   statisticBlock,

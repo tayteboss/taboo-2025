@@ -23,6 +23,8 @@ type Props = {
 const Page = (props: Props) => {
   const { data, siteSettings, pageTransitionVariants } = props;
 
+  console.log("siteSettings", siteSettings);
+
   return (
     <PageWrapper
       variants={pageTransitionVariants}
@@ -40,13 +42,14 @@ const Page = (props: Props) => {
 };
 
 export async function getStaticProps() {
-  // const siteSettings = await client.fetch(siteSettingsQueryString);
+  const siteSettings = await client.fetch(siteSettingsQueryString);
   // const data = await client.fetch(homePageQueryString);
   const data = false;
 
   return {
     props: {
       data,
+      siteSettings,
     },
   };
 }
