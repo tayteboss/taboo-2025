@@ -1,7 +1,9 @@
 export const theme = {
   colours: {
     black: "#0F0F0F",
+    blackAlpha: "rgba(15, 15, 15, 0.8)",
     white: "#FFFFFF",
+    whiteAlpha: "rgba(255, 255, 255, 0.8)",
     grey: "#F0F0F0",
   },
   fonts: {

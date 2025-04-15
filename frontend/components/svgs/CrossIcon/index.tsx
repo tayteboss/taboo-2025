@@ -1,3 +1,3 @@
-import CrossSvg from "./CrossSvg";
+import CrossIcon from "./CrossIcon";
 
-export default CrossSvg;
+export default CrossIcon;

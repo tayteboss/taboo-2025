@@ -51,6 +51,8 @@ const NavLinks = styled.div`
 `;
 
 const LinkTag = styled.div`
+  cursor: pointer;
+
   transition: all var(--transition-speed-default) var(--transition-ease);
 
   &:hover {

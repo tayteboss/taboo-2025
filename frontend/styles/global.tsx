@@ -5,7 +5,9 @@ import pxToRem from "../utils/pxToRem";
 export const GlobalStyles = createGlobalStyle`
 	:root {
 		--colour-background: ${theme.colours.white};
+		--color-background-alpha: ${theme.colours.whiteAlpha};
 		--colour-foreground: ${theme.colours.black};
+		--colour-foreground-alpha: ${theme.colours.blackAlpha};
 		--colour-grey: ${theme.colours.grey};
 		--font-pressura: ${theme.fonts.gtPressura};
 		--font-pressura-mono: ${theme.fonts.gtPressuraMono};
@@ -137,6 +139,7 @@ export const GlobalStyles = createGlobalStyle`
 		font-family: var(--font-pressura-mono);
 		font-size: ${pxToRem(14)};
 		line-height: 1.2;
+		line-height: 12.6px;
 	}
 
 	.type-mono {

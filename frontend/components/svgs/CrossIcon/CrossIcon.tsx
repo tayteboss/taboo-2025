@@ -1,4 +1,4 @@
-const CrossSvg = () => {
+const CrossIcon = () => {
   return (
     <svg
       width="14"
@@ -25,4 +25,4 @@ const CrossSvg = () => {
   );
 };
 
-export default CrossSvg;
+export default CrossIcon;
