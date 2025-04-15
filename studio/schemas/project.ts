@@ -1,0 +1,148 @@
+import {fullMedia, mediaBlock, ratioList, statisticBlock, twoColumn} from '../objects'
+
+export default {
+  title: 'Project',
+  name: 'project',
+  type: 'document',
+  fields: [
+    {
+      title: 'Title',
+      name: 'title',
+      type: 'string',
+    },
+    {
+      title: 'Slug',
+      name: 'slug',
+      type: 'slug',
+      options: {
+        source: 'title',
+        maxLength: 200,
+        slugify: (input: any) => input.toLowerCase().replace(/\s+/g, '-').slice(0, 200),
+      },
+      validation: (Rule: any) => Rule.required(),
+    },
+    {
+      title: 'Client',
+      name: 'client',
+      type: 'string',
+    },
+    {
+      title: 'Year',
+      name: 'year',
+      type: 'string',
+      description: 'e.g. 2025',
+    },
+
+    {
+      title: 'Service',
+      name: 'service',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Service Type 1', value: 'serviceType1'},
+          {title: 'Service Type 2', value: 'serviceType2'},
+          {title: 'Service Type 3', value: 'serviceType3'},
+          {title: 'Service Type 4', value: 'serviceType4'},
+          {title: 'Service Type 5', value: 'serviceType5'},
+        ],
+        layout: 'dropdown',
+      },
+    },
+
+    {
+      title: 'Industry',
+      name: 'industry',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Industry Type 1', value: 'industryType1'},
+          {title: 'Industry Type 2', value: 'industryType2'},
+          {title: 'Industry Type 3', value: 'industryType3'},
+          {title: 'Industry Type 4', value: 'industryType4'},
+          {title: 'Industry Type 5', value: 'industryType5'},
+        ],
+        layout: 'dropdown',
+      },
+    },
+
+    {
+      title: 'Grid Thumbnail Media',
+      name: 'gridThumbnailMedia',
+      type: 'object',
+      fields: mediaBlock,
+    },
+    {
+      title: 'Grid Thumbnail Ratio',
+      name: 'gridThumbnailRatio',
+      type: 'string',
+      options: {
+        list: ratioList,
+      },
+    },
+    // {
+    //   title: 'List Thumbnail Media',
+    //   name: 'listThumbnailMedia',
+    //   type: 'object',
+    //   fields: mediaBlock,
+    // },
+
+    {
+      title: 'Page Builder',
+      name: 'pageBuilder',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          preview: {
+            select: {
+              component: 'component',
+            },
+            prepare: ({component}: any) => {
+              let componentName = ''
+
+              if (component === 'fullMedia') {
+                componentName = 'Full Media'
+              } else if (component === 'twoColumn') {
+                componentName = 'Two Column'
+              } else if (component === 'statisticBlock') {
+                componentName = 'Statistic Block'
+              } else {
+                componentName = 'Unknown'
+              }
+
+              return {
+                title: componentName,
+              }
+            },
+          },
+          fields: [
+            {
+              title: 'Select Media Component',
+              name: 'component',
+              type: 'string',
+              options: {
+                list: [
+                  {title: 'Full Media', value: 'fullMedia'},
+                  {title: 'Two Column', value: 'twoColumn'},
+                  {title: 'Statistic Block', value: 'statisticBlock'},
+                ],
+                layout: 'dropdown',
+              },
+            },
+            fullMedia,
+            twoColumn,
+            statisticBlock,
+          ],
+        },
+      ],
+    },
+
+    {
+      title: 'Related Projects',
+      name: 'relatedProjects',
+      type: 'array',
+      of: [{type: 'reference', to: [{type: 'project'}]}],
+      validation: (Rule: any) => Rule.max(3).unique(),
+    },
+  ],
+}
