@@ -6,6 +6,7 @@ export const GlobalStyles = createGlobalStyle`
 	:root {
 		--colour-background: ${theme.colours.white};
 		--colour-foreground: ${theme.colours.black};
+		--colour-grey: ${theme.colours.grey};
 		--font-pressura: ${theme.fonts.gtPressura};
 		--font-pressura-mono: ${theme.fonts.gtPressuraMono};
 		--transition-speed-default: ${theme.transitionSpeed.default};
@@ -75,7 +76,7 @@ export const GlobalStyles = createGlobalStyle`
 	}
 
 	a {
-		text-decoration: underline;
+		text-decoration: none;
 		color: var(--colour-foreground);
 	}
 

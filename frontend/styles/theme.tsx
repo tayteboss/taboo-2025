@@ -2,6 +2,7 @@ export const theme = {
   colours: {
     black: "#0F0F0F",
     white: "#FFFFFF",
+    grey: "#F0F0F0",
   },
   fonts: {
     gtPressura: "GT Pressura, sans-serif",
@@ -19,10 +20,10 @@ export const theme = {
     innerWrapper: "1920px",
   },
   transitionSpeed: {
-    default: "300ms",
-    fast: "200ms",
-    extraFast: "100ms",
+    default: "200ms",
+    fast: "100ms",
+    extraFast: "50ms",
     slow: "500ms",
-    extraSlow: "800ms",
+    extraSlow: "1500ms",
   },
 };

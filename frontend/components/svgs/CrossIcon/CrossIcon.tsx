@@ -9,14 +9,14 @@ const CrossSvg = () => {
     >
       <path
         d="M10.5 4.09595L3.5 11.0959"
-        stroke="#F0F0F0"
+        stroke="var(--colour-foreground)"
         strokeWidth="1.3125"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M3.5 4.09595L10.5 11.0959"
-        stroke="#F0F0F0"
+        stroke="var(--colour-foreground)"
         strokeWidth="1.3125"
         strokeLinecap="round"
         strokeLinejoin="round"

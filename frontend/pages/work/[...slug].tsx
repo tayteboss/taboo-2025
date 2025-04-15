@@ -27,7 +27,7 @@ const Page = (props: Props) => {
       exit="hidden"
     >
       <NextSeo
-        title={`${data?.client} - ${data?.title} — Taboo`}
+        title={`${data?.client?.title} - ${data?.title} — Taboo`}
         description={`${data?.title}`}
       />
       <ProjectTitle />
