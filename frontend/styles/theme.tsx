@@ -1,10 +1,11 @@
 export const theme = {
   colours: {
-    black: "#000000",
+    black: "#0F0F0F",
     white: "#FFFFFF",
   },
   fonts: {
-    default: "arial",
+    gtPressura: "GT Pressura, sans-serif",
+    gtPressuraMono: "GT Pressura Mono, monospace",
   },
   mediaBreakpoints: {
     desktop: "(min-width: 1680px)",
