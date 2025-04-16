@@ -5,9 +5,11 @@ import pxToRem from "../utils/pxToRem";
 export const GlobalStyles = createGlobalStyle`
 	:root {
 		--colour-background: ${theme.colours.white};
-		--color-background-alpha: ${theme.colours.whiteAlpha};
+		--color-background-alpha-80: ${theme.colours.whiteAlpha80};
+		--color-background-alpha-50: ${theme.colours.whiteAlpha50};
 		--colour-foreground: ${theme.colours.black};
-		--colour-foreground-alpha: ${theme.colours.blackAlpha};
+		--colour-foreground-alpha-80: ${theme.colours.blackAlpha80};
+		--colour-foreground-alpha-50: ${theme.colours.blackAlpha50};
 		--colour-grey: ${theme.colours.grey};
 		--font-pressura: ${theme.fonts.gtPressura};
 		--font-pressura-mono: ${theme.fonts.gtPressuraMono};
@@ -31,6 +33,10 @@ export const GlobalStyles = createGlobalStyle`
 		outline: none;
 		border-radius: 0;
 		box-shadow: none;
+	}
+
+	.color-switch {
+		transition: color var(--transition-speed-default) var(--transition-ease);
 	}
 
 	-webkit-text-size-adjust: 100%;
@@ -99,10 +105,25 @@ export const GlobalStyles = createGlobalStyle`
 	h2,
 	.type-h2 {
 		font-size: ${pxToRem(40)};
-		line-height: 1.1;
-
+		line-height: ${pxToRem(44)};
+		letter-spacing: -1.2px;	
+		
 		@media ${theme.mediaBreakpoints.tabletPortrait} {
-			font-size: ${pxToRem(38)};
+			font-size: ${pxToRem(26)};
+			line-height: ${pxToRem(28)};
+			letter-spacing: -0.78px;
+		}
+
+		* {
+			font-size: ${pxToRem(40)};
+			line-height: ${pxToRem(44)};
+			letter-spacing: -1.2px;	
+
+			@media ${theme.mediaBreakpoints.tabletPortrait} {
+				font-size: ${pxToRem(26)};
+				line-height: ${pxToRem(28)};
+				letter-spacing: -0.78px;
+			}
 		}
 	}
 
@@ -139,7 +160,9 @@ export const GlobalStyles = createGlobalStyle`
 		font-family: var(--font-pressura-mono);
 		font-size: ${pxToRem(14)};
 		line-height: 1.2;
-		line-height: 12.6px;
+		line-height: normal;
+		font-weight: 400;
+		letter-spacing: -0.28px;
 	}
 
 	.type-mono {

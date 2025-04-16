@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import { InformationPageType } from "../../../shared/types/types";
 
-const PrinciplesSectionWrapper = styled.section``;
+const PrinciplesSectionWrapper = styled.section`
+  height: 50vh;
+`;
 
 type Props = {
   data: InformationPageType["principlesSection"];

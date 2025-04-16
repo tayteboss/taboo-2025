@@ -18,8 +18,15 @@ import HowWeDoItSection from "../components/blocks/HowWeDoItSection";
 import PrinciplesSection from "../components/blocks/PrinciplesSection";
 import StatisticSection from "../components/blocks/StatisticSection";
 import TeamSection from "../components/blocks/TeamSection";
+import pxToRem from "../utils/pxToRem";
 
-const PageWrapper = styled(motion.div)``;
+const PageWrapper = styled(motion.div)`
+  padding-top: ${pxToRem(240)};
+
+  @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+    padding-top: ${pxToRem(200)};
+  }
+`;
 
 type Props = {
   data: InformationPageType;

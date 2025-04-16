@@ -6,18 +6,27 @@ import pxToRem from "../../../utils/pxToRem";
 import Link from "next/link";
 
 const MenuWrapper = styled.div`
-  position: relative;
-  isolation: isolate;
-  mix-blend-mode: normal;
-  z-index: 1;
+  display: none;
+
+  @media ${(props) => props.theme.mediaBreakpoints.mobile} {
+    display: block;
+    z-index: 90;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100dvh;
+  }
 `;
 
 const MenuInner = styled(motion.div)`
   position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: var(--colour-foreground);
+  bottom: ${pxToRem(20)};
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 20px);
+  margin: 0 auto;
+  background: var(--colour-grey);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -26,11 +35,14 @@ const MenuInner = styled(motion.div)`
 `;
 
 const Trigger = styled.button`
-  position: relative;
+  position: absolute;
+  bottom: ${pxToRem(10)};
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 20px);
   z-index: 2;
-  width: 100%;
   height: ${pxToRem(36)};
-  background: var(--colour-foreground);
+  background: var(--colour-grey);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -38,7 +50,7 @@ const Trigger = styled.button`
 
   svg {
     path {
-      stroke: var(--colour-background);
+      stroke: var(--colour-foreground);
     }
   }
 `;
@@ -56,7 +68,7 @@ const NavLinks = styled(motion.div)`
 `;
 
 const LinkTag = styled.div`
-  color: var(--colour-background);
+  color: var(--colour-foreground);
 
   transition: all var(--transition-speed-default) var(--transition-ease);
 
@@ -76,7 +88,7 @@ const Underline = styled(motion.div)`
   left: 0;
   width: 100%;
   height: 1px;
-  background: var(--colour-foreground);
+  background: var(--colour-background);
 `;
 
 const wrapperVariants = {
@@ -101,18 +113,18 @@ const menuInnerVariants = {
     height: 0,
     transition: {
       type: "spring",
-      stiffness: 70,
-      damping: 15,
+      stiffness: 200,
+      damping: 20,
       when: "afterChildren",
     },
   },
   visible: {
-    height: "calc(100dvh - 20px)",
+    height: "calc(100dvh - 30px)",
     transition: {
       type: "spring",
-      stiffness: 70,
-      damping: 15,
-      delayChildren: 0.2,
+      stiffness: 200,
+      damping: 20,
+      delayChildren: 0.1,
     },
   },
 };
@@ -160,33 +172,12 @@ const Menu = (props: Props) => {
             >
               <Link href="/">
                 <LinkTag className="type-mono-small">Home</LinkTag>
-                {activeLink === "Home" && (
-                  <Underline
-                    layoutId="navlink-underline-mobile"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                  />
-                )}
               </Link>
               <Link href="/work">
                 <LinkTag className="type-mono-small">Work</LinkTag>
-                {activeLink === "Work" && (
-                  <Underline
-                    layoutId="navlink-underline-mobile"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                  />
-                )}
               </Link>
               <Link href="/information">
                 <LinkTag className="type-mono-small">Information</LinkTag>
-                {activeLink === "Information" && (
-                  <Underline
-                    layoutId="navlink-underline-mobile"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                  />
-                )}
               </Link>
               <LinkTag
                 className="type-mono-small"

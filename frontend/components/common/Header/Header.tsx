@@ -39,7 +39,6 @@ const MobileInner = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: calc(100dvh - 20px);
   }
 `;
 
@@ -141,68 +140,73 @@ const Header = (props: Props) => {
   }, []);
 
   return (
-    <HeaderWrapper className="header">
-      <LayoutWrapper>
-        <DesktopInner>
-          <NavLinks>
-            <Link href="/">
-              <LinkTag className="type-mono-small">Home</LinkTag>
-              {activeLink === "Home" && (
-                <Underline
-                  layoutId="navlink-underline"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                />
-              )}
-            </Link>
-            <Link href="/work">
-              <LinkTag className="type-mono-small">Work</LinkTag>
-              {activeLink === "Work" && (
-                <Underline
-                  layoutId="navlink-underline"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                />
-              )}
-            </Link>
-            <Link href="/information">
-              <LinkTag className="type-mono-small">Information</LinkTag>
-              {activeLink === "Information" && (
-                <Underline
-                  layoutId="navlink-underline"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                />
-              )}
-            </Link>
-            <LinkTag
-              className="type-mono-small"
-              onClick={() => setContactModalIsActive(true)}
+    <>
+      <HeaderWrapper className="header">
+        <LayoutWrapper>
+          <DesktopInner>
+            <NavLinks>
+              <Link href="/">
+                <LinkTag className="type-mono-small">Home</LinkTag>
+                {activeLink === "Home" && (
+                  <Underline
+                    layoutId="navlink-underline"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                  />
+                )}
+              </Link>
+              <Link href="/work">
+                <LinkTag className="type-mono-small">Work</LinkTag>
+                {activeLink === "Work" && (
+                  <Underline
+                    layoutId="navlink-underline"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                  />
+                )}
+              </Link>
+              <Link href="/information">
+                <LinkTag className="type-mono-small">Information</LinkTag>
+                {activeLink === "Information" && (
+                  <Underline
+                    layoutId="navlink-underline"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                  />
+                )}
+              </Link>
+              <LinkTag
+                className="type-mono-small"
+                onClick={() => setContactModalIsActive(true)}
+              >
+                Contact
+              </LinkTag>
+            </NavLinks>
+            <LogoWrapper>
+              <Link href="/">
+                <LogoIcon />
+              </Link>
+            </LogoWrapper>
+          </DesktopInner>
+          <MobileInner>
+            <LogoWrapper
+              $menuIsActive={menuIsActive}
+              $hasScrolled={hasScrolled}
             >
-              Contact
-            </LinkTag>
-          </NavLinks>
-          <LogoWrapper>
-            <Link href="/">
-              <LogoIcon />
-            </Link>
-          </LogoWrapper>
-        </DesktopInner>
-        <MobileInner>
-          <LogoWrapper $menuIsActive={menuIsActive} $hasScrolled={hasScrolled}>
-            <Link href="/">
-              <LogoIcon />
-            </Link>
-          </LogoWrapper>
-          <Menu
-            activeLink={activeLink}
-            menuIsActive={menuIsActive}
-            setMenuIsActive={setMenuIsActive}
-            setContactModalIsActive={setContactModalIsActive}
-          />
-        </MobileInner>
-      </LayoutWrapper>
-    </HeaderWrapper>
+              <Link href="/">
+                <LogoIcon />
+              </Link>
+            </LogoWrapper>
+          </MobileInner>
+        </LayoutWrapper>
+      </HeaderWrapper>
+      <Menu
+        activeLink={activeLink}
+        menuIsActive={menuIsActive}
+        setMenuIsActive={setMenuIsActive}
+        setContactModalIsActive={setContactModalIsActive}
+      />
+    </>
   );
 };
 
