@@ -6,7 +6,8 @@ import { motion } from "framer-motion";
 import useActiveLink from "../../../hooks/useActiveLink";
 import LogoIcon from "../../svgs/LogoIcon";
 import Menu from "../../blocks/Menu";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import throttle from "lodash/throttle";
 
 const HeaderWrapper = styled.header`
   padding: ${pxToRem(20)} 0;
@@ -14,6 +15,7 @@ const HeaderWrapper = styled.header`
   top: 0;
   width: 100%;
   z-index: 100;
+  mix-blend-mode: difference;
 
   @media ${(props) => props.theme.mediaBreakpoints.mobile} {
     padding: ${pxToRem(10)} 0;
@@ -52,6 +54,7 @@ const NavLinks = styled.div`
 
 const LinkTag = styled.div`
   cursor: pointer;
+  color: var(--colour-background);
 
   transition: all var(--transition-speed-default) var(--transition-ease);
 
@@ -62,14 +65,17 @@ const LinkTag = styled.div`
 
 const Underline = styled(motion.div)`
   position: absolute;
-  bottom: 0;
+  bottom: -2px;
   left: 0;
   width: 100%;
   height: 1px;
-  background: var(--colour-foreground);
+  background: var(--colour-background);
 `;
 
-const LogoWrapper = styled.div<{ $menuIsActive?: boolean }>`
+const LogoWrapper = styled.div<{
+  $menuIsActive?: boolean;
+  $hasScrolled?: boolean;
+}>`
   position: relative;
   z-index: 2;
 
@@ -96,7 +102,12 @@ const LogoWrapper = styled.div<{ $menuIsActive?: boolean }>`
     transition: all var(--transition-speed-slow) var(--transition-ease);
 
     @media ${(props) => props.theme.mediaBreakpoints.mobile} {
-      width: ${(props) => (props.$menuIsActive ? "calc(100% - 20px)" : "100%")};
+      width: ${(props) =>
+        props.$menuIsActive
+          ? "calc(100% - 20px)"
+          : props.$hasScrolled
+            ? "120px"
+            : "100%"};
     }
   }
 `;
@@ -108,9 +119,26 @@ type Props = {
 const Header = (props: Props) => {
   const { setContactModalIsActive } = props;
 
+  const [hasScrolled, setHasScrolled] = useState(false);
+  const [menuIsActive, setMenuIsActive] = useState(false);
+
   const activeLink = useActiveLink();
 
-  const [menuIsActive, setMenuIsActive] = useState(false);
+  useEffect(() => {
+    const handleScroll = throttle(() => {
+      if (window.scrollY > 100) {
+        setHasScrolled(true);
+      } else {
+        setHasScrolled(false);
+      }
+    }, 300);
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <HeaderWrapper className="header">
@@ -161,7 +189,7 @@ const Header = (props: Props) => {
           </LogoWrapper>
         </DesktopInner>
         <MobileInner>
-          <LogoWrapper $menuIsActive={menuIsActive}>
+          <LogoWrapper $menuIsActive={menuIsActive} $hasScrolled={hasScrolled}>
             <Link href="/">
               <LogoIcon />
             </Link>

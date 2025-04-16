@@ -1,12 +1,14 @@
 import styled from "styled-components";
 import Hamburger from "../../svgs/Hamburger/Hamburger";
-import { AnimatePresence, delay, motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import CrossSvg from "../../svgs/CrossIcon/CrossIcon";
 import pxToRem from "../../../utils/pxToRem";
 import Link from "next/link";
 
 const MenuWrapper = styled.div`
   position: relative;
+  isolation: isolate;
+  mix-blend-mode: normal;
   z-index: 1;
 `;
 
@@ -15,7 +17,7 @@ const MenuInner = styled(motion.div)`
   bottom: 0;
   left: 0;
   width: 100%;
-  background: var(--colour-grey);
+  background: var(--colour-foreground);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -28,11 +30,17 @@ const Trigger = styled.button`
   z-index: 2;
   width: 100%;
   height: ${pxToRem(36)};
-  background: var(--colour-grey);
+  background: var(--colour-foreground);
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: ${pxToRem(10)};
+
+  svg {
+    path {
+      stroke: var(--colour-background);
+    }
+  }
 `;
 
 const NavLinks = styled(motion.div)`
@@ -48,6 +56,8 @@ const NavLinks = styled(motion.div)`
 `;
 
 const LinkTag = styled.div`
+  color: var(--colour-background);
+
   transition: all var(--transition-speed-default) var(--transition-ease);
 
   &.type-mono-small {

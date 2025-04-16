@@ -104,7 +104,7 @@ const wrapperVariants = {
   hidden: {
     opacity: 0,
     transition: {
-      duration: 0.3,
+      duration: 0.2,
       ease: "easeInOut",
       when: "afterChildren",
     },
@@ -124,14 +124,18 @@ const cardVariants = {
     y: "100vh",
     transition: {
       duration: 0.5,
-      ease: "easeInOut",
+      type: "spring",
+      stiffness: 80,
+      damping: 13,
     },
   },
   visible: {
     y: 0,
     transition: {
       duration: 0.5,
-      ease: "easeInOut",
+      type: "spring",
+      stiffness: 80,
+      damping: 13,
     },
   },
   exit: {
@@ -139,7 +143,9 @@ const cardVariants = {
     opacity: 0,
     transition: {
       duration: 0.5,
-      ease: "easeInOut",
+      type: "spring",
+      stiffness: 80,
+      damping: 13,
     },
   },
 };
