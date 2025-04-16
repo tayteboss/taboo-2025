@@ -7,7 +7,13 @@ import StatsItem from "../../elements/StatsItem";
 import { useInView } from "react-intersection-observer";
 import { motion } from "framer-motion";
 
-const StatisticSectionWrapper = styled.section``;
+const StatisticSectionWrapper = styled.section`
+  margin-bottom: ${pxToRem(200)};
+
+  @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+    margin-bottom: ${pxToRem(100)};
+  }
+`;
 
 const MediaWrapper = styled.div`
   overflow: hidden;

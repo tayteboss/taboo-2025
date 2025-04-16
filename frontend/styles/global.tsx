@@ -7,9 +7,11 @@ export const GlobalStyles = createGlobalStyle`
 		--colour-background: ${theme.colours.white};
 		--color-background-alpha-80: ${theme.colours.whiteAlpha80};
 		--color-background-alpha-50: ${theme.colours.whiteAlpha50};
+		--color-background-alpha-20: ${theme.colours.whiteAlpha20};
 		--colour-foreground: ${theme.colours.black};
 		--colour-foreground-alpha-80: ${theme.colours.blackAlpha80};
 		--colour-foreground-alpha-50: ${theme.colours.blackAlpha50};
+		--colour-foreground-alpha-20: ${theme.colours.blackAlpha20};
 		--colour-grey: ${theme.colours.grey};
 		--font-pressura: ${theme.fonts.gtPressura};
 		--font-pressura-mono: ${theme.fonts.gtPressuraMono};
@@ -143,7 +145,7 @@ export const GlobalStyles = createGlobalStyle`
 	h4,
 	.type-h4 {
 		font-size: ${pxToRem(18)};
-		line-height: 1.4;
+		line-height: ${pxToRem(22)};
 
 		@media ${theme.mediaBreakpoints.tabletPortrait} {
 			font-size: ${pxToRem(38)};
@@ -156,20 +158,32 @@ export const GlobalStyles = createGlobalStyle`
 	button,
 	div {
 		font-size: ${pxToRem(24)};
-		line-height: 1.15;
+		line-height: ${pxToRem(28)};
 	}
 
 	.type-mono-small {
 		font-family: var(--font-pressura-mono);
 		font-size: ${pxToRem(14)};
 		line-height: 1.2;
-		line-height: normal;
 		font-weight: 400;
 		letter-spacing: -0.28px;
+
+		* {
+			font-family: var(--font-pressura-mono);
+			font-size: ${pxToRem(14)};
+			line-height: 1.2;
+
+			font-weight: 400;
+			letter-spacing: -0.28px;
+		}
 	}
 
 	.type-mono {
 		font-family: var(--font-pressura-mono) !important;
+
+		* {
+			font-family: var(--font-pressura-mono) !important;
+		}
 	}
 
 	mux-player {

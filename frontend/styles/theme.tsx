@@ -3,9 +3,11 @@ export const theme = {
     black: "#0F0F0F",
     blackAlpha80: "rgba(15, 15, 15, 0.8)",
     blackAlpha50: "rgba(15, 15, 15, 0.5)",
+    blackAlpha20: "rgba(15, 15, 15, 0.2)",
     white: "#FFFFFF",
     whiteAlpha80: "rgba(255, 255, 255, 0.8)",
     whiteAlpha50: "rgba(255, 255, 255, 0.5)",
+    whiteAlpha20: "rgba(255, 255, 255, 0.2)",
     grey: "#F0F0F0",
   },
   fonts: {

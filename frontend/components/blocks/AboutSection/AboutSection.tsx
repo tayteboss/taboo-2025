@@ -5,6 +5,10 @@ import InformationTitleSection from "../InformationTitleSection";
 
 const AboutSectionWrapper = styled.section`
   margin-bottom: ${pxToRem(100)};
+
+  @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+    margin-bottom: ${pxToRem(50)};
+  }
 `;
 
 type Props = {

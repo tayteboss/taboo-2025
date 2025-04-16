@@ -6,6 +6,7 @@ import { PortableText } from "@portabletext/react";
 import pxToRem from "../../../utils/pxToRem";
 import { useInView } from "react-intersection-observer";
 import { motion } from "framer-motion";
+import HoverTyper from "../../elements/HoverTyper";
 
 const InformationTitleSectionWrapper = styled.div``;
 
@@ -52,7 +53,7 @@ const Subtitle = styled(motion.h3)`
 `;
 
 const fadeInLeftVariants = {
-  hidden: { opacity: 0, y: -50 },
+  hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0 },
 };
 
@@ -81,7 +82,7 @@ const InformationTitleSection = (props: Props) => {
             initial="hidden"
             animate={inView ? "visible" : "hidden"}
           >
-            {title || ""}
+            <HoverTyper data={title || ""} inView={inView} />
           </Title>
           {description && (
             <Description
@@ -101,7 +102,7 @@ const InformationTitleSection = (props: Props) => {
             animate={inView ? "visible" : "hidden"}
             transition={{ delay: 0.2 }}
           >
-            {subTitle || ""}
+            <HoverTyper data={subTitle || ""} inView={inView} />
           </Subtitle>
         </LayoutGrid>
       </LayoutWrapper>
