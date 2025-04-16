@@ -95,10 +95,13 @@ export const GlobalStyles = createGlobalStyle`
 	h1,
 	.type-h1 {
 		font-size: ${pxToRem(54)};
-		line-height: 1.1;
+		line-height: ${pxToRem(59)};
+		letter-spacing: -3.24px;
 
 		@media ${theme.mediaBreakpoints.tabletPortrait} {
-			font-size: ${pxToRem(38)};
+			font-size: ${pxToRem(40)};
+			line-height: ${pxToRem(44)};
+			letter-spacing: -2.4px;
 		}
 	}
 
@@ -166,7 +169,7 @@ export const GlobalStyles = createGlobalStyle`
 	}
 
 	.type-mono {
-		font-family: var(--font-pressura-mono);
+		font-family: var(--font-pressura-mono) !important;
 	}
 
 	mux-player {
