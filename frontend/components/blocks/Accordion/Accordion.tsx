@@ -4,7 +4,8 @@ import LayoutGrid from "../../layout/LayoutGrid";
 import CrossIcon from "../../svgs/CrossIcon";
 import { useState } from "react";
 import pxToRem from "../../../utils/pxToRem";
-import { AnimatePresence, delay, motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 
 const AccordionWrapper = styled.div`
   padding: ${pxToRem(100)} 0;
@@ -12,18 +13,33 @@ const AccordionWrapper = styled.div`
 
 const Inner = styled.div`
   grid-column: 4 / -4;
+
+  @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+    grid-column: 1 / -1;
+  }
 `;
 
-const ListWrapper = styled.div`
+const ListWrapper = styled(motion.div)`
   display: flex;
   flex-direction: column;
   gap: ${pxToRem(24)};
 `;
 
-const ListItemWrapper = styled.div`
+const ListItemWrapper = styled(motion.div)<{ $isActive: boolean }>`
   padding-bottom: ${pxToRem(20)};
-  border-bottom: 1px solid var(--colour-foreground-alpha-20);
+  border-bottom: 1px solid
+    ${(props) =>
+      props.$isActive
+        ? "var(--colour-foreground-alpha-50)"
+        : "var(--colour-foreground-alpha-20)"};
   cursor: pointer;
+
+  transition: border-bottom var(--transition-speed-default)
+    var(--transition-ease);
+
+  &:hover {
+    border-color: var(--colour-foreground-alpha-50);
+  }
 `;
 
 const TopBar = styled.div`
@@ -38,6 +54,10 @@ const DescriptionWrapper = styled(motion.div)``;
 
 const DescriptionInner = styled(motion.div)`
   padding: ${pxToRem(24)} 0 ${pxToRem(20)};
+
+  @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+    padding: ${pxToRem(16)} ${pxToRem(8)} ${pxToRem(8)} 0;
+  }
 `;
 
 const TriggerWrapper = styled.div<{ $isActive: boolean }>`
@@ -65,9 +85,13 @@ const TriggerWrapper = styled.div<{ $isActive: boolean }>`
 `;
 
 const TriggerInner = styled.div<{ $isActive: boolean }>`
-  transform: ${(props) => (props.$isActive ? "rotate(45deg)" : "rotate(0deg)")};
+  transform: ${(props) => (props.$isActive ? "rotate(0deg)" : "rotate(45deg)")};
+  opacity: ${(props) => (props.$isActive ? 1 : 0.5)};
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-  transition: transform var(--transition-speed-default) var(--transition-ease);
+  transition: all var(--transition-speed-default) var(--transition-ease);
 `;
 
 const wrapperVariants = {
@@ -110,6 +134,42 @@ const itemVariants = {
   },
 };
 
+const outerVariants = {
+  hidden: {
+    opacity: 0,
+    transition: {
+      duration: 0.01,
+      ease: "easeInOut",
+    },
+  },
+  visible: {
+    opacity: 1,
+    transition: {
+      duration: 0.01,
+      ease: "easeInOut",
+      staggerChildren: 0.1,
+      delayChildren: 0.3,
+    },
+  },
+};
+
+const innerVariants = {
+  hidden: {
+    opacity: 0,
+    transition: {
+      duration: 0.2,
+      ease: "easeInOut",
+    },
+  },
+  visible: {
+    opacity: 1,
+    transition: {
+      duration: 0.2,
+      ease: "easeInOut",
+    },
+  },
+};
+
 type Props = {
   data: any;
 };
@@ -117,12 +177,23 @@ type Props = {
 const Accordion = (props: Props) => {
   const { data } = props;
 
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    threshold: 0.01,
+    rootMargin: "-50px",
+  });
+
   return (
     <AccordionWrapper>
       <LayoutWrapper>
         <LayoutGrid>
           <Inner>
-            <ListWrapper>
+            <ListWrapper
+              ref={ref}
+              variants={outerVariants}
+              initial="hidden"
+              animate={inView ? "visible" : "hidden"}
+            >
               {data?.map((item: any, index: number) => (
                 <ListItem key={index} data={item} />
               ))}
@@ -138,7 +209,11 @@ const ListItem = ({ data }: { data: any }) => {
   const [isActive, setIsActive] = useState(false);
 
   return (
-    <ListItemWrapper onClick={() => setIsActive(!isActive)}>
+    <ListItemWrapper
+      onClick={() => setIsActive(!isActive)}
+      $isActive={isActive}
+      variants={innerVariants}
+    >
       <TopBar>
         <Title className="type-mono-small color-switch">{data?.title}</Title>
         <TriggerWrapper $isActive={isActive}>

@@ -159,6 +159,11 @@ export const GlobalStyles = createGlobalStyle`
 	div {
 		font-size: ${pxToRem(24)};
 		line-height: ${pxToRem(28)};
+
+		@media ${theme.mediaBreakpoints.tabletPortrait} {
+			font-size: ${pxToRem(16)};
+			line-height: ${pxToRem(18)};
+		}
 	}
 
 	.type-mono-small {
@@ -168,13 +173,22 @@ export const GlobalStyles = createGlobalStyle`
 		font-weight: 400;
 		letter-spacing: -0.28px;
 
+		@media ${theme.mediaBreakpoints.tabletPortrait} {
+			font-size: ${pxToRem(12)};
+			line-height: 1.2;
+		}
+
 		* {
 			font-family: var(--font-pressura-mono);
 			font-size: ${pxToRem(14)};
 			line-height: 1.2;
-
 			font-weight: 400;
 			letter-spacing: -0.28px;
+
+			@media ${theme.mediaBreakpoints.tabletPortrait} {
+				font-size: ${pxToRem(12)};
+				line-height: 1.2;
+			}
 		}
 	}
 
