@@ -153,7 +153,7 @@ const AwardCard = (props: Props) => {
       transition={{ duration: 0.3, ease: "easeInOut" }}
     >
       {optionalLink ? (
-        <Link href={optionalLink} passHref>
+        <Link href={optionalLink} target="_blank" passHref>
           <LayoutGrid>{content}</LayoutGrid>
         </Link>
       ) : (

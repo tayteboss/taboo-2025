@@ -17,6 +17,10 @@ const HowWeDoItSectionWrapper = styled.section`
 
 const Title = styled.h2`
   margin-bottom: ${pxToRem(100)};
+
+  @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+    display: none;
+  }
 `;
 
 const ListWrapper = styled(motion.div)`

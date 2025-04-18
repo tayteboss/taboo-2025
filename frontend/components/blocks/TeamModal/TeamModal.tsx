@@ -28,7 +28,7 @@ const Card = styled(motion.div)`
   border-radius: 10px;
   padding: 20px;
   z-index: 2;
-  max-height: (100vh - 40px);
+  max-height: calc(100vh - 40px);
   overflow-y: auto;
 `;
 
@@ -178,13 +178,13 @@ const TeamModal = (props: Props) => {
           initial="hidden"
           animate="visible"
           exit="hidden"
-          data-lenis-prevent
         >
           <Card
             variants={cardVariants}
             initial="hidden"
             animate="visible"
             exit="exit"
+            data-lenis-prevent
           >
             <TitleWrapper>
               <NameWrapper>
