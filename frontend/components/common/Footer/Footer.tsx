@@ -6,9 +6,11 @@ import FooterWidget from "../../elements/FooterWidget";
 import { SiteSettingsType } from "../../../shared/types/types";
 import SocialCard from "../../elements/SocialCard";
 import LayoutGrid from "../../layout/LayoutGrid";
+import MediaCursor from "../../blocks/MediaCursor";
 
 const FooterWrapper = styled.footer`
   margin-bottom: ${pxToRem(20)};
+  overflow: hidden;
 
   @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
     margin-bottom: ${pxToRem(55)};
@@ -25,6 +27,7 @@ const DesktopInner = styled.div`
   border-radius: 10px;
   position: relative;
   z-index: 2;
+  overflow: hidden;
 
   transition: all var(--transition-speed-default) var(--transition-ease);
 
@@ -52,6 +55,9 @@ const MobileInner = styled.div`
 `;
 
 const TopBar = styled.div`
+  position: relative;
+  z-index: 2;
+
   @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
     width: 100%;
   }
@@ -68,6 +74,8 @@ const Title = styled.p`
 const MiddleBar = styled.div`
   padding: ${pxToRem(240)} 0;
   width: 100%;
+  position: relative;
+  z-index: 2;
 
   @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
     padding: ${pxToRem(100)} 0;
@@ -79,6 +87,8 @@ const BottomBar = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
+  position: relative;
+  z-index: 2;
 `;
 
 const BackToTop = styled.button`
@@ -87,7 +97,7 @@ const BackToTop = styled.button`
   font-size: ${pxToRem(11)};
   text-transform: uppercase;
   padding: ${pxToRem(4)} ${pxToRem(6)} ${pxToRem(3)};
-  background: var(--colour-foreground);
+  background: transparent;
   color: var(--colour-background);
   border-radius: ${pxToRem(6)};
 
@@ -138,6 +148,7 @@ const Footer = (props: Props) => {
     <FooterWrapper>
       <LayoutWrapper>
         <DesktopInner>
+          <MediaCursor data={footerMedia} />
           <TopBar>
             <Title className="color-switch">Get in touch</Title>
           </TopBar>

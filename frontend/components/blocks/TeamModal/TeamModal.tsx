@@ -18,7 +18,7 @@ const TeamModalWrapper = styled(motion.div)`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: var(--colour-foreground-alpha);
+  background: var(--colour-foreground-alpha-80);
   backdrop-filter: blur(5px);
 `;
 
