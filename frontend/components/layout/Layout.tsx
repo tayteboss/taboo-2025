@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Header from "../common/Header";
 import Footer from "../common/Footer";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { ReactLenis, useLenis } from "@studio-freight/react-lenis";
 import ContactModal from "../blocks/ContactModal";
 import { SiteSettingsType } from "../../shared/types/types";
@@ -20,6 +20,16 @@ const Layout = (props: Props) => {
   const [contactModalIsActive, setContactModalIsActive] = useState(false);
 
   const lenis = useLenis(({ scroll }) => {});
+
+  useEffect(() => {
+    if (!lenis) return;
+
+    if (contactModalIsActive !== false) {
+      lenis.stop();
+    } else {
+      lenis.start();
+    }
+  }, [contactModalIsActive]);
 
   console.log("siteSettings", siteSettings);
 

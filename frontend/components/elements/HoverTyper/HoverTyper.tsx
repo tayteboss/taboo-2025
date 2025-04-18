@@ -10,6 +10,8 @@ type Props = {
 const HoverTyperWrapper = styled.div`
   position: relative;
   display: inline-block;
+  display: flex;
+  align-items: center;
   cursor: default;
   /* Ensure wrapper has height even when blank */
   min-height: 1.4em; /* Adjust based on line-height/font-size */

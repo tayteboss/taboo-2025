@@ -1,12 +1,12 @@
 import { AnimatePresence, motion } from "framer-motion";
 import styled from "styled-components";
 import pxToRem from "../../../utils/pxToRem";
-import CrossSvg from "../../svgs/CrossIcon";
 import { SiteSettingsType } from "../../../shared/types/types";
 import Link from "next/link";
 import PeopleCard from "../../elements/PeopleCard";
 import formatHTML from "../../../utils/formatHTML";
 import SocialCard from "../../elements/SocialCard";
+import CrossIcon from "../../svgs/CrossIcon";
 
 const ContactModalWrapper = styled(motion.div)`
   position: fixed;
@@ -28,6 +28,8 @@ const Card = styled(motion.div)`
   border-radius: 10px;
   padding: 20px;
   z-index: 2;
+  max-height: (100vh - 40px);
+  overflow-y: auto;
 `;
 
 const TitleWrapper = styled.div`
@@ -176,11 +178,12 @@ const ContactModal = (props: Props) => {
             initial="hidden"
             animate="visible"
             exit="exit"
+            data-lenis-prevent
           >
             <TitleWrapper>
               <Title>Contact</Title>
               <CloseTrigger onClick={() => setIsActive(false)}>
-                <CrossSvg />
+                <CrossIcon />
               </CloseTrigger>
             </TitleWrapper>
             <ContactDetails>

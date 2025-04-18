@@ -5,9 +5,9 @@ import pxToRem from "../utils/pxToRem";
 export const GlobalStyles = createGlobalStyle`
 	:root {
 		--colour-background: ${theme.colours.white};
-		--color-background-alpha-80: ${theme.colours.whiteAlpha80};
-		--color-background-alpha-50: ${theme.colours.whiteAlpha50};
-		--color-background-alpha-20: ${theme.colours.whiteAlpha20};
+		--colour-background-alpha-80: ${theme.colours.whiteAlpha80};
+		--colour-background-alpha-50: ${theme.colours.whiteAlpha50};
+		--colour-background-alpha-20: ${theme.colours.whiteAlpha20};
 		--colour-foreground: ${theme.colours.black};
 		--colour-foreground-alpha-80: ${theme.colours.blackAlpha80};
 		--colour-foreground-alpha-50: ${theme.colours.blackAlpha50};
@@ -282,7 +282,6 @@ export const GlobalStyles = createGlobalStyle`
 	}
 
 	.embla__slide {
-		flex: 0 0 100%;
 		min-width: 0;
 	}
 

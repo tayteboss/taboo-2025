@@ -103,11 +103,16 @@ export const informationPageQueryString = `
 			teamMembers[] {
 				name,
 				position,
+				description,
 				image {
 					...,
 					asset-> {
 						url,
 					},
+				},
+				socialLinks[] {
+					title,
+					link
 				}
 			}
 		},
