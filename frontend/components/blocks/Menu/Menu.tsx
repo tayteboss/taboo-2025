@@ -16,6 +16,7 @@ const MenuWrapper = styled.div`
     left: 0;
     width: 100%;
     height: 100dvh;
+    pointer-events: none;
   }
 `;
 
@@ -47,6 +48,7 @@ const Trigger = styled.button`
   justify-content: center;
   align-items: center;
   border-radius: ${pxToRem(10)};
+  pointer-events: all;
 
   svg {
     path {
@@ -61,6 +63,7 @@ const NavLinks = styled(motion.div)`
   align-items: center;
   justify-content: center;
   gap: ${pxToRem(20)};
+  pointer-events: all;
 
   a {
     position: relative;

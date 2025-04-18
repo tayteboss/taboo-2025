@@ -14,6 +14,10 @@ const AccordionWrapper = styled.div`
 const Inner = styled.div`
   grid-column: 4 / -4;
 
+  @media ${(props) => props.theme.mediaBreakpoints.tabletMedium} {
+    grid-column: 2 / -2;
+  }
+
   @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
     grid-column: 1 / -1;
   }

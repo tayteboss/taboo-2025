@@ -64,7 +64,7 @@ const LinkTag = styled.div`
 
 const Underline = styled(motion.div)`
   position: absolute;
-  bottom: -2px;
+  bottom: -1px;
   left: 0;
   width: 100%;
   height: 1px;
