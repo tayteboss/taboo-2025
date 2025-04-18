@@ -44,7 +44,7 @@ const Layout = (props: Props) => {
       <ReactLenis root>
         <Main>{children}</Main>
       </ReactLenis>
-      <Footer />
+      <Footer siteSettings={siteSettings} />
     </>
   );
 };

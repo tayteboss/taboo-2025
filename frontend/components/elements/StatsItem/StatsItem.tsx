@@ -13,11 +13,11 @@ const StatsItemWrapper = styled(motion.div)`
 `;
 
 const Value = styled.p`
-  color: var(--colour-background);
+  color: var(--colour-white);
 `;
 
 const Title = styled.p`
-  color: var(--colour-background);
+  color: var(--colour-white);
 `;
 
 const wrapperVariants = {

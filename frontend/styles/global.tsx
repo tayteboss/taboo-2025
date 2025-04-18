@@ -13,6 +13,8 @@ export const GlobalStyles = createGlobalStyle`
 		--colour-foreground-alpha-50: ${theme.colours.blackAlpha50};
 		--colour-foreground-alpha-20: ${theme.colours.blackAlpha20};
 		--colour-grey: ${theme.colours.grey};
+		--colour-white: ${theme.colours.white};
+		--colour-black: ${theme.colours.black};
 		--font-pressura: ${theme.fonts.gtPressura};
 		--font-pressura-mono: ${theme.fonts.gtPressuraMono};
 		--transition-speed-default: ${theme.transitionSpeed.default};
@@ -51,6 +53,8 @@ export const GlobalStyles = createGlobalStyle`
 	html {
 		background: var(--colour-background);
 		font-size: 16px;
+
+		transition: background var(--transition-speed-default) var(--transition-ease);
 
 		&.no-scroll {
 			overflow-y: hidden;

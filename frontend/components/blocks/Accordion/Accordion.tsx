@@ -96,6 +96,13 @@ const TriggerInner = styled.div<{ $isActive: boolean }>`
   align-items: center;
 
   transition: all var(--transition-speed-default) var(--transition-ease);
+
+  svg {
+    path {
+      stroke: ${(props) =>
+        props.$isActive ? "var(--colour-background)" : "var(--colour-black)"};
+    }
+  }
 `;
 
 const wrapperVariants = {

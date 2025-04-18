@@ -296,7 +296,9 @@ const HoverTyper = ({ data, inView }: Props) => {
                 style={{ visibility: isBlank ? "hidden" : "visible" }}
               >
                 {wordOrSpace.split("").map((char, charIndex) => (
-                  <CharSpan key={charIndex}>{char}</CharSpan>
+                  <CharSpan key={charIndex} className="color-switch">
+                    {char}
+                  </CharSpan>
                 ))}
               </WordWrapper>
             );

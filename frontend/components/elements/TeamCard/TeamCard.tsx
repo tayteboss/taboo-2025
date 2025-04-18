@@ -61,11 +61,12 @@ const ContentWrapper = styled.div`
 const TitleWrapper = styled.div``;
 
 const Title = styled.p`
-  color: var(--colour-background);
+  color: var(--colour-white);
 `;
 
 const Position = styled.p`
-  color: var(--colour-background-alpha-50);
+  color: var(--colour-white);
+  opacity: 0.5;
 `;
 
 const Trigger = styled.button`

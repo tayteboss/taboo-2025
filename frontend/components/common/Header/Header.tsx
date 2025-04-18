@@ -53,7 +53,7 @@ const NavLinks = styled.div`
 
 const LinkTag = styled.div`
   cursor: pointer;
-  color: var(--colour-background);
+  color: var(--colour-white);
 
   transition: all var(--transition-speed-default) var(--transition-ease);
 
@@ -68,7 +68,7 @@ const Underline = styled(motion.div)`
   left: 0;
   width: 100%;
   height: 1px;
-  background: var(--colour-background);
+  background: var(--colour-white);
 `;
 
 const LogoWrapper = styled.div<{
