@@ -1,16 +1,9 @@
 import styled from "styled-components";
 import { NextSeo } from "next-seo";
-import {
-  InformationPageType,
-  SiteSettingsType,
-  TransitionsType,
-} from "../shared/types/types";
+import { InformationPageType, TransitionsType } from "../shared/types/types";
 import { motion } from "framer-motion";
 import client from "../client";
-import {
-  informationPageQueryString,
-  siteSettingsQueryString,
-} from "../lib/sanityQueries";
+import { informationPageQueryString } from "../lib/sanityQueries";
 import AboutSection from "../components/blocks/AboutSection";
 import AchievementsSection from "../components/blocks/AchievementsSection";
 import ClientLogosSection from "../components/blocks/ClientLogosSection";
@@ -30,12 +23,11 @@ const PageWrapper = styled(motion.div)`
 
 type Props = {
   data: InformationPageType;
-  siteSettings: SiteSettingsType;
   pageTransitionVariants: TransitionsType;
 };
 
 const Page = (props: Props) => {
-  const { data, siteSettings, pageTransitionVariants } = props;
+  const { data, pageTransitionVariants } = props;
 
   console.log("data", data);
 
@@ -62,13 +54,11 @@ const Page = (props: Props) => {
 };
 
 export async function getStaticProps() {
-  const siteSettings = await client.fetch(siteSettingsQueryString);
   const data = await client.fetch(informationPageQueryString);
 
   return {
     props: {
       data,
-      siteSettings,
     },
   };
 }

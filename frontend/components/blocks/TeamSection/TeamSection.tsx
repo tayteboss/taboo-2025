@@ -6,9 +6,9 @@ import TeamCard from "../../elements/TeamCard";
 import pxToRem from "../../../utils/pxToRem";
 import { useEffect, useState } from "react";
 import TeamModal from "../TeamModal";
-import { ReactLenis, useLenis } from "@studio-freight/react-lenis";
+import { useLenis } from "@studio-freight/react-lenis";
 import { useInView } from "react-intersection-observer";
-import { motion, stagger } from "framer-motion";
+import { motion } from "framer-motion";
 
 const TeamSectionWrapper = styled.section`
   margin-bottom: ${pxToRem(200)};

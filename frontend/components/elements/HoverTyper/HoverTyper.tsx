@@ -276,6 +276,7 @@ const HoverTyper = ({ data, inView }: Props) => {
       onMouseLeave={handleMouseLeave}
       // Add aria-label for accessibility if needed, or aria-live for screen readers
       aria-label={data}
+      className="hover-typer"
     >
       <Inner>
         {/* Render blank state with visibility hidden to preserve space */}
