@@ -30,6 +30,10 @@ const Card = styled(motion.div)`
   z-index: 2;
   max-height: calc(100vh - 40px);
   overflow-y: auto;
+
+  @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+    width: calc(100% - 20px);
+  }
 `;
 
 const TitleWrapper = styled.div`
