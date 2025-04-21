@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import pxToRem from "../../../utils/pxToRem";
 import CrossIcon from "../../svgs/CrossIcon";
 import FilterList from "../FilterList";
+import { useRef } from "react";
+import { useClickOutside } from "../../../hooks/useClickOutside";
 
 const FiltersModalWrapper = styled(motion.div)`
   position: fixed;
@@ -146,6 +148,12 @@ const FiltersModal = (props: Props) => {
     setIsActive,
   } = props;
 
+  const ref = useRef<HTMLDivElement>(null!);
+
+  useClickOutside(ref, () => {
+    setIsActive(false);
+  });
+
   return (
     <AnimatePresence>
       {isActive !== false && (
@@ -161,6 +169,7 @@ const FiltersModal = (props: Props) => {
             animate="visible"
             exit="exit"
             data-lenis-prevent
+            ref={ref}
           >
             <TitleWrapper>
               <Title className="color-switch type-mono type-h4">

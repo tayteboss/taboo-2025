@@ -30,16 +30,16 @@ const FilterZoom = (props: Props) => {
     <FilterZoomWrapper className="type-mono-small">
       Zoom{" "}
       <Trigger
-        $isInactive={zoomLevel === 3}
-        onClick={() => setZoomLevel(zoomLevel + 1)}
-      >
-        (+)
-      </Trigger>
-      <Trigger
         $isInactive={zoomLevel === 1}
         onClick={() => setZoomLevel(zoomLevel - 1)}
       >
         (-)
+      </Trigger>
+      <Trigger
+        $isInactive={zoomLevel === 3}
+        onClick={() => setZoomLevel(zoomLevel + 1)}
+      >
+        (+)
       </Trigger>
     </FilterZoomWrapper>
   );

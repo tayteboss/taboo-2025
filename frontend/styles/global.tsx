@@ -8,10 +8,12 @@ export const GlobalStyles = createGlobalStyle`
 		--colour-background-alpha-80: ${theme.colours.whiteAlpha80};
 		--colour-background-alpha-50: ${theme.colours.whiteAlpha50};
 		--colour-background-alpha-20: ${theme.colours.whiteAlpha20};
+		--colour-background-alpha-0: ${theme.colours.whiteAlpha0};
 		--colour-foreground: ${theme.colours.black};
 		--colour-foreground-alpha-80: ${theme.colours.blackAlpha80};
 		--colour-foreground-alpha-50: ${theme.colours.blackAlpha50};
 		--colour-foreground-alpha-20: ${theme.colours.blackAlpha20};
+		--colour-foreground-alpha-0: ${theme.colours.blackAlpha0};
 		--colour-grey: ${theme.colours.grey};
 		--colour-white: ${theme.colours.white};
 		--colour-black: ${theme.colours.black};

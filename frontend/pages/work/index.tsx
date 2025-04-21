@@ -12,10 +12,9 @@ import {
   workPageQueryString,
 } from "../../lib/sanityQueries";
 import pxToRem from "../../utils/pxToRem";
-import PageBuilder from "../../components/common/PageBuilder";
 import ProjectsList from "../../components/blocks/ProjectsList";
 import FiltersBar from "../../components/blocks/FiltersBar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FiltersModal from "../../components/blocks/FiltersModal";
 
 const services = [
@@ -24,20 +23,20 @@ const services = [
     value: "all",
   },
   {
-    title: "Foresight",
-    value: "foresight",
+    title: "Service Type 1",
+    value: "serviceType1",
   },
   {
-    title: "Design",
-    value: "design",
+    title: "Service Type 2",
+    value: "serviceType2",
   },
   {
-    title: "Communications",
-    value: "comms",
+    title: "Service Type 3",
+    value: "serviceType3",
   },
   {
-    title: "Experiences",
-    value: "experiences",
+    title: "Service Type 4",
+    value: "serviceType4",
   },
 ];
 
@@ -47,32 +46,24 @@ const industries = [
     value: "all",
   },
   {
-    title: "Fashion",
-    value: "fashion",
+    title: "Industry Type 1",
+    value: "industryType1",
   },
   {
-    title: "Technology",
-    value: "technology",
+    title: "Industry Type 2",
+    value: "industryType2",
   },
   {
-    title: "Sustainability",
-    value: "sustainability",
+    title: "Industry Type 3",
+    value: "industryType3",
   },
   {
-    title: "Art",
-    value: "art",
+    title: "Industry Type 4",
+    value: "industryType4",
   },
   {
-    title: "Architecture",
-    value: "architecture",
-  },
-  {
-    title: "Design",
-    value: "design",
-  },
-  {
-    title: "Sport",
-    value: "sport",
+    title: "Industry Type 5",
+    value: "industryType5",
   },
 ];
 
@@ -89,9 +80,9 @@ const viewTypes = [
 
 const PageWrapper = styled(motion.div)`
   padding-top: var(--header-h);
-  min-height: 150vh;
-  padding-bottom: ${pxToRem(80)};
-  background: var(--colour-white);
+  min-height: 100vh;
+  padding-bottom: ${pxToRem(200)};
+  background: var(--colour-background);
 `;
 
 type Props = {
@@ -108,8 +99,32 @@ const Page = (props: Props) => {
   const [activeViewType, setActiveViewType] = useState("grid");
   const [zoomLevel, setZoomLevel] = useState(3);
   const [filtersModalIsActive, setFiltersModalIsActive] = useState(false);
+  const [filteredProjects, setFilteredProjects] = useState(projects);
 
   console.log("projects", projects);
+
+  useEffect(() => {
+    // Start with the full list and filter down
+    const newFilteredProjects = projects.filter((project) => {
+      // Check if the project matches the active service OR if the service filter is "all"
+      const serviceMatch =
+        activeService === "all" || project.service === activeService;
+
+      // Check if the project matches the active industry OR if the industry filter is "all"
+      const industryMatch =
+        activeIndustry === "all" || project.industry === activeIndustry;
+
+      // A project is included only if it matches both criteria (considering the "all" case)
+      return serviceMatch && industryMatch;
+    });
+
+    setFilteredProjects(newFilteredProjects);
+
+    // --- Important Dependency ---
+    // Add `projects` to the dependency array.
+    // If the source `projects` list itself changes (e.g., fetched from an API),
+    // the filtering needs to re-run.
+  }, [activeService, activeIndustry, projects]);
 
   return (
     <PageWrapper
@@ -146,7 +161,7 @@ const Page = (props: Props) => {
         setActiveService={setActiveService}
         setActiveIndustry={setActiveIndustry}
       />
-      <ProjectsList />
+      <ProjectsList data={filteredProjects} zoomLevel={zoomLevel} />
     </PageWrapper>
   );
 };

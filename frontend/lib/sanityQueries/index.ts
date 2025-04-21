@@ -161,10 +161,7 @@ export const simpleProjectListQueryString = `
 	service,
 	industry,
 	gridThumbnailMedia {
-		...,
-		asset-> {
-			url,
-		},
+		${mediaString}
 	},
 	gridThumbnailRatio,
 `;
