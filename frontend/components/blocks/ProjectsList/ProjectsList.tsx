@@ -11,6 +11,10 @@ import { AnimatePresence, motion } from "framer-motion";
 const ProjectsListWrapper = styled.section`
   .layout-grid {
     grid-row-gap: ${pxToRem(200)};
+
+    @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+      grid-row-gap: ${pxToRem(50)};
+    }
   }
 `;
 

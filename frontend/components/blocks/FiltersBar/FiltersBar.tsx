@@ -4,6 +4,7 @@ import LayoutGrid from "../../layout/LayoutGrid";
 import FilterZoom from "../../elements/FilterZoom";
 import FilterList from "../FilterList";
 import pxToRem from "../../../utils/pxToRem";
+import { CategoryType } from "../../../shared/types/types";
 
 const FiltersBarWrapper = styled.section`
   padding: ${pxToRem(200)} 0;
@@ -49,9 +50,9 @@ const FiltersTrigger = styled.div`
 `;
 
 type Props = {
-  services: Array<{ title: string; value: string }>;
-  industries: Array<{ title: string; value: string }>;
-  viewTypes: Array<{ title: string; value: string }>;
+  services: CategoryType[];
+  industries: CategoryType[];
+  viewTypes: CategoryType[];
   activeService: string;
   activeIndustry: string;
   activeViewType: string;

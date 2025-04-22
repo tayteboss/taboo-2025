@@ -2,6 +2,7 @@ import styled from "styled-components";
 import HoverTyper from "../../elements/HoverTyper";
 import { useInView } from "react-intersection-observer";
 import pxToRem from "../../../utils/pxToRem";
+import { CategoryType } from "../../../shared/types/types";
 
 const FilterListWrapper = styled.div`
   display: flex;
@@ -27,7 +28,7 @@ const ListItem = styled.button<{ $isActive: boolean }>`
 `;
 
 type Props = {
-  data: Array<{ title: string; value: string }>;
+  data: CategoryType[];
   active: string;
   className: string;
   setActive: (value: string) => void;
@@ -42,6 +43,9 @@ const FilterList = (props: Props) => {
     rootMargin: "-50px",
   });
 
+  const isCategoryType =
+    className === "industries-list" || className === "services-list";
+
   return (
     <FilterListWrapper className={className} ref={ref}>
       {data.map((item) => (
@@ -52,7 +56,10 @@ const FilterList = (props: Props) => {
           className="type-mono-small color-switch"
         >
           ({active === item.value ? "•" : " "}){" "}
-          <HoverTyper data={item.title} inView={inView} />
+          <HoverTyper
+            data={`${item.title} ${isCategoryType ? `(${item?.count})` : ""}`}
+            inView={inView}
+          />
         </ListItem>
       ))}
     </FilterListWrapper>

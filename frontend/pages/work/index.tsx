@@ -2,6 +2,7 @@ import styled from "styled-components";
 import client from "../../client";
 import { motion } from "framer-motion";
 import {
+  CategoryType,
   ProjectType,
   TransitionsType,
   WorkPageType,
@@ -17,55 +18,55 @@ import FiltersBar from "../../components/blocks/FiltersBar";
 import { useEffect, useState } from "react";
 import FiltersModal from "../../components/blocks/FiltersModal";
 
-const services = [
-  {
-    title: "All",
-    value: "all",
-  },
-  {
-    title: "Service Type 1",
-    value: "serviceType1",
-  },
-  {
-    title: "Service Type 2",
-    value: "serviceType2",
-  },
-  {
-    title: "Service Type 3",
-    value: "serviceType3",
-  },
-  {
-    title: "Service Type 4",
-    value: "serviceType4",
-  },
-];
+// const services = [
+//   {
+//     title: "All",
+//     value: "all",
+//   },
+//   {
+//     title: "Service Type 1",
+//     value: "serviceType1",
+//   },
+//   {
+//     title: "Service Type 2",
+//     value: "serviceType2",
+//   },
+//   {
+//     title: "Service Type 3",
+//     value: "serviceType3",
+//   },
+//   {
+//     title: "Service Type 4",
+//     value: "serviceType4",
+//   },
+// ];
 
-const industries = [
-  {
-    title: "All",
-    value: "all",
-  },
-  {
-    title: "Industry Type 1",
-    value: "industryType1",
-  },
-  {
-    title: "Industry Type 2",
-    value: "industryType2",
-  },
-  {
-    title: "Industry Type 3",
-    value: "industryType3",
-  },
-  {
-    title: "Industry Type 4",
-    value: "industryType4",
-  },
-  {
-    title: "Industry Type 5",
-    value: "industryType5",
-  },
-];
+// const industries = [
+//   {
+//     title: "All",
+//     value: "all",
+//   },
+//   {
+//     title: "Industry Type 1",
+//     value: "industryType1",
+//   },
+//   {
+//     title: "Industry Type 2",
+//     value: "industryType2",
+//   },
+//   {
+//     title: "Industry Type 3",
+//     value: "industryType3",
+//   },
+//   {
+//     title: "Industry Type 4",
+//     value: "industryType4",
+//   },
+//   {
+//     title: "Industry Type 5",
+//     value: "industryType5",
+//   },
+// ];
 
 const viewTypes = [
   {
@@ -88,11 +89,14 @@ const PageWrapper = styled(motion.div)`
 type Props = {
   data: WorkPageType;
   projects: ProjectType[];
+  services: CategoryType[];
+  industries: CategoryType[];
   pageTransitionVariants: TransitionsType;
 };
 
 const Page = (props: Props) => {
-  const { data, projects, pageTransitionVariants } = props;
+  const { data, projects, services, industries, pageTransitionVariants } =
+    props;
 
   const [activeService, setActiveService] = useState("all");
   const [activeIndustry, setActiveIndustry] = useState("all");
@@ -172,10 +176,56 @@ export async function getStaticProps() {
   const data = await client.fetch(workPageQueryString);
   const projects = await client.fetch(simpleProjectsQueryString);
 
+  const services: CategoryType[] = [
+    {
+      title: "All",
+      value: "all",
+      count: projects.length,
+    },
+  ];
+
+  const industries: CategoryType[] = [
+    {
+      title: "All",
+      value: "all",
+      count: projects.length,
+    },
+  ];
+
+  projects.forEach((project: ProjectType) => {
+    const service = services.find(
+      (service) => service.value === project.service
+    );
+    if (!service) {
+      services.push({
+        title: project.service,
+        value: project.service,
+        count: 1,
+      });
+    } else {
+      service.count += 1;
+    }
+
+    const industry = industries.find(
+      (industry) => industry.value === project.industry
+    );
+    if (!industry) {
+      industries.push({
+        title: project.industry,
+        value: project.industry,
+        count: 1,
+      });
+    } else {
+      industry.count += 1;
+    }
+  });
+
   return {
     props: {
       data,
       projects,
+      services,
+      industries,
     },
   };
 }

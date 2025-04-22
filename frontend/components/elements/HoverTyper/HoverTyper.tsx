@@ -116,9 +116,6 @@ const HoverTyper = ({ data, inView }: Props) => {
       // 2. It scrolled into view and is currently blank
       // Ensure it's not already animating.
       if ((justMounted || isCurrentlyBlank) && !isAnimatingRef.current) {
-        console.log(
-          "HoverTyper: In View & should animate (Initial or Scrolled In)"
-        );
         setIsAnimating(true); // Start the animation
       } else if (!isCurrentlyBlank && !isAnimatingRef.current) {
         // If it comes into view and is *already* showing the text (e.g., scrolled out/in quickly)
@@ -130,7 +127,6 @@ const HoverTyper = ({ data, inView }: Props) => {
       // --- Scrolling OUT of view ---
       // Avoid resetting on the very first render if initialized as out of view
       if (!justMounted) {
-        console.log("HoverTyper: Out of View");
         stopAndClearAnimation(); // Stop any ongoing animation
         // Only reset to blank if not already blank to avoid unnecessary renders
         if (!isCurrentlyBlank) {
@@ -175,7 +171,6 @@ const HoverTyper = ({ data, inView }: Props) => {
     if (!isAnimating || !originalWords.length) {
       return;
     }
-    console.log("HoverTyper: Animation START");
 
     // --- Animation Setup ---
     // 1. Immediately set to a fully scrambled state based on ORIGINAL words
@@ -197,7 +192,6 @@ const HoverTyper = ({ data, inView }: Props) => {
     queueMicrotask(() => {
       // Double-check if still animating after microtask, as stopAndClearAnimation might have been called.
       if (!isAnimatingRef.current) {
-        console.log("HoverTyper: Animation stopped before intervals set up.");
         return;
       }
 
@@ -274,7 +268,6 @@ const HoverTyper = ({ data, inView }: Props) => {
 
           // --- Last Word Finished Check ---
           if (wordIndex === lastWordIndex) {
-            console.log("HoverTyper: Animation END");
             // Use another microtask to ensure the final word state update is processed
             // before setting isAnimating to false.
             queueMicrotask(() => {
@@ -296,7 +289,6 @@ const HoverTyper = ({ data, inView }: Props) => {
     // --- Effect Cleanup ---
     // This runs when the component unmounts OR when dependencies change BEFORE the effect runs again
     return () => {
-      console.log("HoverTyper: Animation effect cleanup");
       stopAndClearAnimation();
     };
     // Rerun effect *only* when isAnimating becomes true, or originalWords/data changes

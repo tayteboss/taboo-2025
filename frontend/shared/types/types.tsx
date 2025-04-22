@@ -137,6 +137,8 @@ export type WorkPageType = {
   seoDescription: string;
 };
 
+export type CategoryType = { title: string; value: string; count: number };
+
 export type ProjectType = {
   title: string;
   slug: SlugType;
