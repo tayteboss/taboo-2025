@@ -16,6 +16,7 @@ const HeaderWrapper = styled.header`
   width: 100%;
   z-index: 100;
   mix-blend-mode: difference;
+  pointer-events: none;
 
   @media ${(props) => props.theme.mediaBreakpoints.mobile} {
     padding: ${pxToRem(10)} 0;
@@ -45,6 +46,7 @@ const MobileInner = styled.div`
 const NavLinks = styled.div`
   display: flex;
   gap: ${pxToRem(20)};
+  pointer-events: all;
 
   a {
     position: relative;
@@ -77,6 +79,7 @@ const LogoWrapper = styled.div<{
 }>`
   position: relative;
   z-index: 2;
+  pointer-events: all;
 
   transition: all var(--transition-speed-default) var(--transition-ease);
 

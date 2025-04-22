@@ -1,11 +1,14 @@
 import styled from "styled-components";
 
-const FilterZoomWrapper = styled.div`
+const FilterZoomWrapper = styled.div<{ $isActive: boolean }>`
   grid-column: span 2;
   text-align: right;
   display: flex;
   justify-content: flex-end;
   white-space: pre;
+  opacity: ${(props) => (props.$isActive ? "1" : "0")};
+
+  transition: all var(--transition-speed-default) var(--transition-ease);
 `;
 
 const Trigger = styled.button<{ $isInactive: boolean }>`
@@ -21,13 +24,14 @@ const Trigger = styled.button<{ $isInactive: boolean }>`
 
 type Props = {
   zoomLevel: number;
+  isActive: boolean;
   setZoomLevel: (zoomLevel: number) => void;
 };
 
 const FilterZoom = (props: Props) => {
-  const { zoomLevel, setZoomLevel } = props;
+  const { zoomLevel, isActive, setZoomLevel } = props;
   return (
-    <FilterZoomWrapper className="type-mono-small">
+    <FilterZoomWrapper className="type-mono-small" $isActive={isActive}>
       Zoom{" "}
       <Trigger
         $isInactive={zoomLevel === 1}

@@ -14,14 +14,13 @@ const HoverTyperWrapper = styled.div`
   align-items: center;
   cursor: default;
   /* Ensure wrapper has height even when blank */
-  min-height: 1.4em; /* Adjust based on line-height/font-size */
+  min-height: 1.2em; /* Adjust based on line-height/font-size */
 `;
 
 const Inner = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  line-height: 1.4;
 `;
 
 const WordWrapper = styled.span`
@@ -271,41 +270,45 @@ const HoverTyper = ({ data, inView }: Props) => {
   }, [isAnimating, originalWords, data, stopAndClearAnimation]); // Add stopAndClearAnimation dependency
 
   return (
-    <HoverTyperWrapper
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      // Add aria-label for accessibility if needed, or aria-live for screen readers
-      aria-label={data}
-      className="hover-typer"
-    >
-      <Inner>
-        {/* Render blank state with visibility hidden to preserve space */}
-        {displayedWords.map((wordOrSpace, index) => {
-          const isBlank = wordOrSpace === blankWords[index];
-          if (wordOrSpace.trim() === "" && !isBlank) {
-            // Render spaces normally if not blank
-            return <span key={index}> </span>;
-          } else if (wordOrSpace.trim() === "" && isBlank) {
-            // Render blank spaces
-            return <span key={index}>{wordOrSpace}</span>;
-          } else {
-            // Render words/blank words
-            return (
-              <WordWrapper
-                key={index}
-                style={{ visibility: isBlank ? "hidden" : "visible" }}
-              >
-                {wordOrSpace.split("").map((char, charIndex) => (
-                  <CharSpan key={charIndex} className="color-switch">
-                    {char}
-                  </CharSpan>
-                ))}
-              </WordWrapper>
-            );
-          }
-        })}
-      </Inner>
-    </HoverTyperWrapper>
+    <>
+      {inView && (
+        <HoverTyperWrapper
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          // Add aria-label for accessibility if needed, or aria-live for screen readers
+          aria-label={data}
+          className="hover-typer"
+        >
+          <Inner>
+            {/* Render blank state with visibility hidden to preserve space */}
+            {displayedWords.map((wordOrSpace, index) => {
+              const isBlank = wordOrSpace === blankWords[index];
+              if (wordOrSpace.trim() === "" && !isBlank) {
+                // Render spaces normally if not blank
+                return <span key={index}> </span>;
+              } else if (wordOrSpace.trim() === "" && isBlank) {
+                // Render blank spaces
+                return <span key={index}>{wordOrSpace}</span>;
+              } else {
+                // Render words/blank words
+                return (
+                  <WordWrapper
+                    key={index}
+                    style={{ visibility: isBlank ? "hidden" : "visible" }}
+                  >
+                    {wordOrSpace.split("").map((char, charIndex) => (
+                      <CharSpan key={charIndex} className="color-switch">
+                        {char}
+                      </CharSpan>
+                    ))}
+                  </WordWrapper>
+                );
+              }
+            })}
+          </Inner>
+        </HoverTyperWrapper>
+      )}
+    </>
   );
 };
 

@@ -102,7 +102,11 @@ const FiltersBar = (props: Props) => {
               setActive={setActiveViewType}
               className="view-types-list"
             />
-            <FilterZoom zoomLevel={zoomLevel} setZoomLevel={setZoomLevel} />
+            <FilterZoom
+              zoomLevel={zoomLevel}
+              setZoomLevel={setZoomLevel}
+              isActive={activeViewType === "grid"}
+            />
           </LayoutGrid>
         </DesktopInner>
         <MobileInner>

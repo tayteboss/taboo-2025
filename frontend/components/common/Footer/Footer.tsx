@@ -57,6 +57,7 @@ const MobileInner = styled.div`
 const TopBar = styled.div`
   position: relative;
   z-index: 2;
+  mix-blend-mode: difference;
 
   @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
     width: 100%;
@@ -76,6 +77,7 @@ const MiddleBar = styled.div`
   width: 100%;
   position: relative;
   z-index: 2;
+  mix-blend-mode: difference;
 
   @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
     padding: ${pxToRem(100)} 0;
@@ -89,6 +91,7 @@ const BottomBar = styled.div`
   align-items: flex-end;
   position: relative;
   z-index: 2;
+  mix-blend-mode: difference;
 `;
 
 const BackToTop = styled.button`

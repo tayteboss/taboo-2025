@@ -101,8 +101,6 @@ const Page = (props: Props) => {
   const [filtersModalIsActive, setFiltersModalIsActive] = useState(false);
   const [filteredProjects, setFilteredProjects] = useState(projects);
 
-  console.log("projects", projects);
-
   useEffect(() => {
     // Start with the full list and filter down
     const newFilteredProjects = projects.filter((project) => {
@@ -161,7 +159,11 @@ const Page = (props: Props) => {
         setActiveService={setActiveService}
         setActiveIndustry={setActiveIndustry}
       />
-      <ProjectsList data={filteredProjects} zoomLevel={zoomLevel} />
+      <ProjectsList
+        data={filteredProjects}
+        zoomLevel={zoomLevel}
+        activeViewType={activeViewType}
+      />
     </PageWrapper>
   );
 };

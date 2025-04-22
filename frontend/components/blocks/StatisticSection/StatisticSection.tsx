@@ -86,7 +86,11 @@ const StatisticSection = (props: Props) => {
     <StatisticSectionWrapper>
       <LayoutWrapper>
         {data?.mediaBackground && (
-          <MediaWrapper>
+          <MediaWrapper
+            className={`view-element-difference ${
+              inView ? "view-element-difference--in-view" : ""
+            }`}
+          >
             {hasStats && (
               <StatsWrapper
                 variants={wrapperVariants}

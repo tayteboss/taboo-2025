@@ -28,6 +28,12 @@ const ImageWrapper = styled.div`
   padding-top: 125%;
   position: relative;
   overflow: hidden;
+
+  &.view-element-difference {
+    &::before {
+      transition-delay: 300ms;
+    }
+  }
 `;
 
 const ImageInner = styled.div`
@@ -91,6 +97,7 @@ type Props = {
 
 const TeamCard = (props: Props) => {
   const { name, image, position, index, setTeamModalIsActive } = props;
+
   return (
     <TeamCardWrapper>
       {image?.asset?.url && (

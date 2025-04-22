@@ -8,7 +8,7 @@ import { useInView } from "react-intersection-observer";
 import { useState } from "react";
 import { motion } from "framer-motion";
 
-const ProjectCardWrapper = styled(motion.div)<{ $zoomLevel: number }>`
+const ProjectGridCardWrapper = styled(motion.div)<{ $zoomLevel: number }>`
   grid-column: span
     ${({ $zoomLevel }) => {
       if ($zoomLevel === 3) return 4;
@@ -132,7 +132,7 @@ type Props = {
   zoomLevel: number;
 };
 
-const ProjectCard = (props: Props) => {
+const ProjectGridCard = (props: Props) => {
   const {
     title,
     slug,
@@ -156,29 +156,32 @@ const ProjectCard = (props: Props) => {
   });
 
   return (
-    <ProjectCardWrapper
+    <ProjectGridCardWrapper
       ref={ref}
       $zoomLevel={zoomLevel}
       onMouseOver={() => setIsHovered(true)}
       onMouseOut={() => setIsHovered(false)}
-      layout
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.3, ease: "easeInOut" }}
+      exit={{ opacity: 0 }}
+      key={slug?.current}
+      transition={{ duration: 0.5, ease: "easeInOut" }}
+      layout
     >
-      <Link href={`/work/${slug}`}>
+      <Link href={`/work/${slug?.current}`}>
         <ImageWrapper
           $ratio={gridThumbnailRatio || "100%"}
           $zoomLevel={zoomLevel}
+          className={`view-element-difference ${
+            inView ? "view-element-difference--in-view" : ""
+          }`}
         >
           <MediaStack data={gridThumbnailMedia} />
         </ImageWrapper>
         <ContentWrapper $zoomLevel={zoomLevel}>
           <Title className="color-switch">
-            {client?.title || ""}
-            <TitleSpan $isActive={isHovered}>
-              <HoverTyper data={`, ${title}` || ""} inView={isHovered} />
-            </TitleSpan>
+            <HoverTyper data={title || ""} inView={isHovered} />
+            <HoverTyper data={client?.title || ""} inView={!isHovered} />
           </Title>
           <Subtitle className="color-switch">
             {serviceIndustryTitle || ""}
@@ -186,8 +189,8 @@ const ProjectCard = (props: Props) => {
           <Subtitle className="color-switch">{year || ""}</Subtitle>
         </ContentWrapper>
       </Link>
-    </ProjectCardWrapper>
+    </ProjectGridCardWrapper>
   );
 };
 
-export default ProjectCard;
+export default ProjectGridCard;

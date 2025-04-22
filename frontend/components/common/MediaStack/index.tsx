@@ -29,8 +29,6 @@ const MediaStack = (props: Props) => {
     rootMargin: "-5%",
   });
 
-  console.log("dataaaa", data);
-
   return (
     <MediaStackWrapper ref={ref}>
       {useVideo && (

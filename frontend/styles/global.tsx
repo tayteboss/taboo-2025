@@ -251,6 +251,33 @@ export const GlobalStyles = createGlobalStyle`
 		}
 	}
 
+	.view-element-difference
+	{
+		position: relative;
+
+		&::before {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: var(--colour-background);
+			mix-blend-mode: difference;
+			z-index: 2;
+
+			transition: all 1000ms ease 300ms !important;
+		}
+
+
+		&--in-view
+		{
+			&::before {
+				background: var(--colour-foreground);
+			}
+		}
+	}
+
 	.view-element-bottom-top
 	{
 		opacity: 0;

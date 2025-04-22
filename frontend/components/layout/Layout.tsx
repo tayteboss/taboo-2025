@@ -31,8 +31,6 @@ const Layout = (props: Props) => {
     }
   }, [contactModalIsActive]);
 
-  console.log("siteSettings", siteSettings);
-
   return (
     <>
       <Header setContactModalIsActive={setContactModalIsActive} />

@@ -154,6 +154,7 @@ const MediaCursor = (props: Props) => {
               y: image.relativeY,
               opacity: 1,
               scale: 1,
+              mixBlendMode: "normal",
               transition: {
                 type: "spring",
                 stiffness: 400,
