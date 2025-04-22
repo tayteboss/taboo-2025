@@ -180,8 +180,11 @@ const ProjectGridCard = (props: Props) => {
         </ImageWrapper>
         <ContentWrapper $zoomLevel={zoomLevel}>
           <Title className="color-switch">
-            <HoverTyper data={title || ""} inView={isHovered} />
-            <HoverTyper data={client?.title || ""} inView={!isHovered} />
+            {isHovered ? (
+              <HoverTyper data={title || ""} inView={true} />
+            ) : (
+              <HoverTyper data={client?.title || ""} inView={true} />
+            )}
           </Title>
           <Subtitle className="color-switch">
             {serviceIndustryTitle || ""}

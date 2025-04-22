@@ -123,9 +123,9 @@ const ProjectListCard = (props: Props) => {
         <LayoutGrid>
           <Client className="type-p color-switch">
             {isHovered ? (
-              <HoverTyper data={title || ""} inView={isHovered} />
+              <HoverTyper data={title || ""} inView={true} />
             ) : (
-              <HoverTyper data={client?.title || ""} inView={!isHovered} />
+              <HoverTyper data={client?.title || ""} inView={true} />
             )}
           </Client>
 

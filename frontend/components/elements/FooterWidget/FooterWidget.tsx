@@ -37,7 +37,7 @@ const TimeText = styled.span`
   font-size: ${pxToRem(11)};
   text-transform: uppercase;
   padding: ${pxToRem(4)} ${pxToRem(6)} ${pxToRem(3)};
-  color: var(--colour-background);
+  color: var(--colour-white);
   margin-right: ${pxToRem(16)};
 
   span {

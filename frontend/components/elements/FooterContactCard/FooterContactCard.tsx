@@ -18,7 +18,7 @@ const FooterContactCardWrapper = styled.div`
 `;
 
 const Title = styled.p`
-  color: var(--colour-background);
+  color: var(--colour-white);
   margin-bottom: ${pxToRem(20)};
   text-align: center;
 `;
@@ -28,7 +28,7 @@ const Address = styled.div`
 
   * {
     text-align: center;
-    color: var(--colour-background);
+    color: var(--colour-white);
 
     transition: color var(--transition-speed-default) var(--transition-ease);
   }
@@ -40,7 +40,7 @@ const LinksWrapper = styled.div`
   align-items: center;
 
   * {
-    color: var(--colour-background);
+    color: var(--colour-white);
     cursor: pointer;
   }
 `;

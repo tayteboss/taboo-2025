@@ -262,7 +262,7 @@ export const GlobalStyles = createGlobalStyle`
 			left: 0;
 			width: 100%;
 			height: 100%;
-			background: var(--colour-background);
+			background: var(--colour-white);
 			mix-blend-mode: difference;
 			z-index: 2;
 
@@ -273,7 +273,7 @@ export const GlobalStyles = createGlobalStyle`
 		&--in-view
 		{
 			&::before {
-				background: var(--colour-foreground);
+				background: var(--colour-black);
 			}
 		}
 	}

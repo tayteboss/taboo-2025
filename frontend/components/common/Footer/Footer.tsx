@@ -69,7 +69,7 @@ const Title = styled.p`
   font-size: ${pxToRem(11)};
   line-height: normal;
   text-transform: uppercase;
-  color: var(--colour-background);
+  color: var(--colour-white);
 `;
 
 const MiddleBar = styled.div`
@@ -101,7 +101,7 @@ const BackToTop = styled.button`
   text-transform: uppercase;
   padding: ${pxToRem(4)} ${pxToRem(6)} ${pxToRem(3)};
   background: transparent;
-  color: var(--colour-background);
+  color: var(--colour-white);
   border-radius: ${pxToRem(6)};
 
   transition: all var(--transition-speed-default) var(--transition-ease);
