@@ -25,6 +25,14 @@ export default {
       title: 'Items',
       name: 'items',
       type: 'array',
+      description: 'Works best with 20 items.',
+      preview: {
+        select: {
+          title: 'useProjectReference ? project.title : title',
+          media: 'media',
+        },
+      },
+      validation: (Rule) => Rule.max(20),
       of: [
         {
           type: 'object',
@@ -33,6 +41,11 @@ export default {
               title: 'Use Project Reference',
               name: 'useProjectReference',
               type: 'boolean',
+            },
+            {
+              title: 'Title',
+              name: 'title',
+              type: 'string',
             },
             {
               title: 'Project',
@@ -46,12 +59,6 @@ export default {
               name: 'media',
               type: 'object',
               fields: mediaBlock,
-              hidden: ({parent}: any) => parent?.useProjectReference,
-            },
-            {
-              title: 'Title',
-              name: 'title',
-              type: 'string',
               hidden: ({parent}: any) => parent?.useProjectReference,
             },
             {

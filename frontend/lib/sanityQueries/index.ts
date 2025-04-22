@@ -6,8 +6,11 @@ export const mediaString = `
 			asset-> {
 				url,
 				metadata {
-					lqip
-				}
+					lqip,
+					dimensions {
+						aspectRatio,
+					},
+				},
 			},
 			alt
 		},
@@ -51,7 +54,32 @@ export const siteSettingsQueryString = `
 
 export const homePageQueryString = `
 	*[_type == 'homePage'][0] {
-		...,
+		referenceTitle,
+		seoTitle,
+		seoDescription,
+		items[] {
+			useProjectReference,
+			title,
+			project-> {
+				client-> {
+					title,
+				},
+				title,
+				slug,
+				service,
+				industry,
+				gridThumbnailMedia {
+					${mediaString}
+				},
+				gridThumbnailRatio
+			},
+			year,
+			media {
+				${mediaString}
+			},
+			description,
+			link,
+		},
 	}
 `;
 

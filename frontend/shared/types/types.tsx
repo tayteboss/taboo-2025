@@ -54,11 +54,6 @@ export type SiteSettingsType = {
   }[];
 };
 
-export type HomePageType = {
-  seoTitle: string;
-  seoDescription: string;
-};
-
 export type InformationPageType = {
   referenceTitle: string;
   seoTitle: string;
@@ -138,6 +133,20 @@ export type WorkPageType = {
 };
 
 export type CategoryType = { title: string; value: string; count: number };
+
+export type HomePageType = {
+  referenceTitle: string;
+  seoTitle: string;
+  seoDescription: string;
+  items: Array<{
+    useProjectReference: boolean;
+    title?: string;
+    project?: ProjectType;
+    media?: MediaType;
+    description?: string;
+    link?: string;
+  }>;
+};
 
 export type ProjectType = {
   title: string;

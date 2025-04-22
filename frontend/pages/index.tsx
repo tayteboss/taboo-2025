@@ -1,27 +1,25 @@
 import styled from "styled-components";
 import { NextSeo } from "next-seo";
-import {
-  HomePageType,
-  SiteSettingsType,
-  TransitionsType,
-} from "../shared/types/types";
+import { HomePageType, TransitionsType } from "../shared/types/types";
 import { motion } from "framer-motion";
 import client from "../client";
-import {
-  homePageQueryString,
-  siteSettingsQueryString,
-} from "../lib/sanityQueries";
+import { homePageQueryString } from "../lib/sanityQueries";
+import HomeCanvas from "../components/blocks/HomeCanvas";
 
-const PageWrapper = styled(motion.div)``;
+const PageWrapper = styled(motion.div)`
+  height: 100vh;
+`;
 
 type Props = {
   data: HomePageType;
-  siteSettings: SiteSettingsType;
+  items: HomePageType["items"];
   pageTransitionVariants: TransitionsType;
 };
 
 const Page = (props: Props) => {
-  const { data, siteSettings, pageTransitionVariants } = props;
+  const { data, items, pageTransitionVariants } = props;
+
+  console.log("items", items);
 
   return (
     <PageWrapper
@@ -34,20 +32,23 @@ const Page = (props: Props) => {
         title={data?.seoTitle || ""}
         description={data?.seoDescription || ""}
       />
-      Home
+      <HomeCanvas data={items} />
     </PageWrapper>
   );
 };
 
 export async function getStaticProps() {
-  const siteSettings = await client.fetch(siteSettingsQueryString);
-  // const data = await client.fetch(homePageQueryString);
-  const data = false;
+  const data = await client.fetch(homePageQueryString);
+  let items = data?.items || [];
+  items = items
+    .map((value: any) => ({ value, sort: Math.random() }))
+    .sort((a: any, b: any) => a.sort - b.sort)
+    .map(({ value }: any) => value);
 
   return {
     props: {
       data,
-      siteSettings,
+      items,
     },
   };
 }
