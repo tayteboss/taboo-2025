@@ -77,9 +77,15 @@ const ProjectsList = (props: Props) => {
               key="grid-wrapper"
             >
               <LayoutGrid>
-                {data.map((project, i) => (
-                  <ProjectGridCard {...project} zoomLevel={zoomLevel} key={i} />
-                ))}
+                <AnimatePresence>
+                  {data.map((project, i) => (
+                    <ProjectGridCard
+                      {...project}
+                      zoomLevel={zoomLevel}
+                      key={`grid-${i}`}
+                    />
+                  ))}
+                </AnimatePresence>
               </LayoutGrid>
             </GridWrapper>
           )}
@@ -92,9 +98,11 @@ const ProjectsList = (props: Props) => {
               key="list-wrapper"
             >
               <ProjectListHeader />
-              {data.map((project, i) => (
-                <ProjectListCard {...project} key={i} />
-              ))}
+              <AnimatePresence>
+                {data.map((project, i) => (
+                  <ProjectListCard {...project} key={`list-${i}`} />
+                ))}
+              </AnimatePresence>
             </ListWrapper>
           )}
         </AnimatePresence>

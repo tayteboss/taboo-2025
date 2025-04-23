@@ -108,9 +108,22 @@ export const GlobalStyles = createGlobalStyle`
 		font-weight: 400;
 
 		@media ${theme.mediaBreakpoints.tabletPortrait} {
-			font-size: ${pxToRem(40)};
-			line-height: ${pxToRem(44)};
-			letter-spacing: -2.4px;
+			font-size: ${pxToRem(32)};
+			line-height: ${pxToRem(35)};
+			letter-spacing: -0.96px;
+		}
+
+		* {
+			font-size: ${pxToRem(54)};
+			line-height: ${pxToRem(60)};
+			letter-spacing: -1.62px;
+			font-weight: 400;
+
+			@media ${theme.mediaBreakpoints.tabletPortrait} {
+				font-size: ${pxToRem(32)};
+				line-height: ${pxToRem(35)};
+				letter-spacing: -0.96px;
+			}
 		}
 	}
 
@@ -131,7 +144,8 @@ export const GlobalStyles = createGlobalStyle`
 			font-size: ${pxToRem(40)};
 			line-height: ${pxToRem(44)};
 			letter-spacing: -1.2px;	
-
+			font-weight: 400;
+			
 			@media ${theme.mediaBreakpoints.tabletPortrait} {
 				font-size: ${pxToRem(26)};
 				line-height: ${pxToRem(28)};
@@ -143,11 +157,23 @@ export const GlobalStyles = createGlobalStyle`
 	h3,
 	.type-h3 {
 		font-size: ${pxToRem(28)};
-		line-height: 1.15;
+		line-height: ${pxToRem(32)};
 		font-weight: 400;
 
 		@media ${theme.mediaBreakpoints.tabletPortrait} {
-			font-size: ${pxToRem(38)};
+			font-size: ${pxToRem(18)};
+			line-height: ${pxToRem(20)};
+		}
+
+		* {
+			font-size: ${pxToRem(28)};
+			line-height: ${pxToRem(32)};
+			font-weight: 400;
+
+			@media ${theme.mediaBreakpoints.tabletPortrait} {
+				font-size: ${pxToRem(18)};
+				line-height: ${pxToRem(20)};
+			}
 		}
 	}
 

@@ -5,17 +5,20 @@ import Link from "next/link";
 import { useInView } from "react-intersection-observer";
 import HoverTyper from "../../elements/HoverTyper";
 import { useState } from "react";
+import { motion } from "framer-motion";
 
-const ProjectListCardWrapper = styled.div`
-  opacity: 0.25;
+const ProjectListCardWrapper = styled(motion.div)`
+  a {
+    opacity: 0.25;
 
-  transition: all var(--transition-speed-default) var(--transition-ease);
+    transition: all var(--transition-speed-default) var(--transition-ease);
 
-  &:hover {
-    opacity: 1;
+    &:hover {
+      opacity: 1;
 
-    * {
-      cursor: pointer;
+      * {
+        cursor: pointer;
+      }
     }
   }
 `;
@@ -29,6 +32,7 @@ const Client = styled.p`
   overflow: hidden;
   white-space: nowrap;
   position: relative;
+  min-height: 1.2em; // Adjust based on line-height
 
   transition: all var(--transition-speed-default) var(--transition-ease);
 `;
@@ -82,6 +86,20 @@ const Year = styled.p`
   }
 `;
 
+const AnimatedText = styled.div<{ $isActive: boolean }>`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  opacity: ${(props) => (props.$isActive ? 1 : 0)};
+  transition: opacity var(--transition-speed-default) var(--transition-ease);
+  pointer-events: ${(props) => (props.$isActive ? "auto" : "none")};
+  will-change: opacity;
+`;
+
 type Props = {
   title: ProjectType["title"];
   slug: ProjectType["slug"];
@@ -118,23 +136,27 @@ const ProjectListCard = (props: Props) => {
       ref={ref}
       onMouseOver={() => setIsHovered(true)}
       onMouseOut={() => setIsHovered(false)}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      key={slug.current}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
     >
       <Link href={`/work/${slug.current}`}>
         <LayoutGrid>
           <Client className="type-p color-switch">
-            {isHovered ? (
-              <HoverTyper data={title || ""} inView={true} />
-            ) : (
-              <HoverTyper data={client?.title || ""} inView={true} />
-            )}
+            {/* Client Title - Active when NOT hovered */}
+            <AnimatedText $isActive={!isHovered}>
+              <HoverTyper data={client?.title || ""} inView={!isHovered} />
+            </AnimatedText>
+            {/* Project Title - Active WHEN hovered */}
+            <AnimatedText $isActive={isHovered}>
+              <HoverTyper data={title || ""} inView={isHovered} />
+            </AnimatedText>
           </Client>
 
-          <Service className="type-p color-switch">
-            <HoverTyper data={service || ""} inView={inView} />
-          </Service>
-          <Industry className="type-p color-switch">
-            <HoverTyper data={industry || ""} inView={inView} />
-          </Industry>
+          <Service className="type-p color-switch">{service || ""}</Service>
+          <Industry className="type-p color-switch">{industry || ""}</Industry>
           <Year className="type-p color-switch">{year || ""}</Year>
         </LayoutGrid>
       </Link>

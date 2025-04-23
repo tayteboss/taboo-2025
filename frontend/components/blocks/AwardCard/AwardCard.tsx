@@ -9,6 +9,7 @@ import { motion } from "framer-motion";
 const AwardCardWrapper = styled(motion.div)<{ $hasLink: boolean }>`
   * {
     cursor: ${(props) => props.$hasLink && "pointer"};
+    color: var(--colour-foreground);
   }
 
   a {
@@ -19,24 +20,30 @@ const AwardCardWrapper = styled(motion.div)<{ $hasLink: boolean }>`
         content: "";
         position: absolute;
         left: -6px;
-        top: -1px;
-        width: 0;
-        height: 100%;
+        bottom: -1px;
+        width: calc(100% + 12px);
+        height: 0;
         background: var(--colour-foreground);
         z-index: -1;
-        border-radius: 5px;
+        border-radius: 2px;
 
-        transition: all var(--transition-speed-slow) var(--transition-ease);
+        transition: all 100ms var(--transition-ease);
+        transition-delay: 150ms;
       }
     }
 
     &:hover {
+      * {
+        color: var(--colour-background);
+      }
+
       .hover-bar {
         color: var(--colour-background);
 
         &::before {
-          width: calc(100% + 12px);
+          height: 100%;
           right: 0;
+          transition-delay: 0ms;
         }
       }
     }

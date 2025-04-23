@@ -175,15 +175,13 @@ const ProjectGridCard = React.memo((props: Props) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      key={currentSlug} // Use the actual slug value
-      transition={{ duration: 0.5, ease: "easeInOut" }}
-      layout // Keep layout animation if needed for zoom changes etc.
+      key={currentSlug}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
+      layout
     >
       <Link href={`/work/${currentSlug}`} passHref legacyBehavior>
-        {/* Use legacyBehavior with an inner `<a>` or style the wrapper */}
         <a style={{ textDecoration: "none" }}>
           {" "}
-          {/* Basic anchor for Link */}
           <ImageWrapper
             $ratio={gridThumbnailRatio || "100%"}
             $zoomLevel={zoomLevel}
@@ -191,10 +189,11 @@ const ProjectGridCard = React.memo((props: Props) => {
               inView ? "view-element-difference--in-view" : ""
             }`}
           >
-            {/* Apply hover effect class to the element MediaStack renders */}
-            <div className="media-hover-effect">
-              <MediaStack data={gridThumbnailMedia} />
-            </div>
+            {gridThumbnailMedia && (
+              <div className="media-hover-effect">
+                <MediaStack data={gridThumbnailMedia} />
+              </div>
+            )}
           </ImageWrapper>
           <ContentWrapper $zoomLevel={zoomLevel}>
             <Title className="color-switch">

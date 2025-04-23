@@ -127,29 +127,26 @@ const cardVariants = {
   hidden: {
     y: "100vh",
     transition: {
-      duration: 0.5,
       type: "spring",
-      stiffness: 80,
-      damping: 13,
+      stiffness: 150,
+      damping: 15,
     },
   },
   visible: {
     y: 0,
     transition: {
-      duration: 0.5,
       type: "spring",
-      stiffness: 80,
-      damping: 13,
+      stiffness: 150,
+      damping: 15,
     },
   },
   exit: {
     y: 0,
     opacity: 0,
     transition: {
-      duration: 0.5,
       type: "spring",
-      stiffness: 80,
-      damping: 13,
+      stiffness: 150,
+      damping: 15,
     },
   },
 };
