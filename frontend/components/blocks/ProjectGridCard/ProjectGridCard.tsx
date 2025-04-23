@@ -1,14 +1,17 @@
+import React, { useState, useCallback, useMemo } from "react"; // Import React hooks
 import styled from "styled-components";
 import { ProjectType } from "../../../shared/types/types";
-import MediaStack from "../../common/MediaStack";
+import MediaStack from "../../common/MediaStack"; // Assumed memoized
 import pxToRem from "../../../utils/pxToRem";
 import Link from "next/link";
-import HoverTyper from "../../elements/HoverTyper";
+import HoverTyper from "../../elements/HoverTyper"; // Assumed memoized
 import { useInView } from "react-intersection-observer";
-import { useState } from "react";
 import { motion } from "framer-motion";
 
+// --- Styled Components ---
+
 const ProjectGridCardWrapper = styled(motion.div)<{ $zoomLevel: number }>`
+  // Grid span logic remains the same
   grid-column: span
     ${({ $zoomLevel }) => {
       if ($zoomLevel === 3) return 4;
@@ -21,16 +24,12 @@ const ProjectGridCardWrapper = styled(motion.div)<{ $zoomLevel: number }>`
     grid-column: 1 / -1;
   }
 
+  // Hover effect on media moved here for clarity, but could stay on wrapper
   &:hover {
-    img,
-    mux-player {
+    .media-hover-effect {
+      // Target a class instead of specific tags
       transform: scale(1.03);
     }
-  }
-
-  img,
-  mux-player {
-    transition: all var(--transition-speed-slow) var(--transition-ease);
   }
 `;
 
@@ -38,6 +37,7 @@ const ImageWrapper = styled.div<{ $ratio: string; $zoomLevel: number }>`
   width: 100%;
   border-radius: 10px;
   overflow: hidden;
+  position: relative; // Needed if adding overlays inside
   margin-bottom: ${({ $zoomLevel }) => {
     if ($zoomLevel === 3) return pxToRem(16);
     if ($zoomLevel === 2) return pxToRem(12);
@@ -48,12 +48,20 @@ const ImageWrapper = styled.div<{ $ratio: string; $zoomLevel: number }>`
   .media-wrapper {
     padding-top: ${(props) => props.$ratio};
   }
+
+  // Class target for hover effect
+  .media-hover-effect {
+    transition: transform var(--transition-speed-slow) var(--transition-ease);
+  }
 `;
 
 const ContentWrapper = styled.div<{ $zoomLevel: number }>`
   width: 100%;
-  overflow: hidden;
+  overflow: hidden; // Keep overflow hidden for safety
 
+  // Removed hover logic for inner opacities - handled by component state now
+
+  // Font size logic remains the same
   * {
     font-size: ${({ $zoomLevel }) => {
       if ($zoomLevel === 3) return pxToRem(18);
@@ -67,59 +75,45 @@ const ContentWrapper = styled.div<{ $zoomLevel: number }>`
       if ($zoomLevel === 1) return pxToRem(13);
       return pxToRem(11);
     }};
-
     transition: font-size var(--transition-speed-default) var(--transition-ease);
   }
 `;
 
+// Set position relative to act as anchor for absolute children
 const Title = styled.h3`
-  display: flex;
+  position: relative;
+  display: flex; // Or block, depending on desired layout flow before hover
   align-items: center;
-  flex-wrap: nowrap;
-  overflow: hidden;
   color: var(--colour-foreground);
   white-space: nowrap;
-  position: relative;
-
-  transition: all var(--transition-speed-default) var(--transition-ease);
+  // Set a height or min-height if needed to prevent collapse
+  min-height: 1.2em; // Adjust based on line-height
 `;
 
-const TitleSpan = styled.span<{ $isActive: boolean }>`
+// Styled component for the absolutely positioned inner text elements
+const AnimatedText = styled.div<{ $isActive: boolean }>`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
-  flex-wrap: nowrap;
-  overflow: hidden;
-  color: var(--colour-foreground);
-  opacity: ${(props) => (props.$isActive ? "0.5" : "0")};
-
-  transition: all var(--transition-speed-default) var(--transition-ease);
-
-  * {
-    flex-wrap: nowrap;
-  }
-
-  &:after {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 30px;
-    height: 100%;
-    background: linear-gradient(
-      90deg,
-      var(--colour-background-alpha-0) 0%,
-      var(--colour-background) 100%
-    );
-  }
+  opacity: ${(props) => (props.$isActive ? 1 : 0)};
+  transition: opacity var(--transition-speed-default) var(--transition-ease);
+  // Prevent interaction when hidden
+  pointer-events: ${(props) => (props.$isActive ? "auto" : "none")};
+  // Potentially add will-change for smoother opacity transition
+  will-change: opacity;
 `;
 
 const Subtitle = styled.h4`
   color: var(--colour-foreground);
   opacity: 0.5;
-
   transition: all var(--transition-speed-default) var(--transition-ease);
 `;
 
+// --- Prop Types ---
 type Props = {
   title: ProjectType["title"];
   slug: ProjectType["slug"];
@@ -132,7 +126,8 @@ type Props = {
   zoomLevel: number;
 };
 
-const ProjectGridCard = (props: Props) => {
+// --- Component ---
+const ProjectGridCard = React.memo((props: Props) => {
   const {
     title,
     slug,
@@ -147,53 +142,82 @@ const ProjectGridCard = (props: Props) => {
 
   const [isHovered, setIsHovered] = useState(false);
 
-  const serviceIndustryTitle = `${service}, ${industry}`;
+  // Memoize derived string
+  const serviceIndustryTitle = useMemo(
+    () => `${service}, ${industry}`,
+    [service, industry]
+  );
 
+  // Memoize mouse handlers
+  const handleMouseOver = useCallback(() => setIsHovered(true), []);
+  const handleMouseOut = useCallback(() => setIsHovered(false), []);
+
+  // Intersection observer setup (unchanged, assuming needed)
   const { ref, inView } = useInView({
     triggerOnce: true,
     threshold: 0.01,
     rootMargin: "-50px",
   });
 
+  const currentSlug = slug?.current; // Get slug value once
+
+  if (!currentSlug) {
+    // Handle missing slug gracefully, maybe return null or a placeholder
+    return null;
+  }
+
   return (
     <ProjectGridCardWrapper
-      ref={ref}
+      ref={ref} // Attach ref here for intersection observer
       $zoomLevel={zoomLevel}
-      onMouseOver={() => setIsHovered(true)}
-      onMouseOut={() => setIsHovered(false)}
+      onMouseOver={handleMouseOver}
+      onMouseOut={handleMouseOut}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      key={slug?.current}
+      key={currentSlug} // Use the actual slug value
       transition={{ duration: 0.5, ease: "easeInOut" }}
-      layout
+      layout // Keep layout animation if needed for zoom changes etc.
     >
-      <Link href={`/work/${slug?.current}`}>
-        <ImageWrapper
-          $ratio={gridThumbnailRatio || "100%"}
-          $zoomLevel={zoomLevel}
-          className={`view-element-difference ${
-            inView ? "view-element-difference--in-view" : ""
-          }`}
-        >
-          <MediaStack data={gridThumbnailMedia} />
-        </ImageWrapper>
-        <ContentWrapper $zoomLevel={zoomLevel}>
-          <Title className="color-switch">
-            {isHovered ? (
-              <HoverTyper data={title || ""} inView={true} />
-            ) : (
-              <HoverTyper data={client?.title || ""} inView={true} />
-            )}
-          </Title>
-          <Subtitle className="color-switch">
-            {serviceIndustryTitle || ""}
-          </Subtitle>
-          <Subtitle className="color-switch">{year || ""}</Subtitle>
-        </ContentWrapper>
+      <Link href={`/work/${currentSlug}`} passHref legacyBehavior>
+        {/* Use legacyBehavior with an inner `<a>` or style the wrapper */}
+        <a style={{ textDecoration: "none" }}>
+          {" "}
+          {/* Basic anchor for Link */}
+          <ImageWrapper
+            $ratio={gridThumbnailRatio || "100%"}
+            $zoomLevel={zoomLevel}
+            className={`view-element-difference ${
+              inView ? "view-element-difference--in-view" : ""
+            }`}
+          >
+            {/* Apply hover effect class to the element MediaStack renders */}
+            <div className="media-hover-effect">
+              <MediaStack data={gridThumbnailMedia} />
+            </div>
+          </ImageWrapper>
+          <ContentWrapper $zoomLevel={zoomLevel}>
+            <Title className="color-switch">
+              {/* Client Title - Active when NOT hovered */}
+              <AnimatedText $isActive={!isHovered}>
+                <HoverTyper data={client?.title || ""} inView={!isHovered} />
+              </AnimatedText>
+              {/* Project Title - Active WHEN hovered */}
+              <AnimatedText $isActive={isHovered}>
+                <HoverTyper data={title || ""} inView={isHovered} />
+              </AnimatedText>
+            </Title>
+            <Subtitle className="color-switch">
+              {serviceIndustryTitle || ""}
+            </Subtitle>
+            <Subtitle className="color-switch">{year || ""}</Subtitle>
+          </ContentWrapper>
+        </a>
       </Link>
     </ProjectGridCardWrapper>
   );
-};
+});
+
+ProjectGridCard.displayName = "ProjectGridCard"; // Add display name for DevTools
 
 export default ProjectGridCard;

@@ -87,7 +87,7 @@ const LogoWrapper = styled.div<{
   transition: all var(--transition-speed-default) var(--transition-ease);
 
   &:hover {
-    opacity: ${(props) => (props.$menuIsActive ? "0.5" : "0")};
+    opacity: ${(props) => (props.$menuIsActive ? "0.5" : "0.5")};
   }
 
   a {

@@ -37,7 +37,7 @@ const Page = (props: Props) => {
         description={data?.seoDescription || ""}
       />
       <HomeCanvas data={items} />
-      <MobileHomeCanvas data={items} />
+      {/* <MobileHomeCanvas data={items} /> */}
     </PageWrapper>
   );
 };

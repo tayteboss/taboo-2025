@@ -5,6 +5,7 @@ import MediaStack from "../../common/MediaStack"; // Assume MediaStack is memoiz
 import pxToRem from "../../../utils/pxToRem";
 import HoverTyper from "../HoverTyper"; // Assume HoverTyper is memoized if appropriate
 import { useRouter } from "next/navigation";
+import { useInView } from "react-intersection-observer";
 
 // Styled Components (Unchanged - CSS :hover is generally efficient)
 const CanvasCardWrapper = styled.div<{ $isHovered: boolean; $isLink: boolean }>`
@@ -123,6 +124,12 @@ const CanvasCard = React.memo(
       setIsInternalHover(false); // Update local state
     }, [setIsHovered]);
 
+    const { ref, inView } = useInView({
+      triggerOnce: false,
+      threshold: 0.01,
+      rootMargin: "-50px",
+    });
+
     return (
       // Pass parent's isHovered state for the "fade others" effect
       // Pass local isLink derived state
@@ -133,8 +140,13 @@ const CanvasCard = React.memo(
         onClick={isLink ? handleLinkClick : undefined} // Only attach onClick if it's a link
         $isHovered={isHovered && !isInternalHover} // Apply fade only if parent is hovered BUT this card isn't the one being hovered
       >
-        <MediaWrapper>
-          <MediaInner $ratio={ratio}>
+        <MediaWrapper ref={ref}>
+          <MediaInner
+            $ratio={ratio}
+            className={`view-element-difference ${
+              inView ? "view-element-difference--in-view" : ""
+            }`}
+          >
             {/* Ensure MediaStack handles potentially undefined data gracefully */}
             {mediaData && <MediaStack data={mediaData} noAnimation />}
           </MediaInner>

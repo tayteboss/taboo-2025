@@ -45,6 +45,10 @@ const Outer = styled(motion.div)`
   align-items: center;
   mix-blend-mode: difference;
   pointer-events: none;
+
+  @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+    display: none;
+  }
 `;
 
 const Inner = styled(motion.div)`
