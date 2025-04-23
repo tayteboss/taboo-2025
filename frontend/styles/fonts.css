@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'GT Pressura Regular';
-	src: url('/fonts/gt-pressura-regular.woff') format('woff');
+	src: url('/fonts/gt-pressura-regular.ttf') format('truetype');
 	font-display: swap;
 }
 @font-face {
 	font-family: 'GT Pressura Mono Regular';
-	src: url('/fonts/gt-pressura-mono-regular.woff') format('woff');
+	src: url('/fonts/gt-pressura-mono-regular.ttf') format('truetype');
 	font-display: swap;
 }

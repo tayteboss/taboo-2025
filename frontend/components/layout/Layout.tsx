@@ -5,6 +5,7 @@ import { ReactNode, useEffect, useState } from "react";
 import { ReactLenis, useLenis } from "@studio-freight/react-lenis";
 import ContactModal from "../blocks/ContactModal";
 import { SiteSettingsType } from "../../shared/types/types";
+import { useRouter } from "next/router";
 
 const siteSettings: SiteSettingsType = require("../../json/siteSettings.json");
 
@@ -18,13 +19,23 @@ const Layout = (props: Props) => {
   const { children } = props;
 
   const [contactModalIsActive, setContactModalIsActive] = useState(false);
+  const [headerIsActive, setHeaderIsActive] = useState(false);
+  const router = useRouter();
 
   const lenis = useLenis(({ scroll }) => {});
 
   useEffect(() => {
+    if (router.pathname === "/") {
+      setHeaderIsActive(false);
+    } else {
+      setHeaderIsActive(true);
+    }
+  }, [router]);
+
+  useEffect(() => {
     if (!lenis) return;
 
-    if (contactModalIsActive !== false) {
+    if (contactModalIsActive !== false || !headerIsActive) {
       lenis.stop();
     } else {
       lenis.start();
@@ -33,7 +44,10 @@ const Layout = (props: Props) => {
 
   return (
     <>
-      <Header setContactModalIsActive={setContactModalIsActive} />
+      <Header
+        setContactModalIsActive={setContactModalIsActive}
+        isActive={headerIsActive}
+      />
       <ContactModal
         isActive={contactModalIsActive}
         setIsActive={setContactModalIsActive}
@@ -42,7 +56,7 @@ const Layout = (props: Props) => {
       <ReactLenis root>
         <Main>{children}</Main>
       </ReactLenis>
-      <Footer siteSettings={siteSettings} />
+      <Footer siteSettings={siteSettings} isActive={headerIsActive} />
     </>
   );
 };

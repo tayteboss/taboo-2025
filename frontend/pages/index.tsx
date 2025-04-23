@@ -5,6 +5,8 @@ import { motion } from "framer-motion";
 import client from "../client";
 import { homePageQueryString } from "../lib/sanityQueries";
 import HomeCanvas from "../components/blocks/HomeCanvas";
+import { useEffect } from "react";
+import MobileHomeCanvas from "../components/blocks/MobileHomeCanvas";
 
 const PageWrapper = styled(motion.div)`
   height: 100vh;
@@ -19,7 +21,9 @@ type Props = {
 const Page = (props: Props) => {
   const { data, items, pageTransitionVariants } = props;
 
-  console.log("items", items);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <PageWrapper
@@ -33,6 +37,7 @@ const Page = (props: Props) => {
         description={data?.seoDescription || ""}
       />
       <HomeCanvas data={items} />
+      <MobileHomeCanvas data={items} />
     </PageWrapper>
   );
 };

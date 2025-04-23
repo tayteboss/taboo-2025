@@ -71,9 +71,9 @@ export const homePageQueryString = `
 				gridThumbnailMedia {
 					${mediaString}
 				},
-				gridThumbnailRatio
+				gridThumbnailRatio,
+				year
 			},
-			year,
 			media {
 				${mediaString}
 			},

@@ -8,9 +8,12 @@ import SocialCard from "../../elements/SocialCard";
 import LayoutGrid from "../../layout/LayoutGrid";
 import MediaCursor from "../../blocks/MediaCursor";
 
-const FooterWrapper = styled.footer`
+const FooterWrapper = styled.footer<{ $isActive: boolean }>`
   margin-bottom: ${pxToRem(20)};
   overflow: hidden;
+  opacity: ${(props) => (props.$isActive ? "1" : "0")};
+
+  transition: all var(--transition-speed-default) var(--transition-ease);
 
   @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
     margin-bottom: ${pxToRem(55)};
@@ -125,11 +128,13 @@ const SocialDetails = styled.div`
 `;
 
 type Props = {
+  isActive: boolean;
   siteSettings: SiteSettingsType;
 };
 
 const Footer = (props: Props) => {
   const {
+    isActive,
     siteSettings: {
       socialLinks,
       contactEmail,
@@ -148,7 +153,7 @@ const Footer = (props: Props) => {
   };
 
   return (
-    <FooterWrapper>
+    <FooterWrapper $isActive={isActive}>
       <LayoutWrapper>
         <DesktopInner>
           <MediaCursor data={footerMedia} />

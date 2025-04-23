@@ -1,92 +1,95 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import CanvasCard from "../../elements/CanvasCard";
+// Adjust import paths as needed
+import { HomePageType } from "../../../shared/types/types";
+import { useMousePosition } from "../../../hooks/useMousePosition";
+import CanvasCard from "../../elements/CanvasCard"; // Assume CanvasCard is memoized: export default React.memo(CanvasCard);
+import LogoIcon from "../../svgs/LogoIcon";
 
-// --- TYPE IMPORTS ---
-// Make sure this path is correct for your project setup
-// Example: import { HomePageType } from "../../shared/types/types";
-// Using a placeholder type if the actual one isn't critical for the component logic itself
-type HomePageItem = { id: string | number; [key: string]: any }; // Basic placeholder
-type HomePageType = { items: HomePageItem[] };
-
-// --- HOOK IMPORT ---
-// Make sure this path is correct for your project setup
-// Example: import { useMousePosition } from "../../hooks/useMousePosition";
-
-// --- Placeholder Hook Implementation (if needed for testing - REPLACE with your actual hook) ---
-type ReturnMousePosition = {
-  x: number | null;
-  y: number | null;
-};
-const useMousePosition = (): ReturnMousePosition => {
-  const [position, setPosition] = useState<ReturnMousePosition>({
-    x: null,
-    y: null,
-  });
-  useEffect(() => {
-    const setFromEvent = (e: MouseEvent) =>
-      setPosition({ x: e.clientX, y: e.clientY });
-    // Basic throttle
-    let timeoutId: NodeJS.Timeout | null = null;
-    const throttledSetFromEvent = (e: MouseEvent) => {
-      if (timeoutId === null) {
-        setFromEvent(e);
-        timeoutId = setTimeout(() => {
-          timeoutId = null;
-        }, 50); // ~20fps throttle
-      }
-    };
-    window.addEventListener("mousemove", throttledSetFromEvent);
-    return () => {
-      if (timeoutId) clearTimeout(timeoutId);
-      window.removeEventListener("mousemove", throttledSetFromEvent);
-    };
-  }, []);
-  return position;
-};
-// --- End Placeholder Hook ---
-
-// --- Styled Components ---
-
-const HomeCanvasWrapper = styled(motion.div)`
+// Styled Components (Unchanged)
+const HomeCanvasWrapper = styled(motion.div)<{ $animationComplete: boolean }>`
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh; /* Or 100svh/lvh if needed */
+  height: 100vh;
   overflow: hidden;
-  backface-visibility: hidden; /* Improve rendering performance */
-  contain: layout paint; /* Limit layout and paint work */
+  transform-origin: center center;
+  z-index: 2;
   -webkit-transform: translateZ(0);
   backface-visibility: hidden;
   perspective: 1000;
   transform: translate3d(0, 0, 0);
   transform: translateZ(0);
-  /* Optional: Add a subtle background if desired */
-  /* background-color: #f0f0f0;  */
+
+  @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+    display: none;
+  }
+
+  * {
+    pointer-events: ${(props) =>
+      props.$animationComplete ? "all" : "none"} !important;
+  }
 `;
 
-const ItemWrapper = styled(motion.div)`
-  position: absolute; /* Needed for top/left positioning by Framer Motion */
-  border-radius: 10px;
-  will-change: transform; /* Performance hint */
+const Outer = styled(motion.div)`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 3;
   display: flex;
   justify-content: center;
-  overflow: hidden;
   align-items: center;
-  cursor: pointer; /* Indicate items might be interactive */
-  transform-origin: center center; /* Important for rotation */
-  background: red;
+  mix-blend-mode: difference;
+  pointer-events: none;
 `;
 
-// --- Configuration Variables ---
+const Inner = styled(motion.div)`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  mix-blend-mode: normal;
+  pointer-events: none;
+`;
 
-// Max items to render from data
+const LogoWrapper = styled(motion.div)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  mix-blend-mode: soft-light;
+`;
+
+// Memoize LogoInner to prevent re-render if props (colour) don't change
+const MemoizedLogoInner = React.memo(styled.div`
+  svg {
+    width: 98vw;
+    height: auto;
+  }
+`);
+
+const ItemWrapper = styled(motion.div)`
+  position: absolute;
+  will-change: transform;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+`;
+
+// Configuration (Unchanged)
 const MAX_ITEMS_TO_DISPLAY = 20;
-// Strength of parallax effect (higher = more movement)
-const BASE_PARALLAX_STRENGTH = 600;
-// Base Spring animation config (No delay here!)
+const BASE_PARALLAX_STRENGTH = 1400;
+const LOGO_DEPTH_FACTOR = 0.1;
+
 const springTransition = {
   type: "spring",
   stiffness: 100,
@@ -94,227 +97,253 @@ const springTransition = {
   mass: 1,
 };
 
-/// --- Manual Layout Configuration ---
-
-// Define the position (top, left as percentages) and depth factor for each item.
-
-// This determines the STATIC layout when the mouse is centered (zero parallax offset).
-
-// Adjust these values if the initial visual arrangement needs changing.
-
 const manualLayoutConfig = [
-  // Item 0 (Original DF: 0.8) - Top Edge Bleed (Leftish)
-  { top: "-40%", left: "30%", depthFactor: 0.8 }, // Stays same
-  // Item 1 (Original DF: 0.9) - Bottom Edge Bleed (Rightish)
-  { top: "105%", left: "70%", depthFactor: 0.9 }, // Stays same
-  // Item 2 (Original DF: 0.7) - Left Edge Bleed (Bottom) - Pushed further
-  { top: "80%", left: "-22%", depthFactor: 0.7 },
-  // Item 3 (Original DF: 1.0) - Bottom Right Visible Area
-  { top: "65%", left: "90%", depthFactor: 1.0 }, // Stays same
-  // Item 4 (Original DF: 0.85) - Top Right Corner Bleed - Pushed further
-  { top: "-20%", left: "115%", depthFactor: 0.85 },
-  // Item 5 (Original DF: 0.75) - Top Left Corner Bleed - Pushed further
-  { top: "-15%", left: "-20%", depthFactor: 0.75 },
-  // Item 6 (Original DF: 0.95) - Right Edge Bleed (Middle) - Pushed further
-  { top: "65%", left: "118%", depthFactor: 0.95 },
-  // Item 7 (Original DF: 0.9) - MOVED Left Visible Area (Top)
-  { top: "2%", left: "8%", depthFactor: 0.9 },
-  // Item 8 (Original DF: 0.8) - Bottom Edge Bleed (Leftish)
-  { top: "115%", left: "40%", depthFactor: 0.8 }, // Stays same
-  // Item 9 (Original DF: 0.7) - Left Edge Bleed (Top)
-  { top: "25%", left: "-10%", depthFactor: 0.7 }, // Stays same
-  // Item 10 (Original DF: 0.85) - Center Area (Left)
-  { top: "40%", left: "60%", depthFactor: 0.85 }, // Stays same
-  // Item 11 (Original DF: 0.95) - Right Edge Bleed (Top) - Pushed further
-  { top: "20%", left: "110%", depthFactor: 0.95 },
-  // Item 12 (Original DF: 0.8) - Center Area (Bottom Mid)
-  { top: "70%", left: "55%", depthFactor: 0.8 }, // Stays same
-  // Item 13 (Original DF: 0.9) - Bottom Right Corner Bleed - Pushed further
-  { top: "115%", left: "110%", depthFactor: 0.9 },
-  // Item 14 (Original DF: 0.7) - MOVED Center Area (Top Mid-Left)
-  { top: "-10%", left: "40%", depthFactor: 0.7 },
-  // Item 15 (Original DF: 0.75) - Left Edge Visible Area (Bottom)
-  { top: "65%", left: "8%", depthFactor: 0.75 }, // Stays same
-  // Item 16 (Original DF: 0.95) - Center Area (Top Mid)
-  { top: "20%", left: "45%", depthFactor: 0.95 }, // Stays same
-  // Item 17 (Original DF: 0.8) - Bottom Left Corner Bleed - Pushed further
-  { top: "110%", left: "-15%", depthFactor: 0.8 },
-  // Item 18 (Original DF: 0.85) - MOVED Left Visible Area (Mid)
-  { top: "50%", left: "25%", depthFactor: 0.85 },
-  // Item 19 (Original DF: 0.9) - Top Edge Bleed (Rightish)
-  { top: "-5%", left: "80%", depthFactor: 0.9 }, // Stays same (provides some right balance)
+  { top: "-50%", left: "25%", depthFactor: 0.8 },
+  { top: "120%", left: "75%", depthFactor: 0.9 },
+  { top: "75%", left: "-30%", depthFactor: 0.7 },
+  { top: "70%", left: "95%", depthFactor: 1.0 },
+  { top: "-30%", left: "125%", depthFactor: 0.85 },
+  { top: "-25%", left: "-30%", depthFactor: 0.75 },
+  { top: "60%", left: "128%", depthFactor: 0.95 },
+  { top: "5%", left: "5%", depthFactor: 0.9 },
+  { top: "125%", left: "35%", depthFactor: 0.8 },
+  { top: "20%", left: "-20%", depthFactor: 0.7 },
+  { top: "45%", left: "70%", depthFactor: 0.85 },
+  { top: "15%", left: "120%", depthFactor: 0.95 },
+  { top: "75%", left: "55%", depthFactor: 0.8 },
+  { top: "125%", left: "120%", depthFactor: 0.9 },
+  { top: "-15%", left: "35%", depthFactor: 0.7 },
+  { top: "60%", left: "-10%", depthFactor: 0.75 },
+  { top: "25%", left: "40%", depthFactor: 0.95 },
+  { top: "120%", left: "-25%", depthFactor: 0.8 },
+  { top: "55%", left: "30%", depthFactor: 0.85 },
+  { top: "-20%", left: "75%", depthFactor: 0.9 },
+  { top: "90%", left: "-15%", depthFactor: 0.7 },
 ];
 
-// --- Helper Function for seeded random values ---
-// Used for the initial "deck" state randomness
+// Helper Function (Unchanged)
 const seededRandomRange = (seed: number, min: number, max: number): number => {
   const random = Math.sin(seed) * 10000;
-  const normalized = random - Math.floor(random); // Value 0 <= x < 1
+  const normalized = random - Math.floor(random);
   return min + normalized * (max - min);
 };
 
-// --- Component Props ---
-type Props = {
-  data: HomePageType["items"]; // Pass in the array of items
-};
+type Props = { data: HomePageType["items"] };
 
-// --- The Component ---
-const HomeCanvas = (props: Props) => {
-  // Slice data based on limits and available layout configs
-  const itemsToRender = props.data
-    ? props.data.slice(
-        0,
-        Math.min(MAX_ITEMS_TO_DISPLAY, manualLayoutConfig.length)
-      )
-    : [];
-  const hasData = itemsToRender.length > 0;
+// Apply React.memo to the component itself if its props don't change often
+const HomeCanvas = React.memo((props: Props) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const [animationComplete, setAnimationComplete] = useState(false);
 
-  // Get mouse position (starts {x: null, y: null})
+  // Memoize itemsToRender derivation
+  const itemsToRender = useMemo(() => {
+    return props.data
+      ? props.data.slice(
+          0,
+          Math.min(MAX_ITEMS_TO_DISPLAY, manualLayoutConfig.length)
+        )
+      : [];
+  }, [props.data]);
+
+  // Memoize hasData derivation
+  const hasData = useMemo(() => itemsToRender.length > 0, [itemsToRender]);
+
   const position = useMousePosition();
-  // State for window dimensions
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
 
-  // Effect to track window size
   useEffect(() => {
     const handleResize = () => {
       setWindowSize({ width: window.innerWidth, height: window.innerHeight });
     };
-    handleResize(); // Initial size
+    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Calculate normalized mouse position (-0.5 to 0.5), defaults to 0 (center) initially
-  const liveNormalizedX =
-    position.x !== null && windowSize.width > 0
-      ? position.x / windowSize.width - 0.5
-      : 0;
-  const liveNormalizedY =
-    position.y !== null && windowSize.height > 0
-      ? position.y / windowSize.height - 0.5
-      : 0;
+  // Memoize normalized mouse position calculation
+  const liveNormalizedX = useMemo(
+    () =>
+      position.x !== null && windowSize.width > 0
+        ? position.x / windowSize.width - 0.5
+        : 0,
+    [position.x, windowSize.width]
+  );
+
+  const liveNormalizedY = useMemo(
+    () =>
+      position.y !== null && windowSize.height > 0
+        ? position.y / windowSize.height - 0.5
+        : 0,
+    [position.y, windowSize.height]
+  );
+
+  // Memoize Logo Parallax Offset Calculation
+  const logoTranslateX = useMemo(
+    () => -liveNormalizedX * BASE_PARALLAX_STRENGTH * LOGO_DEPTH_FACTOR,
+    [liveNormalizedX]
+  );
+  const logoTranslateY = useMemo(
+    () => -liveNormalizedY * BASE_PARALLAX_STRENGTH * LOGO_DEPTH_FACTOR,
+    [liveNormalizedY]
+  );
+
+  // Animation Variants (Static definitions - no dependencies)
+  const canvasVariants = useMemo(
+    () => ({
+      hidden: { opacity: 0, scale: 1.6 },
+      visible: {
+        opacity: 1,
+        scale: 1,
+        transition: { duration: 0.8, ease: "easeInOut", delay: 1.5 },
+      },
+    }),
+    []
+  );
+
+  // Memoize the logoVariants object creation
+  const logoVariants = useMemo(
+    () => ({
+      hidden: { scale: 1, opacity: 0, x: 0, y: 0 },
+      visible: {
+        scale: 0.5,
+        opacity: 1,
+        x: logoTranslateX, // Use memoized value
+        y: logoTranslateY, // Use memoized value
+        transition: {
+          scale: { duration: 0.8, ease: "easeInOut", delay: 1.6 },
+          opacity: { duration: 0.8, ease: "easeInOut", delay: 0.4 },
+          x: { ...springTransition },
+          y: { ...springTransition },
+        },
+      },
+    }),
+    [logoTranslateX, logoTranslateY] // Only recreate if parallax values change
+  );
+
+  const logoCrossfadeTransition = useMemo(
+    () => ({
+      opacity: { duration: 0.01, ease: "easeInOut" },
+      scale: { duration: 0.5, ease: "easeInOut" },
+    }),
+    []
+  );
+
+  // Memoize the expensive item configuration mapping
+  const itemConfigs = useMemo(() => {
+    return itemsToRender.map((item, index) => {
+      const layout = manualLayoutConfig[index];
+      const { top, left, depthFactor } = layout;
+      // Calculate live target translation based on memoized normalized values
+      const liveTargetTranslateX =
+        -liveNormalizedX * BASE_PARALLAX_STRENGTH * depthFactor;
+      const liveTargetTranslateY =
+        -liveNormalizedY * BASE_PARALLAX_STRENGTH * depthFactor;
+      const itemKey =
+        item && typeof item === "object" && "id" in item && item.id
+          ? item.id
+          : `item-${index}`;
+
+      const randomSeed = index + 1;
+      const initialScale = seededRandomRange(randomSeed * 1.1, 1.2, 1.6);
+      const staggerDelay = 1.7 + seededRandomRange(randomSeed * 1.2, 0, 0.5);
+
+      const itemInitialState = {
+        x: 0,
+        y: 0,
+        scale: initialScale,
+        opacity: 0,
+      };
+      const itemAnimateState = {
+        x: liveTargetTranslateX,
+        y: liveTargetTranslateY,
+        scale: 1,
+        opacity: 1,
+      };
+      const itemTransitionConfig = {
+        x: { ...springTransition },
+        y: { ...springTransition },
+        scale: { ...springTransition, delay: staggerDelay },
+        opacity: { duration: 0.5, ease: "easeIn", delay: staggerDelay },
+      };
+
+      return {
+        key: itemKey,
+        initialTop: top,
+        initialLeft: left,
+        itemInitial: itemInitialState,
+        itemAnimate: itemAnimateState,
+        itemTransition: itemTransitionConfig,
+        title: item.title,
+        description: item.description,
+        link: item.link,
+        media: item.media,
+        project: item.project,
+        year: item.year,
+        useProjectReference: item.useProjectReference,
+      };
+    });
+  }, [itemsToRender, liveNormalizedX, liveNormalizedY]); // Dependencies that trigger recalculation
 
   return (
-    <HomeCanvasWrapper>
-      {
-        hasData &&
-          // Map over the data and render an animated item for each
-          itemsToRender.map((item, index) => {
-            // Get the final layout config for this item
-            const layout = manualLayoutConfig[index];
-            const { top: finalTop, left: finalLeft, depthFactor } = layout;
+    <>
+      <Outer
+        animate={{ opacity: isHovered ? 0 : 1, scale: isHovered ? 0.95 : 1 }}
+        transition={logoCrossfadeTransition}
+      >
+        <LogoWrapper variants={logoVariants} initial="hidden" animate="visible">
+          <MemoizedLogoInner>
+            <LogoIcon />
+          </MemoizedLogoInner>
+        </LogoWrapper>
+      </Outer>
 
-            // Calculate the current parallax offset based on mouse position
-            const liveTargetTranslateX =
-              -liveNormalizedX * BASE_PARALLAX_STRENGTH * depthFactor;
-            const liveTargetTranslateY =
-              -liveNormalizedY * BASE_PARALLAX_STRENGTH * depthFactor;
+      <HomeCanvasWrapper
+        variants={canvasVariants}
+        initial="hidden"
+        animate="visible"
+        onAnimationComplete={() => setAnimationComplete(true)}
+        $animationComplete={animationComplete}
+      >
+        <Inner
+          animate={{ opacity: isHovered ? 1 : 0, scale: isHovered ? 0.95 : 1 }}
+          transition={logoCrossfadeTransition}
+        >
+          <LogoWrapper
+            variants={logoVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            <MemoizedLogoInner>
+              <LogoIcon colour={"var(--colour-foreground)"} />
+            </MemoizedLogoInner>
+          </LogoWrapper>
+        </Inner>
 
-            // Determine the unique key for React
-            const itemKey =
-              item && typeof item === "object" && "id" in item && item.id
-                ? item.id
-                : `item-${index}`;
-
-            // --- Define Initial "Deck" State ---
-            const initialSeed = index + 1;
-            const initialRotation = seededRandomRange(
-              initialSeed * 1.1,
-              -15,
-              15
-            );
-            const initialOffsetX = seededRandomRange(
-              initialSeed * 1.2,
-              -20,
-              20
-            );
-            const initialOffsetY = seededRandomRange(
-              initialSeed * 1.3,
-              -20,
-              20
-            );
-
-            const initialState = {
-              top: "50%",
-              left: "50%", // Start centered
-              x: "-50%",
-              y: "-50%", // Center element using transform
-              translateX: `${initialOffsetX}px`, // Apply random pixel offset
-              translateY: `${initialOffsetY}px`,
-              rotate: initialRotation, // Apply random rotation
-              opacity: 1, // Start invisible
-            };
-
-            // --- Define Final "Animated" State ---
-            const animateState = {
-              top: finalTop,
-              left: finalLeft, // Target final layout position
-              x: `${liveTargetTranslateX}px`, // Target current parallax offset
-              y: `${liveTargetTranslateY}px`,
-              translateX: "0px", // Reset random offset
-              translateY: "0px",
-              rotate: 0, // Reset rotation
-              opacity: 1, // Fade in
-            };
-
-            // --- Define Transition Logic ---
-            // Base delay + stagger for the initial fan-out animation
-            const staggerDelay = 1.5 + index * 0.05; // Adjust base delay & stagger factor as needed
-
-            const transitionConfig = {
-              // --- Define the ONGOING transition for parallax (x, y) ---
-              // Use the base spring WITHOUT delay for responsiveness.
-              x: { ...springTransition },
-              y: { ...springTransition },
-
-              // --- Define transitions ONLY for the initial fan-out ---
-              // These properties animate once with a delay.
-              opacity: { duration: 0.4, delay: staggerDelay },
-              rotate: { duration: 0.6, ease: "easeOut", delay: staggerDelay },
-              translateX: {
-                duration: 0.6,
-                ease: "easeOut",
-                delay: staggerDelay,
-              }, // Animate offset back to 0
-              translateY: {
-                duration: 0.6,
-                ease: "easeOut",
-                delay: staggerDelay,
-              },
-              // Delay the initial positional animation (top, left) as well
-              top: { ...springTransition, delay: staggerDelay },
-              left: { ...springTransition, delay: staggerDelay },
-            };
-
-            console.log("item", item);
-
-            // Render the animated item
-            return (
-              <ItemWrapper
-                key={itemKey}
-                initial={initialState} // State before animation starts
-                animate={animateState} // Target state (includes live parallax)
-                transition={transitionConfig} // How to animate between states
-              >
-                <CanvasCard
-                  id={item.id}
-                  media={item.media}
-                  project={item.project}
-                  title={item.title}
-                  year={item.year}
-                  description={item.description}
-                  link={item.link}
-                  useProjectReference={item?.useProjectReference}
-                />
-                {/* Content of the item - display index/depth for layout help */}
-                {/* {`Index: ${index} D:${depthFactor.toFixed(2)}`} */}
-              </ItemWrapper>
-            );
-          }) // End map
-      }
-    </HomeCanvasWrapper>
+        {hasData &&
+          itemConfigs.map((config) => (
+            <ItemWrapper
+              key={config.key}
+              style={{ top: config.initialTop, left: config.initialLeft }}
+              initial={config.itemInitial}
+              animate={config.itemAnimate}
+              transition={config.itemTransition}
+            >
+              {/* Ensure CanvasCard is memoized */}
+              <CanvasCard
+                description={config.description}
+                link={config.link}
+                media={config.media}
+                project={config.project}
+                title={config.title}
+                useProjectReference={config.useProjectReference}
+                isHovered={isHovered}
+                setIsHovered={setIsHovered}
+              />
+            </ItemWrapper>
+          ))}
+      </HomeCanvasWrapper>
+    </>
   );
-};
+}); // End React.memo wrapper
 
-// Export the component
 export default HomeCanvas;

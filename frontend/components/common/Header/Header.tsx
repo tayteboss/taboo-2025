@@ -8,6 +8,7 @@ import LogoIcon from "../../svgs/LogoIcon";
 import Menu from "../../blocks/Menu";
 import { useEffect, useState } from "react";
 import throttle from "lodash/throttle";
+import { useRouter } from "next/router";
 
 const HeaderWrapper = styled.header`
   padding: ${pxToRem(20)} 0;
@@ -76,15 +77,17 @@ const Underline = styled(motion.div)`
 const LogoWrapper = styled.div<{
   $menuIsActive?: boolean;
   $hasScrolled?: boolean;
+  $isActive?: boolean;
 }>`
   position: relative;
   z-index: 2;
   pointer-events: all;
+  opacity: ${(props) => (props.$isActive ? "1" : "0")};
 
   transition: all var(--transition-speed-default) var(--transition-ease);
 
   &:hover {
-    opacity: 0.5;
+    opacity: ${(props) => (props.$menuIsActive ? "0.5" : "0")};
   }
 
   a {
@@ -115,11 +118,12 @@ const LogoWrapper = styled.div<{
 `;
 
 type Props = {
+  isActive: boolean;
   setContactModalIsActive: (value: boolean) => void;
 };
 
 const Header = (props: Props) => {
-  const { setContactModalIsActive } = props;
+  const { isActive, setContactModalIsActive } = props;
 
   const [hasScrolled, setHasScrolled] = useState(false);
   const [menuIsActive, setMenuIsActive] = useState(false);
@@ -185,7 +189,7 @@ const Header = (props: Props) => {
                 Contact
               </LinkTag>
             </NavLinks>
-            <LogoWrapper>
+            <LogoWrapper $isActive={isActive}>
               <Link href="/">
                 <LogoIcon />
               </Link>
@@ -195,6 +199,7 @@ const Header = (props: Props) => {
             <LogoWrapper
               $menuIsActive={menuIsActive}
               $hasScrolled={hasScrolled}
+              $isActive={isActive}
             >
               <Link href="/">
                 <LogoIcon />
