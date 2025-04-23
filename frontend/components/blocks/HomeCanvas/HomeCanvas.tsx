@@ -72,7 +72,6 @@ const LogoWrapper = styled(motion.div)`
   mix-blend-mode: soft-light;
 `;
 
-// Memoize LogoInner to prevent re-render if props (colour) don't change
 const MemoizedLogoInner = React.memo(styled.div`
   svg {
     width: 98vw;
@@ -92,7 +91,8 @@ const ItemWrapper = styled(motion.div)`
 // Configuration (Unchanged)
 const MAX_ITEMS_TO_DISPLAY = 20;
 const BASE_PARALLAX_STRENGTH = 1400;
-const LOGO_DEPTH_FACTOR = 0.1;
+const LOGO_PARALLAX_STRENGTH = 2000;
+const LOGO_DEPTH_FACTOR = 0.3;
 
 const springTransition = {
   type: "spring",
@@ -183,11 +183,11 @@ const HomeCanvas = React.memo((props: Props) => {
 
   // Memoize Logo Parallax Offset Calculation
   const logoTranslateX = useMemo(
-    () => -liveNormalizedX * BASE_PARALLAX_STRENGTH * LOGO_DEPTH_FACTOR,
+    () => -liveNormalizedX * LOGO_PARALLAX_STRENGTH * LOGO_DEPTH_FACTOR,
     [liveNormalizedX]
   );
   const logoTranslateY = useMemo(
-    () => -liveNormalizedY * BASE_PARALLAX_STRENGTH * LOGO_DEPTH_FACTOR,
+    () => -liveNormalizedY * LOGO_PARALLAX_STRENGTH * LOGO_DEPTH_FACTOR,
     [liveNormalizedY]
   );
 
@@ -291,7 +291,8 @@ const HomeCanvas = React.memo((props: Props) => {
   return (
     <>
       <Outer
-        animate={{ opacity: isHovered ? 0 : 1, scale: isHovered ? 0.95 : 1 }}
+        // animate={{ opacity: isHovered ? 0 : 1, scale: isHovered ? 0.95 : 1 }}
+        animate={{ scale: isHovered ? 0.95 : 1 }}
         transition={logoCrossfadeTransition}
       >
         <LogoWrapper variants={logoVariants} initial="hidden" animate="visible">
@@ -308,7 +309,7 @@ const HomeCanvas = React.memo((props: Props) => {
         onAnimationComplete={() => setAnimationComplete(true)}
         $animationComplete={animationComplete}
       >
-        <Inner
+        {/* <Inner
           animate={{ opacity: isHovered ? 1 : 0, scale: isHovered ? 0.95 : 1 }}
           transition={logoCrossfadeTransition}
         >
@@ -321,7 +322,7 @@ const HomeCanvas = React.memo((props: Props) => {
               <LogoIcon colour={"var(--colour-foreground)"} />
             </MemoizedLogoInner>
           </LogoWrapper>
-        </Inner>
+        </Inner> */}
 
         {hasData &&
           itemConfigs.map((config) => (
