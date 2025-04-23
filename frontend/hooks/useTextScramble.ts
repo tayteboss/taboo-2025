@@ -20,7 +20,7 @@ type ScrambleOptions = {
 const defaultOptions: Required<Omit<ScrambleOptions, "restartKey">> = {
   // Omit restartKey from defaults
   charRevealDelayMs: 50,
-  baseRevealDelayMs: 300,
+  baseRevealDelayMs: 100,
   scrambleIntervalMs: 50,
   resetToBlankOnInactive: true,
 };

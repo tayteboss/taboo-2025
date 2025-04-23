@@ -11,7 +11,7 @@ import { useInView } from "react-intersection-observer";
 const CanvasCardWrapper = styled.div<{ $isHovered: boolean; $isLink: boolean }>`
   pointer-events: all;
   opacity: ${(props) => (props.$isHovered ? 0.6 : 1)};
-  transform: ${(props) => (props.$isHovered ? "scale(0.98)" : "scale(1)")};
+  transform: ${(props) => (props.$isHovered ? "scale(0.96)" : "scale(1)")};
   cursor: ${(props) => props.$isLink && "pointer"};
 
   &:hover {
