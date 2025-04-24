@@ -8,7 +8,6 @@ import LogoIcon from "../../svgs/LogoIcon";
 import Menu from "../../blocks/Menu";
 import { useEffect, useState } from "react";
 import throttle from "lodash/throttle";
-import { useRouter } from "next/router";
 
 const HeaderWrapper = styled.header`
   padding: ${pxToRem(20)} 0;
@@ -48,6 +47,7 @@ const NavLinks = styled.div`
   display: flex;
   gap: ${pxToRem(20)};
   pointer-events: all;
+  position: relative;
 
   a {
     position: relative;
@@ -57,6 +57,7 @@ const NavLinks = styled.div`
 const LinkTag = styled.div`
   cursor: pointer;
   color: var(--colour-white);
+  position: relative;
 
   transition: all var(--transition-speed-default) var(--transition-ease);
 
@@ -159,8 +160,7 @@ const Header = (props: Props) => {
                 {activeLink === "Home" && (
                   <Underline
                     layoutId="navlink-underline"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
+                    style={{ originY: "0px" }}
                   />
                 )}
               </Link>
@@ -169,8 +169,7 @@ const Header = (props: Props) => {
                 {activeLink === "Work" && (
                   <Underline
                     layoutId="navlink-underline"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
+                    style={{ originY: "0px" }}
                   />
                 )}
               </Link>
@@ -179,8 +178,7 @@ const Header = (props: Props) => {
                 {activeLink === "Information" && (
                   <Underline
                     layoutId="navlink-underline"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
+                    style={{ originY: "0px" }}
                   />
                 )}
               </Link>
