@@ -83,11 +83,13 @@ const LogoWrapper = styled.div<{
   z-index: 2;
   pointer-events: all;
   opacity: ${(props) => (props.$isActive ? "1" : "0")};
+  transform-origin: center right;
 
   transition: all var(--transition-speed-default) var(--transition-ease);
 
   &:hover {
     opacity: ${(props) => (props.$menuIsActive ? "0.5" : "0.5")};
+    transform: scale(0.98);
   }
 
   a {

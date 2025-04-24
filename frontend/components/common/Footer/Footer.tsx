@@ -83,7 +83,12 @@ const MiddleBar = styled.div`
   mix-blend-mode: difference;
 
   @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
-    padding: ${pxToRem(100)} 0;
+    padding: ${pxToRem(64)} 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: ${pxToRem(64)};
   }
 `;
 
@@ -122,8 +127,8 @@ const SocialDetails = styled.div`
   flex: 1;
 
   @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
-    padding-top: ${pxToRem(32)};
-    justify-content: center;
+    /* padding-top: ${pxToRem(32)}; */
+    justify-content: space-between;
   }
 `;
 
@@ -152,6 +157,17 @@ const Footer = (props: Props) => {
     });
   };
 
+  const creditList = [
+    {
+      title: "Design: Bien Studio",
+      link: "https://www.bienstudio.com.au/",
+    },
+    {
+      title: "Dev: Tayte.co",
+      link: "https://tayte.co/",
+    },
+  ];
+
   return (
     <FooterWrapper $isActive={isActive}>
       <LayoutWrapper>
@@ -176,9 +192,9 @@ const Footer = (props: Props) => {
             </LayoutGrid>
           </MiddleBar>
           <BottomBar>
-            {socialLinks && socialLinks?.length > 0 && (
+            {creditList && creditList?.length > 0 && (
               <SocialDetails>
-                {socialLinks.map((social, i) => (
+                {creditList.map((social, i) => (
                   <SocialCard data={social} key={i} />
                 ))}
               </SocialDetails>
@@ -195,15 +211,21 @@ const Footer = (props: Props) => {
           </TopBar>
           <MiddleBar>
             <FooterContactCard
+              title="Visit"
+              address={address}
+              addressUrl={addressUrl}
+            />
+            <FooterContactCard
               title="Say hey"
               email={contactEmail}
               phone={contactPhone}
             />
+            <FooterContactCard title="Follow" socialLinks={socialLinks} />
           </MiddleBar>
           <BottomBar>
-            {socialLinks && socialLinks?.length > 0 && (
+            {creditList && creditList?.length > 0 && (
               <SocialDetails>
-                {socialLinks.map((social, i) => (
+                {creditList.map((social, i) => (
                   <SocialCard data={social} key={i} />
                 ))}
               </SocialDetails>

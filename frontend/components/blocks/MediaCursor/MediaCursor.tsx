@@ -28,16 +28,17 @@ const AnimatedImageContainer = styled(motion.div)`
   position: absolute; // Positioned by framer-motion x/y
   top: 0; // Set base position
   left: 0; // Set base position
-  width: 200px;
-  height: 252px; // 200 / 230 * 288
+  width: 12vw;
   will-change: transform, opacity; // Hint browser about animations
   pointer-events: none; // Ensure container itself doesn't block interactions
 `;
 
 const ImageWrapper = styled.div`
-  position: relative;
+  position: absolute;
+  inset: 0;
   height: 100%;
   width: 100%;
+  padding-top: 120%;
   border-radius: 8px;
   overflow: hidden;
 `;
