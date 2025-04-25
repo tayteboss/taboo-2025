@@ -4,18 +4,16 @@ import LayoutWrapper from "../../layout/LayoutWrapper";
 import pxToRem from "../../../utils/pxToRem";
 import LayoutGrid from "../../layout/LayoutGrid";
 import MediaStack from "../../common/MediaStack";
-// import { useWindowHeight } from "../../../hooks/useWindowHeight"; // Consider using this if it exists and works
 import {
   motion,
   useScroll,
   useTransform,
   useMotionTemplate,
-} from "framer-motion"; // Import useMotionTemplate
+} from "framer-motion";
 import { useRouter } from "next/router";
 import useViewportWidth from "../../../hooks/useViewportWidth";
 import { useEffect, useState } from "react";
 
-// ... (Keep your styled components as they are) ...
 const ProjectTitleWrapper = styled.section`
   padding-top: ${pxToRem(200)};
   margin-bottom: ${pxToRem(20)};
@@ -73,19 +71,17 @@ const DetailText = styled.span`
 `;
 
 const MediaWrapper = styled(motion.div)`
-  /* Default width is set here */
   width: calc(100% - 40px);
   margin: 0 auto;
   overflow: hidden;
   border-radius: 15px;
 
   @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
-    /* Default width for smaller screens */
     width: calc(100% - 20px);
   }
 
   .media-wrapper {
-    padding-top: 56.25%; /* Example aspect ratio */
+    padding-top: 56.25%;
   }
 `;
 
@@ -108,44 +104,32 @@ const ProjectTitle = (props: Props) => {
 
   const isMobile = viewport === "tablet-portrait" || viewport === "mobile";
 
-  // 1. Transform the *numeric* offset value
   const offset = useTransform(
     scrollY,
-    [0, windowHeight], // Input range (scroll position)
-    [isMobile ? 20 : 40, 0] // Output range (pixel offset) -> Animate from 20/40 down to 0
+    [0, windowHeight],
+    [isMobile ? 20 : 40, 0]
   );
 
-  // 1. Transform the *numeric* offset value
   const borderRadius = useTransform(
     scrollY,
-    [0, windowHeight], // Input range (scroll position)
-    ["15px", "0px"] // Output range (pixel offset) -> Animate from 20/40 down to 0
+    [0, windowHeight],
+    ["15px", "0px"]
   );
 
-  // 2. Use useMotionTemplate to create the dynamic width string
   const width = useMotionTemplate`calc(100% - ${offset}px)`;
 
   useEffect(() => {
     const handleResize = () => {
-      // Ensure you are setting the height correctly on initial load and resize
       setWindowHeight(window.innerHeight);
     };
 
-    handleResize(); // Call immediately to set initial height
+    handleResize();
     window.addEventListener("resize", handleResize);
 
-    // Cleanup listener on component unmount
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []); // <-- Changed dependency array to []
-  // This effect now runs only once on mount to set initial height and add listener.
-  // The resize listener updates the state, causing re-renders which recalculate transforms.
-  // If you *really* need it to re-run on route change, add `router.pathname` or similar.
-
-  // If you have a working useWindowHeight hook, prefer using it:
-  // const windowHeight = useWindowHeight();
-  // Then you can remove the useState and useEffect for windowHeight here.
+  }, []); //
 
   return (
     <ProjectTitleWrapper>

@@ -2,11 +2,12 @@ import styled from "styled-components";
 import { InformationPageType } from "../../../shared/types/types";
 import { motion, AnimatePresence } from "framer-motion";
 import pxToRem from "../../../utils/pxToRem";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CrossIcon from "../../svgs/CrossIcon";
 import Image from "next/image";
 import formatHTML from "../../../utils/formatHTML";
 import SocialCard from "../../elements/SocialCard";
+import { useClickOutside } from "../../../hooks/useClickOutside";
 
 const TeamModalWrapper = styled(motion.div)`
   position: fixed;
@@ -20,6 +21,7 @@ const TeamModalWrapper = styled(motion.div)`
   align-items: center;
   background: var(--colour-foreground-alpha-80);
   backdrop-filter: blur(5px);
+  cursor: pointer;
 `;
 
 const Card = styled(motion.div)`
@@ -30,6 +32,7 @@ const Card = styled(motion.div)`
   z-index: 2;
   max-height: calc(100vh - 40px);
   overflow-y: auto;
+  cursor: default;
 
   @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
     width: calc(100% - 20px);
@@ -171,6 +174,11 @@ const TeamModal = (props: Props) => {
     }
   }, [members, isActive]);
 
+  const ref = useRef<HTMLDivElement>(null!);
+  useClickOutside(ref, () => {
+    setTeamModalIsActive(false);
+  });
+
   return (
     <AnimatePresence>
       {isActive !== false && (
@@ -186,6 +194,7 @@ const TeamModal = (props: Props) => {
             animate="visible"
             exit="exit"
             data-lenis-prevent
+            ref={ref}
           >
             <TitleWrapper>
               <NameWrapper>

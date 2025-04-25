@@ -7,6 +7,8 @@ import PeopleCard from "../../elements/PeopleCard";
 import formatHTML from "../../../utils/formatHTML";
 import SocialCard from "../../elements/SocialCard";
 import CrossIcon from "../../svgs/CrossIcon";
+import { useRef } from "react";
+import { useClickOutside } from "../../../hooks/useClickOutside";
 
 const ContactModalWrapper = styled(motion.div)`
   position: fixed;
@@ -20,6 +22,7 @@ const ContactModalWrapper = styled(motion.div)`
   align-items: center;
   background: var(--colour-foreground-alpha-80);
   backdrop-filter: blur(5px);
+  cursor: pointer;
 `;
 
 const Card = styled(motion.div)`
@@ -30,6 +33,7 @@ const Card = styled(motion.div)`
   z-index: 2;
   max-height: calc(100vh - 40px);
   overflow-y: auto;
+  cursor: default;
 
   @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
     width: calc(100% - 20px);
@@ -165,6 +169,11 @@ const ContactModal = (props: Props) => {
   const hasPersonalContacts = siteSettings?.personalContacts?.length > 0;
   const hasSocialLinks = siteSettings?.socialLinks?.length > 0;
 
+  const ref = useRef<HTMLDivElement>(null!);
+  useClickOutside(ref, () => {
+    setIsActive(false);
+  });
+
   return (
     <AnimatePresence>
       {isActive && (
@@ -180,6 +189,7 @@ const ContactModal = (props: Props) => {
             animate="visible"
             exit="exit"
             data-lenis-prevent
+            ref={ref}
           >
             <TitleWrapper>
               <Title>Contact</Title>

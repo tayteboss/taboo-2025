@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useMemo } from "react";
-import styled from "styled-components";
+import styled, { useTheme } from "styled-components";
 import { motion } from "framer-motion";
 // Adjust import paths as needed
 import { HomePageType } from "../../../shared/types/types";
 import { useMousePosition } from "../../../hooks/useMousePosition";
 import CanvasCard from "../../elements/CanvasCard"; // Assume CanvasCard is memoized: export default React.memo(CanvasCard);
 import LogoIcon from "../../svgs/LogoIcon";
+import OverviewModal from "../OverviewModal";
 
 // Styled Components (Unchanged)
 const HomeCanvasWrapper = styled(motion.div)<{ $animationComplete: boolean }>`
@@ -70,9 +71,17 @@ const LogoWrapper = styled(motion.div)`
   justify-content: center;
   align-items: center;
   mix-blend-mode: soft-light;
+  pointer-events: all;
 `;
 
 const MemoizedLogoInner = React.memo(styled.div`
+  transition: all var(--transition-speed-default) var(--transition-ease);
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.03);
+  }
+
   svg {
     width: 98vw;
     height: auto;
@@ -158,6 +167,7 @@ type Props = { data: HomePageType["items"] };
 // Apply React.memo to the component itself if its props don't change often
 const HomeCanvas = React.memo((props: Props) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [overviewModal, setOverviewModal] = useState<false | number>(false);
   const [animationComplete, setAnimationComplete] = useState(false);
 
   // Memoize itemsToRender derivation
@@ -309,6 +319,52 @@ const HomeCanvas = React.memo((props: Props) => {
     });
   }, [itemsToRender, liveNormalizedX, liveNormalizedY]); // Dependencies that trigger recalculation
 
+  const theme = useTheme(); // <-- Access the theme object here
+  const [isDarkMode, setIsDarkMode] = useState(false); // Consider initializing based on default theme or user preference
+
+  const handleLightSwitch = () => {
+    // Use a functional update for setting state based on previous state
+    setIsDarkMode((prevMode) => {
+      const newMode = !prevMode;
+      // Use the newMode directly for setting properties
+      document.documentElement.style.setProperty(
+        "--colour-background",
+        newMode ? theme.colours.black : theme.colours.white
+      );
+      document.documentElement.style.setProperty(
+        "--colour-background-alpha-80",
+        newMode ? theme.colours.blackAlpha80 : theme.colours.whiteAlpha80
+      );
+      document.documentElement.style.setProperty(
+        "--colour-background-alpha-50",
+        newMode ? theme.colours.blackAlpha50 : theme.colours.whiteAlpha50
+      );
+      document.documentElement.style.setProperty(
+        "--colour-background-alpha-20",
+        newMode ? theme.colours.blackAlpha20 : theme.colours.whiteAlpha20
+      );
+      document.documentElement.style.setProperty(
+        "--colour-foreground",
+        newMode ? theme.colours.white : theme.colours.black
+      );
+      document.documentElement.style.setProperty(
+        "--colour-foreground-alpha-80",
+        newMode ? theme.colours.whiteAlpha80 : theme.colours.blackAlpha80
+      );
+      document.documentElement.style.setProperty(
+        "--colour-foreground-alpha-50",
+        newMode ? theme.colours.whiteAlpha50 : theme.colours.blackAlpha50
+      );
+      document.documentElement.style.setProperty(
+        "--colour-foreground-alpha-20",
+        newMode ? theme.colours.whiteAlpha20 : theme.colours.blackAlpha20
+      );
+      // You might also want to set a class on the <html> or <body> element
+      // document.documentElement.setAttribute('data-theme', newMode ? 'dark' : 'light');
+      return newMode;
+    });
+  };
+
   return (
     <>
       <Outer
@@ -316,7 +372,12 @@ const HomeCanvas = React.memo((props: Props) => {
         animate={{ scale: isHovered ? 0.95 : 1 }}
         transition={logoCrossfadeTransition}
       >
-        <LogoWrapper variants={logoVariants} initial="hidden" animate="visible">
+        <LogoWrapper
+          variants={logoVariants}
+          initial="hidden"
+          animate="visible"
+          onClick={() => handleLightSwitch()}
+        >
           <MemoizedLogoInner>
             <LogoIcon />
           </MemoizedLogoInner>
@@ -346,9 +407,9 @@ const HomeCanvas = React.memo((props: Props) => {
         </Inner> */}
 
         {hasData &&
-          itemConfigs.map((config) => (
+          itemConfigs.map((config, i) => (
             <ItemWrapper
-              key={config.key}
+              key={`item-${config.key}-${i}`}
               style={{ top: config.initialTop, left: config.initialLeft }}
               initial={config.itemInitial}
               animate={config.itemAnimate}
@@ -362,11 +423,18 @@ const HomeCanvas = React.memo((props: Props) => {
                 title={config.title}
                 useProjectReference={config.useProjectReference}
                 isHovered={isHovered}
+                index={i}
                 setIsHovered={setIsHovered}
+                setOverviewModal={setOverviewModal}
               />
             </ItemWrapper>
           ))}
       </HomeCanvasWrapper>
+      <OverviewModal
+        isActive={!!overviewModal}
+        data={overviewModal ? props.data[overviewModal]?.project : false}
+        setOverviewModal={setOverviewModal}
+      />
     </>
   );
 }); // End React.memo wrapper

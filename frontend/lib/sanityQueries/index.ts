@@ -72,7 +72,18 @@ export const homePageQueryString = `
 					${mediaString}
 				},
 				gridThumbnailRatio,
-				year
+				year,
+				overviewDescription,
+				statisticBlock[] {
+					...,
+				},
+				overviewStatistics[] {
+					...
+				},
+				description,
+				heroMedia {
+					${mediaString}
+				}
 			},
 			media {
 				${mediaString}

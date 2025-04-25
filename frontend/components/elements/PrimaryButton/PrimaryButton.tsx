@@ -37,7 +37,10 @@ const PrimaryButton = (props: Props) => {
   });
 
   return (
-    <PrimaryButtonWrapper className="color-switch type-mono-small" ref={ref}>
+    <PrimaryButtonWrapper
+      className="color-switch type-mono-small primary-button"
+      ref={ref}
+    >
       <HoverTyper data={children} inView={inView} />
     </PrimaryButtonWrapper>
   );

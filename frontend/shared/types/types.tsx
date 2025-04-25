@@ -145,6 +145,7 @@ export type HomePageType = {
     media?: MediaType;
     description?: string;
     link?: string;
+    year?: string;
   }>;
 };
 
@@ -160,7 +161,6 @@ export type ProjectType = {
     };
   };
   year: string;
-  description: string;
   services: Array<string>;
   industries: Array<string>;
   gridThumbnailMedia: {
@@ -173,6 +173,7 @@ export type ProjectType = {
     value: string;
     description: string;
   }>;
+  overviewDescription: string;
   heroMedia: MediaType;
   pageBuilder: Array<{
     _key: string;

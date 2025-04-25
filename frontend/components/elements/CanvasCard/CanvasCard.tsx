@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react"; // Import React, useCallback, useMemo, useState
+import React, { use, useCallback, useMemo, useState } from "react"; // Import React, useCallback, useMemo, useState
 import styled from "styled-components";
 import { MediaType, ProjectType } from "../../../shared/types/types";
 import MediaStack from "../../common/MediaStack"; // Assume MediaStack is memoized if appropriate
@@ -66,8 +66,10 @@ type Props = {
   project?: ProjectType;
   title?: ProjectType["title"];
   useProjectReference: boolean;
+  index: number;
   isHovered: boolean; // Prop from parent indicating if *any* card is hovered
   setIsHovered: React.Dispatch<React.SetStateAction<boolean>>; // Assumed stable via useCallback in parent
+  setOverviewModal: React.Dispatch<React.SetStateAction<false | number>>;
 };
 
 // Wrap component in React.memo
@@ -79,8 +81,10 @@ const CanvasCard = React.memo(
     project,
     title,
     useProjectReference,
-    isHovered, // Received from parent
+    isHovered,
+    index,
     setIsHovered,
+    setOverviewModal,
   }: Props) => {
     // State for effects specific to *this* card's hover
     const [isInternalHover, setIsInternalHover] = useState(false);
@@ -97,18 +101,12 @@ const CanvasCard = React.memo(
         : "100%";
     }, [useProjectReference, project]);
 
-    const isLink = useMemo(
-      () => !!link || useProjectReference,
-      [link, useProjectReference]
-    );
+    const isLink = useMemo(() => !!link, [link]);
 
     // Memoize the click handler
     const handleLinkClick = useCallback(() => {
       if (useProjectReference) {
-        // Ensure project?.slug exists before pushing
-        if (project?.slug) {
-          router.push(`/work/${project.slug}`);
-        }
+        setOverviewModal(index);
       } else {
         if (link) {
           window.open(link, "_blank");
@@ -138,10 +136,10 @@ const CanvasCard = React.memo(
       // Pass parent's isHovered state for the "fade others" effect
       // Pass local isLink derived state
       <CanvasCardWrapper
-        $isLink={isLink}
+        $isLink={isLink || useProjectReference}
         onMouseOver={handleMouseOver}
         onMouseOut={handleMouseOut}
-        onClick={isLink ? handleLinkClick : undefined} // Only attach onClick if it's a link
+        onClick={isLink || useProjectReference ? handleLinkClick : undefined} // Only attach onClick if it's a link
         $isHovered={isHovered && !isInternalHover} // Apply fade only if parent is hovered BUT this card isn't the one being hovered
       >
         <MediaWrapper ref={ref}>
