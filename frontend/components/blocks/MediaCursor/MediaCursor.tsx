@@ -69,8 +69,8 @@ type DroppedImage = {
 
 // --- Constants ---
 const IMAGE_LIFESPAN_MS = 1500; // How long image stays visible
-const FADE_DURATION_S = 0.3; // Exit fade duration
-const MIN_DISTANCE_THRESHOLD = 50; // Pixels mouse must move to drop new image
+const FADE_DURATION_S = 0.1; // Exit fade duration
+const MIN_DISTANCE_THRESHOLD = 25; // Pixels mouse must move to drop new image
 const IMAGE_WIDTH = 230;
 const IMAGE_HEIGHT = 288;
 
