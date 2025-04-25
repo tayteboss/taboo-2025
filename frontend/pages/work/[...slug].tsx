@@ -17,23 +17,7 @@ const PageWrapper = styled(motion.div)`
 `;
 
 const Page = (props: Props) => {
-  const {
-    data: {
-      title,
-      slug,
-      client,
-      description,
-      year,
-      services,
-      industries,
-      gridThumbnailMedia,
-      gridThumbnailRatio,
-      pageBuilder,
-      relatedProjects,
-      heroMedia,
-    },
-    pageTransitionVariants,
-  } = props;
+  const { data, pageTransitionVariants } = props;
 
   return (
     <PageWrapper
@@ -43,15 +27,15 @@ const Page = (props: Props) => {
       exit="hidden"
     >
       <NextSeo
-        title={`${client?.title || ""} - ${title || ""} — Taboo`}
-        description={`${description}`}
+        title={`${data?.client?.title || ""} - ${data?.title || ""} — Taboo`}
+        description={`${data?.overviewDescription || ""}`}
       />
       <ProjectTitle
-        client={client?.title}
-        title={title}
-        services={services}
-        year={year}
-        heroMedia={heroMedia}
+        client={data?.client?.title}
+        title={data?.title}
+        services={data?.services}
+        year={data?.year}
+        heroMedia={data?.heroMedia}
       />
       {/* <PageBuilder data={projects} /> */}
     </PageWrapper>
