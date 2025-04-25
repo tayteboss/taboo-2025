@@ -100,6 +100,30 @@ export const GlobalStyles = createGlobalStyle`
 		cursor: pointer;
 	}
 
+	p,
+	.type-p,
+	a,
+	button,
+	div {
+		font-size: ${pxToRem(24)};
+		line-height: ${pxToRem(28)};
+
+		@media ${theme.mediaBreakpoints.tabletPortrait} {
+			font-size: ${pxToRem(16)};
+			line-height: ${pxToRem(18)};
+		}
+
+		* {
+			font-size: ${pxToRem(24)};
+			line-height: ${pxToRem(28)};
+
+			@media ${theme.mediaBreakpoints.tabletPortrait} {
+				font-size: ${pxToRem(16)};
+				line-height: ${pxToRem(18)};
+			}
+		}
+	}
+
 	h1,
 	.type-h1 {
 		font-size: ${pxToRem(54)};
@@ -197,30 +221,6 @@ export const GlobalStyles = createGlobalStyle`
 				font-size: ${pxToRem(14)};
 				line-height: ${pxToRem(17)};
 				letter-spacing: -0.14px;
-			}
-		}
-	}
-
-	p,
-	.type-p,
-	a,
-	button,
-	div {
-		font-size: ${pxToRem(24)};
-		line-height: ${pxToRem(28)};
-
-		@media ${theme.mediaBreakpoints.tabletPortrait} {
-			font-size: ${pxToRem(16)};
-			line-height: ${pxToRem(18)};
-		}
-
-		* {
-			font-size: ${pxToRem(24)};
-			line-height: ${pxToRem(28)};
-
-			@media ${theme.mediaBreakpoints.tabletPortrait} {
-				font-size: ${pxToRem(16)};
-				line-height: ${pxToRem(18)};
 			}
 		}
 	}

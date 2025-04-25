@@ -18,57 +18,7 @@ import FiltersBar from "../../components/blocks/FiltersBar";
 import { useEffect, useState } from "react";
 import FiltersModal from "../../components/blocks/FiltersModal";
 
-// const services = [
-//   {
-//     title: "All",
-//     value: "all",
-//   },
-//   {
-//     title: "Service Type 1",
-//     value: "serviceType1",
-//   },
-//   {
-//     title: "Service Type 2",
-//     value: "serviceType2",
-//   },
-//   {
-//     title: "Service Type 3",
-//     value: "serviceType3",
-//   },
-//   {
-//     title: "Service Type 4",
-//     value: "serviceType4",
-//   },
-// ];
-
-// const industries = [
-//   {
-//     title: "All",
-//     value: "all",
-//   },
-//   {
-//     title: "Industry Type 1",
-//     value: "industryType1",
-//   },
-//   {
-//     title: "Industry Type 2",
-//     value: "industryType2",
-//   },
-//   {
-//     title: "Industry Type 3",
-//     value: "industryType3",
-//   },
-//   {
-//     title: "Industry Type 4",
-//     value: "industryType4",
-//   },
-//   {
-//     title: "Industry Type 5",
-//     value: "industryType5",
-//   },
-// ];
-
-const viewTypes = [
+const viewTypes: any = [
   {
     title: "Grid",
     value: "grid",
@@ -106,26 +56,17 @@ const Page = (props: Props) => {
   const [filteredProjects, setFilteredProjects] = useState(projects);
 
   useEffect(() => {
-    // Start with the full list and filter down
     const newFilteredProjects = projects.filter((project) => {
-      // Check if the project matches the active service OR if the service filter is "all"
       const serviceMatch =
-        activeService === "all" || project.service === activeService;
-
-      // Check if the project matches the active industry OR if the industry filter is "all"
+        activeService === "all" ||
+        project.services?.some((service) => service === activeService);
       const industryMatch =
-        activeIndustry === "all" || project.industry === activeIndustry;
-
-      // A project is included only if it matches both criteria (considering the "all" case)
+        activeIndustry === "all" ||
+        project.industries?.some((industry) => industry === activeIndustry);
       return serviceMatch && industryMatch;
     });
 
     setFilteredProjects(newFilteredProjects);
-
-    // --- Important Dependency ---
-    // Add `projects` to the dependency array.
-    // If the source `projects` list itself changes (e.g., fetched from an API),
-    // the filtering needs to re-run.
   }, [activeService, activeIndustry, projects]);
 
   return (
@@ -193,30 +134,42 @@ export async function getStaticProps() {
   ];
 
   projects.forEach((project: ProjectType) => {
-    const service = services.find(
-      (service) => service.value === project.service
-    );
-    if (!service) {
-      services.push({
-        title: project.service,
-        value: project.service,
-        count: 1,
+    if (project.services) {
+      project.services.forEach((serviceValue) => {
+        if (serviceValue) {
+          const service = services.find(
+            (service) => service.value === serviceValue
+          );
+          if (!service) {
+            services.push({
+              title: serviceValue,
+              value: serviceValue,
+              count: 1,
+            });
+          } else {
+            service.count += 1;
+          }
+        }
       });
-    } else {
-      service.count += 1;
     }
 
-    const industry = industries.find(
-      (industry) => industry.value === project.industry
-    );
-    if (!industry) {
-      industries.push({
-        title: project.industry,
-        value: project.industry,
-        count: 1,
+    if (project.industries) {
+      project.industries.forEach((industryValue) => {
+        if (industryValue) {
+          const industry = industries.find(
+            (industry) => industry.value === industryValue
+          );
+          if (!industry) {
+            industries.push({
+              title: industryValue,
+              value: industryValue,
+              count: 1,
+            });
+          } else {
+            industry.count += 1;
+          }
+        }
       });
-    } else {
-      industry.count += 1;
     }
   });
 

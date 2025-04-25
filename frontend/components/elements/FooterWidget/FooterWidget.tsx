@@ -21,14 +21,14 @@ const LeftSide = styled.div`
   align-items: center;
 `;
 
-const BlinkingCircle = styled.span<{ isVisible: boolean }>`
+const BlinkingCircle = styled.span<{ $isVisible: boolean }>`
   display: inline-block;
   width: 8px;
   height: 8px;
   background-color: #6be07e;
   border-radius: 50%;
   margin-right: ${pxToRem(4)};
-  opacity: ${(props) => (props.isVisible ? 1 : 0)};
+  opacity: ${(props) => (props.$isVisible ? 1 : 0)};
   transition: opacity 0.1s ease-in-out;
 `;
 
@@ -78,7 +78,7 @@ const FooterWidget = () => {
   return (
     <FooterWidgetWrapper>
       <LeftSide>
-        <BlinkingCircle isVisible={isBlinkVisible} />
+        <BlinkingCircle $isVisible={isBlinkVisible} />
 
         <TimeText className="color-switch">
           {`${formattedPrefix} ${formattedDate} ${formattedHour}`}

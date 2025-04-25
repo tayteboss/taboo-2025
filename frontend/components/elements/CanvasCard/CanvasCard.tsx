@@ -31,12 +31,16 @@ const CanvasCardWrapper = styled.div<{ $isHovered: boolean; $isLink: boolean }>`
 const MediaWrapper = styled.div``;
 
 const MediaInner = styled.div<{ $ratio: string }>`
-  width: 230px;
+  width: 15vw;
   overflow: hidden;
   border-radius: 10px;
 
   .media-wrapper {
     padding-top: ${(props) => props.$ratio};
+  }
+
+  @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+    width: 20vw;
   }
 `;
 

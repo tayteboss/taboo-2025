@@ -102,26 +102,47 @@ const springTransition = {
 };
 
 const manualLayoutConfig = [
+  // 0
   { top: "-50%", left: "25%", depthFactor: 0.8 },
+  // 1
   { top: "120%", left: "75%", depthFactor: 0.9 },
+  // 2
   { top: "75%", left: "-30%", depthFactor: 0.7 },
+  // 3
   { top: "70%", left: "95%", depthFactor: 1.0 },
-  { top: "-30%", left: "125%", depthFactor: 0.85 },
+  // 4
+  { top: "-30%", left: "110%", depthFactor: 0.85 },
+  // 5
   { top: "-25%", left: "-30%", depthFactor: 0.75 },
-  { top: "60%", left: "128%", depthFactor: 0.95 },
+  // 6
+  { top: "60%", left: "120%", depthFactor: 0.95 },
+  // 7
   { top: "5%", left: "5%", depthFactor: 0.9 },
-  { top: "125%", left: "35%", depthFactor: 0.8 },
+  // 8
+  { top: "115%", left: "35%", depthFactor: 0.8 },
+  // 9
   { top: "20%", left: "-20%", depthFactor: 0.7 },
+  // 10
   { top: "45%", left: "70%", depthFactor: 0.85 },
-  { top: "15%", left: "120%", depthFactor: 0.95 },
+  // 11
+  { top: "15%", left: "115%", depthFactor: 0.95 },
+  // 12
   { top: "75%", left: "55%", depthFactor: 0.8 },
-  { top: "125%", left: "120%", depthFactor: 0.9 },
+  // 13
+  { top: "115%", left: "112%", depthFactor: 0.9 },
+  // 14
   { top: "-15%", left: "35%", depthFactor: 0.7 },
+  // 15
   { top: "60%", left: "-10%", depthFactor: 0.75 },
+  // 16
   { top: "25%", left: "40%", depthFactor: 0.95 },
-  { top: "120%", left: "-25%", depthFactor: 0.8 },
-  { top: "55%", left: "30%", depthFactor: 0.85 },
+  // 17
+  { top: "110%", left: "0%", depthFactor: 0.8 },
+  // 18
+  { top: "65%", left: "25%", depthFactor: 0.85 },
+  // 19
   { top: "-20%", left: "75%", depthFactor: 0.9 },
+  // 20
   { top: "90%", left: "-15%", depthFactor: 0.7 },
 ];
 
@@ -333,7 +354,6 @@ const HomeCanvas = React.memo((props: Props) => {
               animate={config.itemAnimate}
               transition={config.itemTransition}
             >
-              {/* Ensure CanvasCard is memoized */}
               <CanvasCard
                 description={config.description}
                 link={config.link}

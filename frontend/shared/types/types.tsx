@@ -160,14 +160,20 @@ export type ProjectType = {
     };
   };
   year: string;
-  service: string;
-  industry: string;
+  description: string;
+  services: Array<string>;
+  industries: Array<string>;
   gridThumbnailMedia: {
     asset: {
       url: string;
     };
   };
   gridThumbnailRatio: string;
+  overviewStatistics: Array<{
+    value: string;
+    description: string;
+  }>;
+  heroMedia: MediaType;
   pageBuilder: Array<{
     _key: string;
     component: string;

@@ -66,8 +66,8 @@ export const homePageQueryString = `
 				},
 				title,
 				slug,
-				service,
-				industry,
+				services,
+				industries,
 				gridThumbnailMedia {
 					${mediaString}
 				},
@@ -186,8 +186,8 @@ export const simpleProjectListQueryString = `
 		},
 	},
 	year,
-	service,
-	industry,
+	services,
+	industries,
 	gridThumbnailMedia {
 		${mediaString}
 	},
@@ -203,12 +203,15 @@ export const projectListQueryString = `
 		title,
 	},
 	year,
-	service,
-	industry,
+	services,
+	industries,
 	gridThumbnailMedia {
 		${mediaString}
 	},
 	gridThumbnailRatio,
+	heroMedia {
+		${mediaString}
+	},
 	pageBuilder[] {
 		_key,
 		component,
