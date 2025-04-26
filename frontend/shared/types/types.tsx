@@ -161,13 +161,9 @@ export type ProjectType = {
     };
   };
   year: string;
-  services: Array<string>;
-  industries: Array<string>;
-  gridThumbnailMedia: {
-    asset: {
-      url: string;
-    };
-  };
+  services: string;
+  industries: string;
+  gridThumbnailMedia: MediaType;
   gridThumbnailRatio: string;
   overviewStatistics: Array<{
     value: string;

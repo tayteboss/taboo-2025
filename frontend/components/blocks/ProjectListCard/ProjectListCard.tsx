@@ -104,24 +104,13 @@ type Props = {
   title: ProjectType["title"];
   slug: ProjectType["slug"];
   client: ProjectType["client"];
-  gridThumbnailMedia: ProjectType["gridThumbnailMedia"];
-  gridThumbnailRatio: ProjectType["gridThumbnailRatio"];
-  service: ProjectType["service"];
-  industry: ProjectType["industry"];
+  services: ProjectType["services"];
+  industries: ProjectType["industries"];
   year: ProjectType["year"];
 };
 
 const ProjectListCard = (props: Props) => {
-  const {
-    title,
-    slug,
-    client,
-    gridThumbnailMedia,
-    gridThumbnailRatio,
-    service,
-    industry,
-    year,
-  } = props;
+  const { title, slug, client, services, industries, year } = props;
 
   const [isHovered, setIsHovered] = useState(false);
 
@@ -155,8 +144,10 @@ const ProjectListCard = (props: Props) => {
             </AnimatedText>
           </Client>
 
-          <Service className="type-p color-switch">{service || ""}</Service>
-          <Industry className="type-p color-switch">{industry || ""}</Industry>
+          <Service className="type-p color-switch">{services || ""}</Service>
+          <Industry className="type-p color-switch">
+            {industries || ""}
+          </Industry>
           <Year className="type-p color-switch">{year || ""}</Year>
         </LayoutGrid>
       </Link>

@@ -120,8 +120,8 @@ type Props = {
   client: ProjectType["client"];
   gridThumbnailMedia: ProjectType["gridThumbnailMedia"];
   gridThumbnailRatio: ProjectType["gridThumbnailRatio"];
-  service: ProjectType["service"];
-  industry: ProjectType["industry"];
+  services: ProjectType["services"];
+  industries: ProjectType["industries"];
   year: ProjectType["year"];
   zoomLevel: number;
 };
@@ -134,8 +134,8 @@ const ProjectGridCard = React.memo((props: Props) => {
     client,
     gridThumbnailMedia,
     gridThumbnailRatio,
-    service,
-    industry,
+    services,
+    industries,
     year,
     zoomLevel,
   } = props;
@@ -144,8 +144,8 @@ const ProjectGridCard = React.memo((props: Props) => {
 
   // Memoize derived string
   const serviceIndustryTitle = useMemo(
-    () => `${service}, ${industry}`,
-    [service, industry]
+    () => `${services}, ${industries}`,
+    [services, industries]
   );
 
   // Memoize mouse handlers

@@ -41,43 +41,73 @@ export default {
     {
       title: 'Services',
       name: 'services',
-      type: 'array',
-      of: [
-        {
-          type: 'string',
-          options: {
-            list: [
-              {title: 'Service Type 1', value: 'serviceType1'},
-              {title: 'Service Type 2', value: 'serviceType2'},
-              {title: 'Service Type 3', value: 'serviceType3'},
-              {title: 'Service Type 4', value: 'serviceType4'},
-              {title: 'Service Type 5', value: 'serviceType5'},
-            ],
-            layout: 'checkbox',
-          },
-        },
-      ],
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Service Type 1', value: 'serviceType1'},
+          {title: 'Service Type 2', value: 'serviceType2'},
+          {title: 'Service Type 3', value: 'serviceType3'},
+          {title: 'Service Type 4', value: 'serviceType4'},
+          {title: 'Service Type 5', value: 'serviceType5'},
+        ],
+        layout: 'radio',
+      },
     },
     {
       title: 'Industries',
       name: 'industries',
-      type: 'array',
-      of: [
-        {
-          type: 'string',
-          options: {
-            list: [
-              {title: 'Industry Type 1', value: 'industryType1'},
-              {title: 'Industry Type 2', value: 'industryType2'},
-              {title: 'Industry Type 3', value: 'industryType3'},
-              {title: 'Industry Type 4', value: 'industryType4'},
-              {title: 'Industry Type 5', value: 'industryType5'},
-            ],
-            layout: 'checkbox',
-          },
-        },
-      ],
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Industry Type 1', value: 'industryType1'},
+          {title: 'Industry Type 2', value: 'industryType2'},
+          {title: 'Industry Type 3', value: 'industryType3'},
+          {title: 'Industry Type 4', value: 'industryType4'},
+          {title: 'Industry Type 5', value: 'industryType5'},
+        ],
+        layout: 'radio',
+      },
     },
+    // {
+    //   title: 'Services',
+    //   name: 'services',
+    //   type: 'array',
+    //   of: [
+    //     {
+    //       type: 'string',
+    //       options: {
+    //         list: [
+    //           {title: 'Service Type 1', value: 'serviceType1'},
+    //           {title: 'Service Type 2', value: 'serviceType2'},
+    //           {title: 'Service Type 3', value: 'serviceType3'},
+    //           {title: 'Service Type 4', value: 'serviceType4'},
+    //           {title: 'Service Type 5', value: 'serviceType5'},
+    //         ],
+    //         layout: 'checkbox',
+    //       },
+    //     },
+    //   ],
+    // },
+    // {
+    //   title: 'Industries',
+    //   name: 'industries',
+    //   type: 'array',
+    //   of: [
+    //     {
+    //       type: 'string',
+    //       options: {
+    //         list: [
+    //           {title: 'Industry Type 1', value: 'industryType1'},
+    //           {title: 'Industry Type 2', value: 'industryType2'},
+    //           {title: 'Industry Type 3', value: 'industryType3'},
+    //           {title: 'Industry Type 4', value: 'industryType4'},
+    //           {title: 'Industry Type 5', value: 'industryType5'},
+    //         ],
+    //         layout: 'checkbox',
+    //       },
+    //     },
+    //   ],
+    // },
     {
       title: 'Grid Thumbnail Media',
       name: 'gridThumbnailMedia',

@@ -58,11 +58,9 @@ const Page = (props: Props) => {
   useEffect(() => {
     const newFilteredProjects = projects.filter((project) => {
       const serviceMatch =
-        activeService === "all" ||
-        project.services?.some((service) => service === activeService);
+        activeService === "all" || project.services === activeService;
       const industryMatch =
-        activeIndustry === "all" ||
-        project.industries?.some((industry) => industry === activeIndustry);
+        activeIndustry === "all" || project.industries === activeIndustry;
       return serviceMatch && industryMatch;
     });
 
@@ -134,42 +132,36 @@ export async function getStaticProps() {
   ];
 
   projects.forEach((project: ProjectType) => {
-    if (project.services) {
-      project.services.forEach((serviceValue) => {
-        if (serviceValue) {
-          const service = services.find(
-            (service) => service.value === serviceValue
-          );
-          if (!service) {
-            services.push({
-              title: serviceValue,
-              value: serviceValue,
-              count: 1,
-            });
-          } else {
-            service.count += 1;
-          }
-        }
-      });
+    const serviceValue = project.services;
+    if (serviceValue) {
+      const service = services.find(
+        (service) => service.value === serviceValue
+      );
+      if (!service) {
+        services.push({
+          title: serviceValue,
+          value: serviceValue,
+          count: 1,
+        });
+      } else {
+        service.count += 1;
+      }
     }
 
-    if (project.industries) {
-      project.industries.forEach((industryValue) => {
-        if (industryValue) {
-          const industry = industries.find(
-            (industry) => industry.value === industryValue
-          );
-          if (!industry) {
-            industries.push({
-              title: industryValue,
-              value: industryValue,
-              count: 1,
-            });
-          } else {
-            industry.count += 1;
-          }
-        }
-      });
+    const industryValue = project.industries;
+    if (industryValue) {
+      const industry = industries.find(
+        (industry) => industry.value === industryValue
+      );
+      if (!industry) {
+        industries.push({
+          title: industryValue,
+          value: industryValue,
+          count: 1,
+        });
+      } else {
+        industry.count += 1;
+      }
     }
   });
 

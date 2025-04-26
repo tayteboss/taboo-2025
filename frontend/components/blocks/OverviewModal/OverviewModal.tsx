@@ -164,6 +164,7 @@ const OverviewModal = (props: Props) => {
     title,
     slug,
     services,
+    industries,
     year,
     overviewStatistics,
     overviewDescription,
@@ -205,7 +206,9 @@ const OverviewModal = (props: Props) => {
                 <Title>
                   {client?.title || ""}, {title || ""}
                 </Title>
-                <Title>Services TBC</Title>
+                <Title>
+                  {services || ""}, {industries || ""}
+                </Title>
                 <Title>{year || ""}</Title>
               </TitlesWrapper>
               <Description className="type-h4">
