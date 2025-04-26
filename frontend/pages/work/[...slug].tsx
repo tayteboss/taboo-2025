@@ -19,6 +19,8 @@ const PageWrapper = styled(motion.div)`
 const Page = (props: Props) => {
   const { data, pageTransitionVariants } = props;
 
+  console.log("data", data);
+
   return (
     <PageWrapper
       variants={pageTransitionVariants}
@@ -37,7 +39,7 @@ const Page = (props: Props) => {
         year={data?.year}
         heroMedia={data?.heroMedia}
       />
-      {/* <PageBuilder data={projects} /> */}
+      <PageBuilder data={data?.pageBuilder} />
     </PageWrapper>
   );
 };

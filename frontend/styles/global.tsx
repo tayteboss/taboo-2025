@@ -285,6 +285,12 @@ export const GlobalStyles = createGlobalStyle`
 	{
 		position: relative;
 
+		img {
+			transform: scale(1.03);
+
+			transition: all var(--transition-speed-extra-slow) var(--transition-ease);
+		}
+
 		&::before {
 			content: "";
 			position: absolute;
@@ -302,6 +308,10 @@ export const GlobalStyles = createGlobalStyle`
 
 		&--in-view
 		{
+			img {
+				transform: scale(1);
+			}
+
 			&::before {
 				background: var(--colour-black);
 			}
