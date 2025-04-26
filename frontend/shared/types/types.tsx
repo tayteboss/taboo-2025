@@ -149,6 +149,21 @@ export type HomePageType = {
   }>;
 };
 
+export type ColumnType = {
+  blockType: string;
+  contentBlock: Array<{
+    _key: string;
+    title: string;
+    text: string;
+  }>;
+  media: MediaType;
+  statisticBlock: Array<{
+    _key: string;
+    title: string;
+    description: string;
+  }>;
+};
+
 export type ProjectType = {
   title: string;
   slug: SlugType;
@@ -181,34 +196,8 @@ export type ProjectType = {
     };
     twoColumn: {
       ratio: string;
-      leftColumn: {
-        blockType: string;
-        contentBlock: Array<{
-          _key: string;
-          title: string;
-          text: string;
-        }>;
-        media: MediaType;
-        statisticBlock: Array<{
-          _key: string;
-          title: string;
-          description: string;
-        }>;
-      };
-      rightColumn: {
-        blockType: string;
-        contentBlock: Array<{
-          _key: string;
-          title: string;
-          text: string;
-        }>;
-        media: MediaType;
-        statisticBlock: Array<{
-          _key: string;
-          title: string;
-          description: string;
-        }>;
-      };
+      leftColumn: ColumnType;
+      rightColumn: ColumnType;
     };
     statisticBlock: Array<{
       _key: string;

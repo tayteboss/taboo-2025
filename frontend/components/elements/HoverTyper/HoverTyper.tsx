@@ -113,7 +113,6 @@ const HoverTyper = ({ data, inView }: Props) => {
     if (inView) {
       // Trigger animation if mounting in view OR scrolling into view when blank
       if ((justMounted || isCurrentlyBlank) && !isAnimatingRef.current) {
-        console.log("HoverTyper: In View & should animate");
         setIsAnimating(true);
       } else if (!isCurrentlyBlank && !isAnimatingRef.current) {
         // If comes into view already revealed (e.g., quick scroll out/in), just ensure correct text
@@ -122,7 +121,6 @@ const HoverTyper = ({ data, inView }: Props) => {
     } else {
       // Scrolling OUT of view
       if (!justMounted) {
-        console.log("HoverTyper: Out of View");
         stopAndClearAnimation();
         if (!isCurrentlyBlank) {
           setDisplayedWords(blankWords); // Reset to blank
@@ -162,7 +160,6 @@ const HoverTyper = ({ data, inView }: Props) => {
       return;
     }
 
-    console.log("HoverTyper: Animation START");
     stopAndClearAnimation(); // Clear any previous timers before starting new ones
     setIsAnimating(true); // Re-assert animating state after clear
 
@@ -262,7 +259,6 @@ const HoverTyper = ({ data, inView }: Props) => {
 
         // --- Check if Last Word ---
         if (wordIndex === lastWordIndexToResolve) {
-          console.log("HoverTyper: Animation END");
           queueMicrotask(() => {
             // Ensure state update is processed first
             if (isAnimatingRef.current) {
@@ -277,7 +273,6 @@ const HoverTyper = ({ data, inView }: Props) => {
 
     // --- Effect Cleanup ---
     return () => {
-      console.log("HoverTyper: Animation effect cleanup running");
       stopAndClearAnimation();
     };
   }, [isAnimating, originalWords, data, stopAndClearAnimation]); // Keep dependencies minimal

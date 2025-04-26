@@ -28,7 +28,7 @@ const AnimatedImageContainer = styled(motion.div)`
   position: absolute; // Positioned by framer-motion x/y
   top: 0; // Set base position
   left: 0; // Set base position
-  width: 12vw;
+  width: 10vw;
   will-change: transform, opacity; // Hint browser about animations
   pointer-events: none; // Ensure container itself doesn't block interactions
 `;
@@ -50,7 +50,7 @@ const DifferenceReveal = styled(motion.div)`
   width: 100%;
   height: 100%;
   mix-blend-mode: difference;
-  z-index: 2;
+  z-index: 5;
   pointer-events: none;
 `;
 
@@ -213,19 +213,18 @@ const MediaCursor = memo((props: Props) => {
               },
             }}
           >
-            {/* DifferenceReveal now animates its background */}
-            <DifferenceReveal
-              initial={{ backgroundColor: "var(--colour-white)" }} // Start black
-              animate={{
-                backgroundColor: "var(--colour-black)", // Animate to white
-              }}
-              transition={{
-                duration: 0.5, // Duration of background transition
-                delay: 0.1, // Start slightly after container appears
-                ease: "easeInOut",
-              }}
-            />
             <ImageWrapper>
+              {/* DifferenceReveal now animates its background */}
+              <DifferenceReveal
+                initial={{ backgroundColor: "var(--colour-white)" }} // Start black
+                animate={{
+                  backgroundColor: "var(--colour-black)", // Animate to white
+                }}
+                transition={{
+                  duration: 0.5, // Duration of background transition
+                  ease: "easeInOut",
+                }}
+              />
               {/* Removed 'priority' prop for performance */}
               <Image
                 src={image.src}
