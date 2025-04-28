@@ -22,9 +22,9 @@ const PageBuilder = (props: Props) => {
   const { data } = props;
 
   const sections: any = {
-    // fullMedia: FullMediaBlock,
+    fullMedia: FullMediaBlock,
     twoColumn: TwoColumnBlock,
-    // statisticBlock: StatisticBlock,
+    statisticBlock: StatisticBlock,
   };
 
   return (

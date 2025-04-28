@@ -12,7 +12,7 @@ import {
 } from "framer-motion";
 import { useRouter } from "next/router";
 import useViewportWidth from "../../../hooks/useViewportWidth";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const ProjectTitleWrapper = styled.section`
   padding-top: ${pxToRem(200)};
@@ -97,22 +97,26 @@ const ProjectTitle = (props: Props) => {
   const { client, title, services, year, heroMedia } = props;
 
   const [windowHeight, setWindowHeight] = useState(0);
+  const [distanceToTop, setDistanceToTop] = useState(0);
 
+  const ref = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
-  const router = useRouter(); // Keep if needed for other logic
+  const router = useRouter();
   const viewport = useViewportWidth();
 
   const isMobile = viewport === "tablet-portrait" || viewport === "mobile";
 
+  console.log("distanceToTop", distanceToTop);
+
   const offset = useTransform(
     scrollY,
-    [0, windowHeight],
+    [0, windowHeight - distanceToTop],
     [isMobile ? 20 : 40, 0]
   );
 
   const borderRadius = useTransform(
     scrollY,
-    [0, windowHeight],
+    [0, windowHeight - distanceToTop],
     ["15px", "0px"]
   );
 
@@ -121,6 +125,12 @@ const ProjectTitle = (props: Props) => {
   useEffect(() => {
     const handleResize = () => {
       setWindowHeight(window.innerHeight);
+
+      if (ref?.current) {
+        setDistanceToTop(
+          window.pageYOffset + ref.current.getBoundingClientRect().top
+        );
+      }
     };
 
     handleResize();
@@ -129,12 +139,11 @@ const ProjectTitle = (props: Props) => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []); //
+  }, [router]);
 
   return (
     <ProjectTitleWrapper>
       <LayoutWrapper>
-        {/* ... Title and Details ... */}
         <TitleWrapper>
           <Client className="color-switch">{client || ""}</Client>
           <Title className="color-switch type-h1">{title || ""}</Title>
@@ -162,7 +171,7 @@ const ProjectTitle = (props: Props) => {
         </DetailsWrapper>
       </LayoutWrapper>
       {/* Apply the motion template value to the style */}
-      <MediaWrapper style={{ width, borderRadius }}>
+      <MediaWrapper style={{ width, borderRadius }} ref={ref}>
         {heroMedia && <MediaStack data={heroMedia} />}
       </MediaWrapper>
     </ProjectTitleWrapper>

@@ -21,11 +21,11 @@ const LeftSide = styled.div`
   align-items: center;
 `;
 
-const BlinkingCircle = styled.span<{ $isVisible: boolean }>`
+const BlinkingCircle = styled.span<{ $isVisible: boolean; $colour: string }>`
   display: inline-block;
   width: 8px;
   height: 8px;
-  background-color: #6be07e;
+  background: ${(props) => props.$colour};
   border-radius: 50%;
   margin-right: ${pxToRem(4)};
   opacity: ${(props) => (props.$isVisible ? 1 : 0)};
@@ -48,6 +48,8 @@ const TimeText = styled.span`
 `;
 
 const FooterWidget = () => {
+  const [colour, setColour] = useState("#6be07e");
+
   const [currentTime, setCurrentTime] = useState(
     moment().tz("Australia/Melbourne")
   );
@@ -60,6 +62,16 @@ const FooterWidget = () => {
       setCurrentTime(now);
       // Determine blink visibility based on whether the second is even or odd
       setIsBlinkVisible(now.seconds() % 2 === 0);
+
+      // Check if current time is on the weekend or outside of 9am to 5pm
+      const isWeekend = now.day() === 0 || now.day() === 6;
+      const isOutsideBusinessHours = now.hour() < 9 || now.hour() > 17;
+
+      if (isWeekend || isOutsideBusinessHours) {
+        setColour("#ff0000");
+      } else {
+        setColour("#6be07e");
+      }
     }, 1000); // Update every 1000 milliseconds (1 second)
 
     // Clean up the interval when the component unmounts
@@ -78,7 +90,7 @@ const FooterWidget = () => {
   return (
     <FooterWidgetWrapper>
       <LeftSide>
-        <BlinkingCircle $isVisible={isBlinkVisible} />
+        <BlinkingCircle $isVisible={isBlinkVisible} $colour={colour} />
 
         <TimeText className="color-switch">
           {`${formattedPrefix} ${formattedDate} ${formattedHour}`}
