@@ -28,11 +28,11 @@ const MediaColumn = (props: Props) => {
   return (
     <MediaColumnWrapper
       ref={ref}
-      className={`view-element-fade-in ${
-        inView ? "view-element-fade-in--in-view" : ""
+      className={`view-element-difference ${
+        inView ? "view-element-difference--in-view" : ""
       }`}
     >
-      {media && <MediaStack data={media} />}
+      {media && <MediaStack data={media} noAnimation />}
     </MediaColumnWrapper>
   );
 };

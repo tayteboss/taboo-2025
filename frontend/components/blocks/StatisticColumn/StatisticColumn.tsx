@@ -33,11 +33,15 @@ const StatisticBlock = styled.div`
 const Title = styled.p`
   color: var(--colour-foreground);
   text-align: center;
+  margin: 0 auto;
+  max-width: ${pxToRem(600)};
 `;
 
 const Description = styled.p`
   color: var(--colour-foreground);
   text-align: center;
+  margin: 0 auto;
+  max-width: ${pxToRem(600)};
 `;
 
 type Props = {
