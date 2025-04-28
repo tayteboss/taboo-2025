@@ -10,11 +10,15 @@ const FullMediaBlockWrapper = styled.section``;
 const MediaWrapper = styled.div<{ $ratio?: string }>`
   width: 100%;
   position: relative;
+  overflow: hidden;
+  border-radius: 15px;
+
+  @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+    border-radius: 10px;
+  }
 
   .media-wrapper {
     padding-top: ${(props) => props.$ratio || "56.25%"};
-    overflow: hidden;
-    border-radius: 15px;
   }
 `;
 
@@ -26,6 +30,11 @@ const Caption = styled.div`
   color: var(--colour-foreground-alpha-50);
   padding: ${pxToRem(3)} ${pxToRem(6)} ${pxToRem(4)};
   border-radius: ${pxToRem(6)};
+
+  @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+    bottom: ${pxToRem(15)};
+    left: ${pxToRem(15)};
+  }
 `;
 
 type Props = {

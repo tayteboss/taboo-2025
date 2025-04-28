@@ -17,6 +17,10 @@ const Inner = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${pxToRem(20)};
+
+  @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+    gap: ${pxToRem(10)};
+  }
 `;
 
 const StatisticBlock = styled.div`
@@ -28,6 +32,11 @@ const StatisticBlock = styled.div`
   align-items: center;
   flex-direction: column;
   gap: ${pxToRem(15)};
+
+  @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+    border-radius: ${pxToRem(10)};
+    gap: ${pxToRem(10)};
+  }
 `;
 
 const Title = styled.p`

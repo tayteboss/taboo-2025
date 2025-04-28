@@ -6,7 +6,15 @@ import pxToRem from "../../../utils/pxToRem";
 import { useInView } from "react-intersection-observer";
 import { motion } from "framer-motion";
 
-const StatisticBlockWrapper = styled.section``;
+const StatisticBlockWrapper = styled.section`
+  .layout-grid {
+    grid-row-gap: ${pxToRem(20)};
+
+    @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+      grid-row-gap: ${pxToRem(10)};
+    }
+  }
+`;
 
 const StatisticItem = styled(motion.div)<{ $gridColSpan: string }>`
   grid-column: ${(props) => props.$gridColSpan};
@@ -21,6 +29,8 @@ const StatisticItem = styled(motion.div)<{ $gridColSpan: string }>`
 
   @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
     grid-column: 1 / -1;
+    gap: ${pxToRem(10)};
+    border-radius: 10px;
   }
 `;
 

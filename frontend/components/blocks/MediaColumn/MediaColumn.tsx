@@ -6,6 +6,10 @@ import { useInView } from "react-intersection-observer";
 const MediaColumnWrapper = styled.div`
   overflow: hidden;
   border-radius: 15px;
+
+  @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+    border-radius: 10px;
+  }
 `;
 
 type Props = {

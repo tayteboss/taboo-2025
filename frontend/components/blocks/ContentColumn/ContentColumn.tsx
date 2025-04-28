@@ -12,6 +12,10 @@ const ContentColumnWrapper = styled.div`
   position: relative;
   border-radius: 15px;
   overflow: hidden;
+
+  @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+    border-radius: 10px;
+  }
 `;
 
 const Inner = styled.div`
@@ -22,7 +26,6 @@ const Inner = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  padding-bottom: ${pxToRem(40)};
 `;
 
 const Embla = styled.div`
@@ -86,6 +89,10 @@ const PaginationContainer = styled.div`
   align-items: center;
   gap: ${pxToRem(8)};
   z-index: 1;
+
+  @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+    bottom: ${pxToRem(20)};
+  }
 `;
 
 const PaginationDotButton = styled.button<{ isActive: boolean }>`

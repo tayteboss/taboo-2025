@@ -5,7 +5,7 @@ import CrossSvg from "../../svgs/CrossIcon/CrossIcon";
 import pxToRem from "../../../utils/pxToRem";
 import Link from "next/link";
 
-const MenuWrapper = styled.div`
+const MenuWrapper = styled.div<{ $menuIsActive: boolean }>`
   display: none;
 
   @media ${(props) => props.theme.mediaBreakpoints.mobile} {
@@ -17,6 +17,12 @@ const MenuWrapper = styled.div`
     width: 100%;
     height: 100dvh;
     pointer-events: none;
+    background: ${(props) =>
+      props.$menuIsActive
+        ? "var(--colour-foreground-alpha-80)"
+        : "transparent"};
+
+    transition: background var(--transition-speed-slow) var(--transition-ease);
   }
 `;
 
@@ -85,15 +91,6 @@ const LinkTag = styled.div`
   }
 `;
 
-const Underline = styled(motion.div)`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 1px;
-  background: var(--colour-background);
-`;
-
 const wrapperVariants = {
   hidden: {
     opacity: 0,
@@ -160,7 +157,7 @@ const Menu = (props: Props) => {
   const { activeLink, menuIsActive, setMenuIsActive, setContactModalIsActive } =
     props;
   return (
-    <MenuWrapper>
+    <MenuWrapper $menuIsActive={menuIsActive}>
       <AnimatePresence>
         {menuIsActive && (
           <MenuInner

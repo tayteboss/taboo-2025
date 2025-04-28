@@ -10,7 +10,7 @@ const FiltersBarWrapper = styled.section`
   padding: ${pxToRem(200)} 0;
 
   @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
-    padding: ${pxToRem(100)} 0;
+    padding: ${pxToRem(200)} 0 ${pxToRem(50)};
   }
 
   .services-list,

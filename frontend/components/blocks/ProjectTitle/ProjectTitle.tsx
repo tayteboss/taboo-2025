@@ -17,10 +17,18 @@ import { useEffect, useRef, useState } from "react";
 const ProjectTitleWrapper = styled.section`
   padding-top: ${pxToRem(200)};
   margin-bottom: ${pxToRem(20)};
+
+  @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+    margin-bottom: ${pxToRem(10)};
+  }
 `;
 
 const TitleWrapper = styled.div`
   margin-bottom: ${pxToRem(100)};
+
+  @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+    margin-bottom: ${pxToRem(50)};
+  }
 `;
 
 const Client = styled.h1`
@@ -34,29 +42,53 @@ const Title = styled.h2`
 
 const DetailsWrapper = styled.div`
   margin-bottom: ${pxToRem(20)};
+
+  @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+    margin-bottom: ${pxToRem(10)};
+  }
 `;
 
 const ClientDetail = styled.div`
   display: flex;
   gap: ${pxToRem(8)};
   grid-column: span 2;
+
+  @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+    display: none;
+  }
 `;
 
 const ServicesDetail = styled.div`
   display: flex;
   gap: ${pxToRem(8)};
   grid-column: span 4;
+
+  @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+    grid-column: span 2;
+    gap: ${pxToRem(4)};
+  }
 `;
 
 const YearDetail = styled.div`
   display: flex;
   gap: ${pxToRem(8)};
   grid-column: span 5;
+
+  @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+    grid-column: span 1;
+    gap: ${pxToRem(4)};
+
+    * {
+      white-space: nowrap;
+    }
+  }
 `;
 
 const ProjectDetail = styled.div`
   grid-column: span 1;
   text-align: right;
+  display: flex;
+  justify-content: flex-end;
 `;
 
 const DetailTitle = styled.span`
@@ -78,6 +110,7 @@ const MediaWrapper = styled(motion.div)`
 
   @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
     width: calc(100% - 20px);
+    border-radius: 10px;
   }
 
   .media-wrapper {
@@ -111,13 +144,13 @@ const ProjectTitle = (props: Props) => {
   const offset = useTransform(
     scrollY,
     [0, windowHeight - distanceToTop],
-    [isMobile ? 20 : 40, 0]
+    [isMobile ? 20 : 40, isMobile ? 20 : 0]
   );
 
   const borderRadius = useTransform(
     scrollY,
     [0, windowHeight - distanceToTop],
-    ["15px", "0px"]
+    [isMobile ? "10px" : "15px", isMobile ? "10px" : "0px"]
   );
 
   const width = useMotionTemplate`calc(100% - ${offset}px)`;
@@ -158,7 +191,9 @@ const ProjectTitle = (props: Props) => {
             </ClientDetail>
             <ServicesDetail>
               <DetailTitle className="type-mono-small">Services</DetailTitle>
-              <DetailText className="type-mono-small">Harcoded atm</DetailText>
+              <DetailText className="type-mono-small">
+                {services || ""}
+              </DetailText>
             </ServicesDetail>
             <YearDetail>
               <DetailTitle className="type-mono-small">Year</DetailTitle>
