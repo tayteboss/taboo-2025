@@ -25,7 +25,11 @@ type Props = {
 const SocialCard = (props: Props) => {
   const { data } = props;
   return (
-    <SocialCardWrapper href={data?.link} target="_blank" className="type-mono">
+    <SocialCardWrapper
+      href={data?.link}
+      target="_blank"
+      className="type-mono social-card"
+    >
       {data?.title || ""}
     </SocialCardWrapper>
   );

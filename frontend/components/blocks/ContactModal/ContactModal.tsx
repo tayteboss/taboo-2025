@@ -59,7 +59,7 @@ const Title = styled.p`
   color: var(--colour-background);
 
   @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
-    color: var(--colour-foreground);
+    color: var(--colour-black);
   }
 `;
 
@@ -75,11 +75,11 @@ const CloseTrigger = styled.button`
   transition: all var(--transition-speed-default) var(--transition-ease);
 
   @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
-    background: var(--colour-foreground);
+    background: var(--colour-black);
 
     svg {
       path {
-        stroke: var(--colour-background);
+        stroke: var(--colour-white);
       }
     }
   }
@@ -91,7 +91,11 @@ const CloseTrigger = styled.button`
 
 const ContactDetails = styled.div`
   padding-bottom: ${pxToRem(20)};
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid var(--colour-background-alpha-20);
+
+  @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  }
 `;
 
 const ContactDetail = styled.div`
@@ -103,7 +107,7 @@ const ContactDetail = styled.div`
   transition: all var(--transition-speed-default) var(--transition-ease);
 
   @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
-    color: var(--colour-foreground);
+    color: var(--colour-black);
     font-size: ${pxToRem(26)};
     line-height: ${pxToRem(28)};
     letter-spacing: -0.78px;
@@ -131,7 +135,7 @@ const Address = styled.div`
 
   @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
     * {
-      color: var(--colour-foreground);
+      color: var(--colour-black);
       font-size: ${pxToRem(16)};
       line-height: ${pxToRem(15)};
       letter-spacing: -0.16px;

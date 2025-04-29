@@ -13,8 +13,8 @@ export const theme = {
     grey: "#F0F0F0",
   },
   fonts: {
-    gtPressura: "GT Pressura, sans-serif",
-    gtPressuraMono: "GT Pressura Mono, monospace",
+    gtPressura: "GT Pressura Regular, sans-serif",
+    gtPressuraMono: "GT Pressura Mono Regular, monospace",
   },
   mediaBreakpoints: {
     desktop: "(min-width: 1680px)",

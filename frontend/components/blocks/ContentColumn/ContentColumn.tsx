@@ -71,12 +71,12 @@ const SlideInner = styled.div`
 
 const Title = styled.h4`
   text-align: center;
-  color: var(--colour-foreground);
+  color: var(--colour-black);
 `;
 
 const Description = styled.p`
   text-align: center;
-  color: var(--colour-foreground);
+  color: var(--colour-black);
 `;
 
 const PaginationContainer = styled.div`
@@ -96,7 +96,7 @@ const PaginationContainer = styled.div`
 `;
 
 const PaginationDotButton = styled.button<{ $isActive: boolean }>`
-  background: var(--colour-foreground);
+  background: var(--colour-black);
   opacity: ${(props) => (props.$isActive ? 1 : 0.1)};
   width: ${pxToRem(8)};
   height: ${pxToRem(8)};

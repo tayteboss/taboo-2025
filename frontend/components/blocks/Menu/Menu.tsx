@@ -58,7 +58,7 @@ const Trigger = styled.button`
 
   svg {
     path {
-      stroke: var(--colour-foreground);
+      stroke: var(--colour-black);
     }
   }
 `;
@@ -77,7 +77,7 @@ const NavLinks = styled(motion.div)`
 `;
 
 const LinkTag = styled.div`
-  color: var(--colour-foreground);
+  color: var(--colour-black);
 
   transition: all var(--transition-speed-default) var(--transition-ease);
 

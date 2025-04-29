@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { SiteSettingsType } from "../../../shared/types/types";
 import pxToRem from "../../../utils/pxToRem";
-import Image from "next/image";
 import Link from "next/link";
 import MediaStack from "../../common/MediaStack";
 
@@ -15,7 +14,7 @@ const PeopleCardWrapper = styled.div`
   @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
     padding: ${pxToRem(10)};
     gap: ${pxToRem(10)};
-    border-bottom: 1px solid var(--colour-foreground-alpha-20);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   }
 `;
 
@@ -43,7 +42,7 @@ const ContactDetails = styled.div`
     transition: all var(--transition-speed-default) var(--transition-ease);
 
     @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
-      color: var(--colour-foreground);
+      color: var(--colour-black);
     }
 
     &:hover {
@@ -59,7 +58,7 @@ const Title = styled.p`
   letter-spacing: -0.24px;
 
   @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
-    color: var(--colour-foreground);
+    color: var(--colour-black);
     font-size: ${pxToRem(16)};
     line-height: ${pxToRem(18)};
     letter-spacing: -0.16px;

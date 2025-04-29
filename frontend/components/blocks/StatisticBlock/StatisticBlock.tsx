@@ -35,12 +35,12 @@ const StatisticItem = styled(motion.div)<{ $gridColSpan: string }>`
 `;
 
 const Title = styled.p`
-  color: var(--colour-foreground);
+  color: var(--colour-black);
   text-align: center;
 `;
 
 const Description = styled.p`
-  color: var(--colour-foreground);
+  color: var(--colour-black);
   text-align: center;
 `;
 

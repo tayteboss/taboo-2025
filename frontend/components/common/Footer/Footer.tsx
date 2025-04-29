@@ -100,6 +100,10 @@ const BottomBar = styled.div`
   position: relative;
   z-index: 2;
   mix-blend-mode: difference;
+
+  .social-card {
+    background: var(--colour-foreground);
+  }
 `;
 
 const BackToTop = styled.button`

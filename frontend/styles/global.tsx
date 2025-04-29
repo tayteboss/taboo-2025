@@ -129,7 +129,7 @@ export const GlobalStyles = createGlobalStyle`
 
 		@media ${theme.mediaBreakpoints.tabletPortrait} {
 			font-size: ${pxToRem(16)};
-			line-height: ${pxToRem(18)};
+			line-height: ${pxToRem(22)};
 		}
 
 		* {
@@ -138,7 +138,7 @@ export const GlobalStyles = createGlobalStyle`
 
 			@media ${theme.mediaBreakpoints.tabletPortrait} {
 				font-size: ${pxToRem(16)};
-				line-height: ${pxToRem(18)};
+				line-height: ${pxToRem(22)};
 			}
 		}
 	}
@@ -149,6 +149,7 @@ export const GlobalStyles = createGlobalStyle`
 		line-height: ${pxToRem(60)};
 		letter-spacing: -1.62px;
 		font-weight: 400;
+		font-family: var(--font-pressura);
 
 		@media ${theme.mediaBreakpoints.tabletPortrait} {
 			font-size: ${pxToRem(32)};
@@ -176,6 +177,7 @@ export const GlobalStyles = createGlobalStyle`
 		line-height: ${pxToRem(44)};
 		letter-spacing: -1.2px;	
 		font-weight: 400;
+		font-family: var(--font-pressura);
 		
 		@media ${theme.mediaBreakpoints.tabletPortrait} {
 			font-size: ${pxToRem(26)};
@@ -202,6 +204,7 @@ export const GlobalStyles = createGlobalStyle`
 		font-size: ${pxToRem(28)};
 		line-height: ${pxToRem(32)};
 		font-weight: 400;
+		font-family: var(--font-pressura);
 
 		@media ${theme.mediaBreakpoints.tabletPortrait} {
 			font-size: ${pxToRem(18)};
@@ -225,6 +228,7 @@ export const GlobalStyles = createGlobalStyle`
 		font-size: ${pxToRem(18)};
 		line-height: ${pxToRem(22)};
 		font-weight: 400;
+		font-family: var(--font-pressura);
 
 		@media ${theme.mediaBreakpoints.tabletPortrait} {
 			font-size: ${pxToRem(14)};
