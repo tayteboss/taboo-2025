@@ -48,11 +48,7 @@ export type SiteSettingsType = {
     name: string;
     email: string;
     role: string;
-    image: {
-      asset: {
-        url: string;
-      };
-    };
+    media: MediaType;
   }[];
 };
 
@@ -102,6 +98,7 @@ export type InformationPageType = {
           url: string;
         };
       };
+      hoverMedia?: MediaType;
       description: string;
       socialLinks: Array<{
         title: string;

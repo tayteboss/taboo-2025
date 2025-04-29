@@ -47,10 +47,13 @@ type Props = {
   data: ProjectType[];
   zoomLevel: number;
   activeViewType: string;
+  activeService: string;
+  activeIndustry: string;
 };
 
 const ProjectsList = (props: Props) => {
-  const { data, activeViewType, zoomLevel } = props;
+  const { data, activeViewType, activeService, activeIndustry, zoomLevel } =
+    props;
 
   const hasData = data && data?.length > 0;
 
@@ -65,7 +68,7 @@ const ProjectsList = (props: Props) => {
               exit="hidden"
               key="title-wrapper"
             >
-              No projects found...
+              No projects found with {activeService} and {activeIndustry}
             </Title>
           )}
           {activeViewType === "grid" && hasData && (

@@ -236,6 +236,14 @@ export default {
                   type: 'image',
                 },
                 {
+                  title: 'Hover Media',
+                  name: 'hoverMedia',
+                  type: 'object',
+                  fields: mediaBlock,
+                  description:
+                    'This media will be used on hover and on internal card. Use a video for the best results.',
+                },
+                {
                   title: 'Name',
                   name: 'name',
                   type: 'string',

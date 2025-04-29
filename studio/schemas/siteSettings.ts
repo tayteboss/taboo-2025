@@ -78,9 +78,10 @@ export default {
               type: 'string',
             },
             {
-              title: 'Image',
-              name: 'image',
-              type: 'image',
+              title: 'Media',
+              name: 'media',
+              type: 'object',
+              fields: mediaBlock,
             },
           ],
         },

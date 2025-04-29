@@ -140,13 +140,11 @@ const AwardCard = (props: Props) => {
         <MobileWrapper>{name || ""}</MobileWrapper>
       </Name>
       <Nomination className="type-h4 type-mono color-switch hover-bar">
-        <DesktopWrapper>
-          <HoverTyper data={nominations || ""} inView={inView} />
-        </DesktopWrapper>
+        <DesktopWrapper>{nominations || ""}</DesktopWrapper>
         <MobileWrapper>{nominations || ""}</MobileWrapper>
       </Nomination>
       <Year className="type-h4 type-mono color-switch hover-bar">
-        <HoverTyper data={year || ""} inView={inView} />
+        {year || ""}
       </Year>
     </>
   );

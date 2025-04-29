@@ -23,7 +23,7 @@ const ProjectListCardWrapper = styled(motion.div)`
   }
 `;
 
-const Client = styled.p`
+const Client = styled.div`
   grid-column: span 4;
   color: var(--colour-foreground);
   display: flex;

@@ -3,6 +3,8 @@ import { InformationPageType } from "../../../shared/types/types";
 import Image from "next/image";
 import PrimaryButton from "../PrimaryButton";
 import pxToRem from "../../../utils/pxToRem";
+import { useState } from "react";
+import MediaStack from "../../common/MediaStack";
 
 const TeamCardWrapper = styled.div`
   width: 100%;
@@ -44,6 +46,22 @@ const ImageInner = styled.div`
   z-index: 1;
   overflow: hidden;
   border-radius: ${pxToRem(15)};
+`;
+
+const HoverMediaWrapper = styled.div<{ $isActive: boolean }>`
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 2;
+  opacity: ${(props) => (props.$isActive ? 1 : 0)};
+
+  transition: all var(--transition-speed-default) var(--transition-ease);
+
+  * {
+    height: 100%;
+    width: 100%;
+  }
 `;
 
 const ContentWrapper = styled.div`
@@ -91,15 +109,22 @@ type Props = {
   name: InformationPageType["teamSection"]["teamMembers"][number]["name"];
   image: InformationPageType["teamSection"]["teamMembers"][number]["image"];
   position: InformationPageType["teamSection"]["teamMembers"][number]["position"];
+  hoverMedia: InformationPageType["teamSection"]["teamMembers"][number]["hoverMedia"];
   index: number;
   setTeamModalIsActive: (index: number) => void;
 };
 
 const TeamCard = (props: Props) => {
-  const { name, image, position, index, setTeamModalIsActive } = props;
+  const { name, image, position, index, hoverMedia, setTeamModalIsActive } =
+    props;
+
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <TeamCardWrapper>
+    <TeamCardWrapper
+      onMouseOver={() => setIsHovered(true)}
+      onMouseOut={() => setIsHovered(false)}
+    >
       {image?.asset?.url && (
         <ImageWrapper>
           <ContentWrapper>
@@ -124,6 +149,14 @@ const TeamCard = (props: Props) => {
               }}
               sizes="(max-width: 600px) 70vw, 33vw"
             />
+            {hoverMedia && (
+              <HoverMediaWrapper $isActive={isHovered}>
+                <MediaStack
+                  data={hoverMedia}
+                  sizes="(max-width: 600px) 70vw, 33vw"
+                />
+              </HoverMediaWrapper>
+            )}
           </ImageInner>
         </ImageWrapper>
       )}

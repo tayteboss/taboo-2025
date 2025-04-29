@@ -158,6 +158,7 @@ const TeamSection = (props: Props) => {
                   <TeamCard
                     name={teamMember?.name}
                     image={teamMember?.image}
+                    hoverMedia={teamMember?.hoverMedia}
                     position={teamMember?.position}
                     index={index}
                     key={`${teamMember?.name}-${index}`}

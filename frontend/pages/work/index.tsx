@@ -106,6 +106,8 @@ const Page = (props: Props) => {
         data={filteredProjects}
         zoomLevel={zoomLevel}
         activeViewType={activeViewType}
+        activeService={activeService}
+        activeIndustry={activeIndustry}
       />
     </PageWrapper>
   );

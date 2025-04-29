@@ -87,6 +87,9 @@ const ImageComponent = (props: Props) => {
   const imageUrl = data?.media?.image?.asset?.url;
   const blurDataURL = data?.media?.image?.asset?.metadata?.lqip;
 
+  // EXAMPLE SIZES PROP
+  // "(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
+
   return (
     <ImageComponentWrapper className="media-wrapper">
       {!noAnimation && (

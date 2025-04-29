@@ -191,7 +191,10 @@ const ProjectGridCard = React.memo((props: Props) => {
           >
             {gridThumbnailMedia && (
               <div className="media-hover-effect">
-                <MediaStack data={gridThumbnailMedia} />
+                <MediaStack
+                  data={gridThumbnailMedia}
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                />
               </div>
             )}
           </ImageWrapper>

@@ -29,12 +29,29 @@ const getSiteData = async () => {
                 name,
                 role,
                 email,
-                image {
-                    ...,
-                    asset-> {
-                        url,
-                    },
-                },
+                media {
+				    media {
+                        ...,
+                        mediaType,
+                        image {
+                            asset-> {
+                                url,
+                                metadata {
+                                    lqip,
+                                    dimensions {
+                                        aspectRatio,
+                                    },
+                                },
+                            },
+                            alt
+                        },
+                        video {
+                            asset-> {
+                                playbackId,
+                            },
+                        },
+                    }
+                }
             },
         }
     `;

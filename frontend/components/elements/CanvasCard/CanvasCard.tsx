@@ -154,7 +154,13 @@ const CanvasCard = React.memo(
             }`}
           >
             {/* Ensure MediaStack handles potentially undefined data gracefully */}
-            {mediaData && <MediaStack data={mediaData} noAnimation />}
+            {mediaData && (
+              <MediaStack
+                data={mediaData}
+                noAnimation
+                sizes="(max-width: 768px) 38vw, (max-width: 1024px) 20vw, 15vw"
+              />
+            )}
           </MediaInner>
           {/* Use isInternalHover to control visibility/animation of content */}
           <ContentWrapper

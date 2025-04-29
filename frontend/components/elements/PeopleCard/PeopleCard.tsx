@@ -3,6 +3,7 @@ import { SiteSettingsType } from "../../../shared/types/types";
 import pxToRem from "../../../utils/pxToRem";
 import Image from "next/image";
 import Link from "next/link";
+import MediaStack from "../../common/MediaStack";
 
 const PeopleCardWrapper = styled.div`
   display: flex;
@@ -13,11 +14,14 @@ const PeopleCardWrapper = styled.div`
 `;
 
 const ImageWrapper = styled.div`
-  height: ${pxToRem(84)};
-  width: ${pxToRem(84)};
   position: relative;
   overflow: hidden;
   border-radius: ${pxToRem(10)};
+
+  .media-wrapper {
+    height: ${pxToRem(84)};
+    width: ${pxToRem(84)};
+  }
 `;
 
 const ContactDetails = styled.div`
@@ -48,15 +52,11 @@ const PeopleCard = (props: Props) => {
   const { data } = props;
   return (
     <PeopleCardWrapper>
-      {data?.image?.asset?.url && (
+      {data?.media && (
         <ImageWrapper>
-          <Image
-            src={data?.image?.asset?.url}
-            alt={data?.name || ""}
-            fill
-            style={{
-              objectFit: "cover",
-            }}
+          <MediaStack
+            data={data.media}
+            sizes="(max-width: 768px) 100vw, 50vw"
           />
         </ImageWrapper>
       )}

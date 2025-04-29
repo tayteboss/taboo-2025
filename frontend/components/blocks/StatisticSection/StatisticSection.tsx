@@ -103,7 +103,7 @@ const StatisticSection = (props: Props) => {
                 ))}
               </StatsWrapper>
             )}
-            <MediaStack data={data.mediaBackground} />
+            <MediaStack data={data.mediaBackground} sizes="100vw" isPriority />
           </MediaWrapper>
         )}
       </LayoutWrapper>

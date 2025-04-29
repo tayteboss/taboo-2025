@@ -8,6 +8,7 @@ import Image from "next/image";
 import formatHTML from "../../../utils/formatHTML";
 import SocialCard from "../../elements/SocialCard";
 import { useClickOutside } from "../../../hooks/useClickOutside";
+import MediaStack from "../../common/MediaStack";
 
 const TeamModalWrapper = styled(motion.div)`
   position: fixed;
@@ -75,7 +76,7 @@ const CloseTrigger = styled.button`
 
 const ImageWrapper = styled.div`
   width: 100%;
-  padding-top: 125%;
+  padding-top: 100%;
   position: relative;
   overflow: hidden;
   border-radius: ${pxToRem(10)};
@@ -104,6 +105,21 @@ const SocialDetails = styled.div`
 
   @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
     padding-top: ${pxToRem(32)};
+  }
+`;
+
+const HoverMediaWrapper = styled.div`
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 2;
+
+  transition: all var(--transition-speed-default) var(--transition-ease);
+
+  * {
+    height: 100%;
+    width: 100%;
   }
 `;
 
@@ -209,7 +225,15 @@ const TeamModal = (props: Props) => {
             </TitleWrapper>
             <ImageWrapper>
               <ImageInner>
-                {data?.image?.asset?.url && (
+                {data?.hoverMedia && (
+                  <HoverMediaWrapper>
+                    <MediaStack
+                      data={data?.hoverMedia}
+                      sizes="(max-width: 600px) 100vw, 50vw"
+                    />
+                  </HoverMediaWrapper>
+                )}
+                {!data?.hoverMedia && data?.image?.asset?.url && (
                   <Image
                     src={data?.image.asset.url}
                     alt={`${data?.name} team image`}

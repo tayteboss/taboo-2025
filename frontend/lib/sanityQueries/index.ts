@@ -42,12 +42,9 @@ export const siteSettingsQueryString = `
 			name,
 			role,
 			email,
-			image {
-				...,
-				asset-> {
-					url,
-				},
-			},
+			media {
+				${mediaString}
+			}
 		},
 	}
 `;
@@ -152,6 +149,9 @@ export const informationPageQueryString = `
 						url,
 					},
 				},
+				hoverMedia {
+					${mediaString}
+				},
 				socialLinks[] {
 					title,
 					link
@@ -181,7 +181,7 @@ export const informationPageQueryString = `
 `;
 
 export const workPageQueryString = `
-	*[_type == "workPage"] {
+	*[_type == "workPage"][0] {
 		...,
 		seoTitle,
 		seoDescription,

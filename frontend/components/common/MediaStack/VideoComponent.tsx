@@ -87,7 +87,13 @@ const VideoComponent = (props: Props) => {
               animate="visible"
               exit="hidden"
             >
-              <Image src={`${posterUrl}`} alt={""} fill priority={isPriority} />
+              <Image
+                src={`${posterUrl}`}
+                alt={""}
+                fill
+                priority={isPriority}
+                sizes="50vw"
+              />
             </InnerBlur>
           )}
         </AnimatePresence>
