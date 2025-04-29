@@ -54,6 +54,12 @@ export const GlobalStyles = createGlobalStyle`
 		}
 	}
 
+	.remove-footer {
+		footer {
+			display: none;
+		}
+	}
+
 	.color-switch {
 		transition: color var(--transition-speed-default) var(--transition-ease);
 	}

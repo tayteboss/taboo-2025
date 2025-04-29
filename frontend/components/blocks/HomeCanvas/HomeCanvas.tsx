@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useMemo } from "react";
 import styled, { useTheme } from "styled-components";
 import { motion } from "framer-motion";
-// Adjust import paths as needed
 import { HomePageType } from "../../../shared/types/types";
 import { useMousePosition } from "../../../hooks/useMousePosition";
-import CanvasCard from "../../elements/CanvasCard"; // Assume CanvasCard is memoized: export default React.memo(CanvasCard);
+import CanvasCard from "../../elements/CanvasCard";
 import LogoIcon from "../../svgs/LogoIcon";
 import OverviewModal from "../OverviewModal";
 

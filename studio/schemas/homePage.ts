@@ -79,5 +79,11 @@ export default {
         },
       ],
     },
+    {
+      title: 'Mobile Hero Media',
+      name: 'mobileHeroMedia',
+      type: 'object',
+      fields: mediaBlock,
+    },
   ],
 }

@@ -57,6 +57,9 @@ export const homePageQueryString = `
 		referenceTitle,
 		seoTitle,
 		seoDescription,
+		mobileHeroMedia {
+			${mediaString}
+		},
 		items[] {
 			useProjectReference,
 			title,

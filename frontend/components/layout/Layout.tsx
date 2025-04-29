@@ -30,7 +30,11 @@ const Layout = (props: Props) => {
     const isHomePage = router.pathname === "/";
 
     setHeaderIsActive(!isHomePage);
-    setFooterIsActive(!(isHomePage || isWorkSlugPage));
+    setFooterIsActive(!isHomePage);
+
+    if (!isWorkSlugPage) {
+      document.body.classList.remove("remove-footer");
+    }
   }, [router]);
 
   useEffect(() => {

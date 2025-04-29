@@ -42,6 +42,10 @@ const MediaInner = styled.div<{ $ratio: string }>`
   @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
     width: 20vw;
   }
+
+  @media ${(props) => props.theme.mediaBreakpoints.mobile} {
+    width: 38vw;
+  }
 `;
 
 const ContentWrapper = styled.div`

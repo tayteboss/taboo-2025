@@ -13,8 +13,8 @@ const LoadingIndicatorWrapper = styled(motion.div)`
   z-index: 2;
 
   @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
-    bottom: ${pxToRem(15)};
-    left: ${pxToRem(15)};
+    top: ${pxToRem(15)};
+    right: ${pxToRem(15)};
   }
 `;
 

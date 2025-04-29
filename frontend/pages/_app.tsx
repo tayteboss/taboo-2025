@@ -45,8 +45,6 @@ const App = (props: Props) => {
     currentPath: string
   ): boolean => {
     // Ensure both paths exist, start with /work/, and are different
-    console.log("prevPath", prevPath);
-    console.log("currentPath", currentPath);
     return (
       !!prevPath &&
       prevPath.startsWith("/work/") &&
@@ -97,7 +95,6 @@ const App = (props: Props) => {
     previousPathRef.current,
     router.asPath
   );
-  console.log("navigatingBetweenWork", navigatingBetweenWork);
 
   const variantsToUse = navigatingBetweenWork
     ? noTransitionVariants
@@ -107,19 +104,6 @@ const App = (props: Props) => {
   // Use 'sync' for the instant swap between work slugs
   // Use 'wait' for standard fade transitions elsewhere
   const animationMode = navigatingBetweenWork ? "sync" : "wait";
-
-  // // --- Debugging --- (Uncomment to check in console during navigation)
-  // Inside the App component in _app.js, before the return statement:
-
-  // console.log(`[APP RENDER] Path: ${router.asPath}`);
-  // console.log(`           Previous Path: ${previousPathRef.current}`);
-  // console.log(
-  //   `           isNavigatingBetweenWorkSlugs: ${navigatingBetweenWork}`
-  // );
-  // console.log(`           animationMode: ${animationMode}`);
-  // console.log(
-  //   `           Using Variants: ${navigatingBetweenWork ? "INSTANT (noTransitionVariants)" : "FADE (pageTransitionVariants)"}`
-  // );
 
   return (
     <>

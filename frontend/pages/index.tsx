@@ -7,6 +7,7 @@ import { homePageQueryString } from "../lib/sanityQueries";
 import HomeCanvas from "../components/blocks/HomeCanvas";
 import { useEffect } from "react";
 import MobileHomeCanvas from "../components/blocks/MobileHomeCanvas";
+import MobileHomeMedia from "../components/blocks/MobileHomeMedia";
 
 const PageWrapper = styled(motion.div)`
   height: 100vh;
@@ -38,6 +39,7 @@ const Page = (props: Props) => {
       />
       <HomeCanvas data={items} />
       {/* <MobileHomeCanvas data={items} /> */}
+      <MobileHomeMedia data={data?.mobileHeroMedia} />
     </PageWrapper>
   );
 };

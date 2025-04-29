@@ -27,6 +27,16 @@ const Page = (props: Props) => {
     window.scrollTo(0, 0);
   }, []);
 
+  useEffect(() => {
+    const body = document.querySelector("body");
+    if (!body) return;
+    if (!data?.nextProject) {
+      body.classList.remove("remove-footer");
+    } else {
+      body.classList.add("remove-footer");
+    }
+  }, [data?.nextProject]);
+
   return (
     <PageContainer>
       <NextSeo

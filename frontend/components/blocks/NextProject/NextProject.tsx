@@ -9,6 +9,7 @@ import { useState } from "react";
 import HoverTyper from "../../elements/HoverTyper";
 import { useRouter } from "next/navigation";
 import { ReactLenis, useLenis } from "@studio-freight/react-lenis";
+import PrimaryButton from "../../elements/PrimaryButton";
 
 const NextProjectWrapper = styled.section`
   padding-top: ${pxToRem(200)};
@@ -144,6 +145,26 @@ const MediaWrapper = styled(motion.div)<{ $animating: boolean }>`
   }
 `;
 
+const MobileButtonTrigger = styled.div`
+  display: none;
+
+  @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+    display: flex;
+    justify-content: flex-start;
+    padding-top: ${pxToRem(10)};
+
+    .primary-button {
+      background: var(--colour-foreground);
+      color: var(--colour-background);
+
+      &:hover {
+        background: var(--colour-background);
+        color: var(--colour-foreground);
+      }
+    }
+  }
+`;
+
 type Props = {
   data: ProjectType;
 };
@@ -226,6 +247,11 @@ const NextProject = (props: Props) => {
       <MediaWrapper $animating={triggerAnimation}>
         {data?.heroMedia && <MediaStack data={data?.heroMedia} />}
       </MediaWrapper>
+      <LayoutWrapper>
+        <MobileButtonTrigger>
+          <PrimaryButton>Next Project (↗)</PrimaryButton>
+        </MobileButtonTrigger>
+      </LayoutWrapper>
     </NextProjectWrapper>
   );
 };

@@ -113,11 +113,11 @@ const Cursor = ({ cursorRefresh, appCursorRefresh }: Props) => {
       });
       button.addEventListener("mouseleave", () => {
         setIsHoveringNextProjectLink(false);
-        setCursorText("");
+        setCursorText("Next Project (↗)");
       });
       button.addEventListener("mouseup", () => {
         setIsHoveringNextProjectLink(false);
-        setCursorText("");
+        setCursorText("Next Project (↗)");
       });
     });
 

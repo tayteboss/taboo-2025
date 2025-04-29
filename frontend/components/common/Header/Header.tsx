@@ -88,6 +88,10 @@ const LogoWrapper = styled.div<{
 
   transition: all var(--transition-speed-default) var(--transition-ease);
 
+  @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+    opacity: ${(props) => props.$menuIsActive && "1 !important"};
+  }
+
   &:hover {
     opacity: ${(props) => (props.$menuIsActive ? "0.5" : "0.5")};
     transform: scale(0.98);

@@ -149,6 +149,7 @@ export type HomePageType = {
     link?: string;
     year?: string;
   }>;
+  mobileHeroMedia?: MediaType;
 };
 
 export type ColumnType = {
