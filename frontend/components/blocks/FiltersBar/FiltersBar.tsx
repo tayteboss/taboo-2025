@@ -7,7 +7,7 @@ import pxToRem from "../../../utils/pxToRem";
 import { CategoryType } from "../../../shared/types/types";
 
 const FiltersBarWrapper = styled.section`
-  padding: ${pxToRem(200)} 0;
+  padding: ${pxToRem(250)} 0 ${pxToRem(200)};
 
   @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
     padding: ${pxToRem(200)} 0 ${pxToRem(50)};
@@ -116,7 +116,7 @@ const FiltersBar = (props: Props) => {
             className="type-mono-small"
             onClick={() => setFiltersModalIsActive(true)}
           >
-            <span>Filters</span> (NA)
+            <span>Filters</span>
           </FiltersTrigger>
         </MobileInner>
       </LayoutWrapper>

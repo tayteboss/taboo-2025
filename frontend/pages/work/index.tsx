@@ -30,7 +30,6 @@ const viewTypes: any = [
 ];
 
 const PageWrapper = styled(motion.div)`
-  padding-top: var(--header-h);
   min-height: 100vh;
   padding-bottom: ${pxToRem(200)};
   background: var(--colour-background);

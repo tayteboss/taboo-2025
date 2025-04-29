@@ -25,6 +25,14 @@ const Page = (props: Props) => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    const timer = setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 500);
+
+    return () => {
+      clearTimeout(timer);
+    };
   }, []);
 
   useEffect(() => {

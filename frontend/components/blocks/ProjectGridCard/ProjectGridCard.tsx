@@ -80,14 +80,28 @@ const ContentWrapper = styled.div<{ $zoomLevel: number }>`
 `;
 
 // Set position relative to act as anchor for absolute children
-const Title = styled.h3`
+const DesktopTitle = styled.h3`
   position: relative;
   display: flex; // Or block, depending on desired layout flow before hover
   align-items: center;
   color: var(--colour-foreground);
   white-space: nowrap;
-  // Set a height or min-height if needed to prevent collapse
-  min-height: 1.2em; // Adjust based on line-height
+  min-height: 1.2em;
+
+  @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+    display: none;
+  }
+`;
+// Set position relative to act as anchor for absolute children
+const MobileTitle = styled.h3`
+  display: none;
+  color: var(--colour-foreground);
+  white-space: pre;
+  min-height: 1.2em;
+
+  @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+    display: flex;
+  }
 `;
 
 // Styled component for the absolutely positioned inner text elements
@@ -199,7 +213,7 @@ const ProjectGridCard = React.memo((props: Props) => {
             )}
           </ImageWrapper>
           <ContentWrapper $zoomLevel={zoomLevel}>
-            <Title className="color-switch">
+            <DesktopTitle className="color-switch">
               {/* Client Title - Active when NOT hovered */}
               <AnimatedText $isActive={!isHovered}>
                 <HoverTyper data={client?.title || ""} inView={!isHovered} />
@@ -208,7 +222,10 @@ const ProjectGridCard = React.memo((props: Props) => {
               <AnimatedText $isActive={isHovered}>
                 <HoverTyper data={title || ""} inView={isHovered} />
               </AnimatedText>
-            </Title>
+            </DesktopTitle>
+            <MobileTitle>
+              {client?.title || ""} — <span>{title || ""}</span>
+            </MobileTitle>
             <Subtitle className="color-switch">
               {serviceIndustryTitle || ""}
             </Subtitle>

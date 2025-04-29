@@ -9,8 +9,14 @@ const PeopleCardWrapper = styled.div`
   display: flex;
   gap: ${pxToRem(20)};
   padding: ${pxToRem(20)} 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid var(--colour-background-alpha-20);
   width: 100%;
+
+  @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+    padding: ${pxToRem(10)};
+    gap: ${pxToRem(10)};
+    border-bottom: 1px solid var(--colour-foreground-alpha-20);
+  }
 `;
 
 const ImageWrapper = styled.div`
@@ -21,6 +27,11 @@ const ImageWrapper = styled.div`
   .media-wrapper {
     height: ${pxToRem(84)};
     width: ${pxToRem(84)};
+
+    @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+      height: ${pxToRem(60)};
+      width: ${pxToRem(60)};
+    }
   }
 `;
 
@@ -31,6 +42,10 @@ const ContactDetails = styled.div`
 
     transition: all var(--transition-speed-default) var(--transition-ease);
 
+    @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+      color: var(--colour-foreground);
+    }
+
     &:hover {
       opacity: 1;
     }
@@ -39,9 +54,16 @@ const ContactDetails = styled.div`
 
 const Title = styled.p`
   color: var(--colour-background);
-  font-size: 24px;
+  font-size: ${pxToRem(24)};
   line-height: ${pxToRem(27)};
   letter-spacing: -0.24px;
+
+  @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+    color: var(--colour-foreground);
+    font-size: ${pxToRem(16)};
+    line-height: ${pxToRem(18)};
+    letter-spacing: -0.16px;
+  }
 `;
 
 type Props = {

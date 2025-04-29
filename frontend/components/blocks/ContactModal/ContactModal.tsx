@@ -23,6 +23,12 @@ const ContactModalWrapper = styled(motion.div)`
   background: var(--colour-foreground-alpha-80);
   backdrop-filter: blur(5px);
   cursor: pointer;
+
+  @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+    top: unset;
+    bottom: 0;
+    align-items: flex-end;
+  }
 `;
 
 const Card = styled(motion.div)`
@@ -37,6 +43,8 @@ const Card = styled(motion.div)`
 
   @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
     width: calc(100% - 20px);
+    background: var(--colour-grey);
+    margin-bottom: ${pxToRem(10)};
   }
 `;
 
@@ -49,6 +57,10 @@ const TitleWrapper = styled.div`
 const Title = styled.p`
   font-size: ${pxToRem(18)};
   color: var(--colour-background);
+
+  @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+    color: var(--colour-foreground);
+  }
 `;
 
 const CloseTrigger = styled.button`
@@ -61,6 +73,16 @@ const CloseTrigger = styled.button`
   border-radius: ${pxToRem(6)};
 
   transition: all var(--transition-speed-default) var(--transition-ease);
+
+  @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+    background: var(--colour-foreground);
+
+    svg {
+      path {
+        stroke: var(--colour-background);
+      }
+    }
+  }
 
   &:hover {
     opacity: 0.5;
@@ -79,6 +101,13 @@ const ContactDetail = styled.div`
   color: var(--colour-background);
 
   transition: all var(--transition-speed-default) var(--transition-ease);
+
+  @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+    color: var(--colour-foreground);
+    font-size: ${pxToRem(26)};
+    line-height: ${pxToRem(28)};
+    letter-spacing: -0.78px;
+  }
 
   &:hover {
     opacity: 0.5;
@@ -99,6 +128,15 @@ const Address = styled.div`
   color: var(--colour-background);
 
   transition: all var(--transition-speed-default) var(--transition-ease);
+
+  @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+    * {
+      color: var(--colour-foreground);
+      font-size: ${pxToRem(16)};
+      line-height: ${pxToRem(15)};
+      letter-spacing: -0.16px;
+    }
+  }
 
   &:hover {
     opacity: 0.5;
