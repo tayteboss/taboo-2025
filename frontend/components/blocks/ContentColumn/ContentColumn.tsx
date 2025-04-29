@@ -95,9 +95,9 @@ const PaginationContainer = styled.div`
   }
 `;
 
-const PaginationDotButton = styled.button<{ isActive: boolean }>`
+const PaginationDotButton = styled.button<{ $isActive: boolean }>`
   background: var(--colour-foreground);
-  opacity: ${(props) => (props.isActive ? 1 : 0.1)};
+  opacity: ${(props) => (props.$isActive ? 1 : 0.1)};
   width: ${pxToRem(8)};
   height: ${pxToRem(8)};
   border-radius: 50%;
@@ -109,7 +109,7 @@ const PaginationDotButton = styled.button<{ isActive: boolean }>`
     background-color 0.2s ease-in-out;
 
   &:hover {
-    opacity: ${(props) => (props.isActive ? 1 : 0.3)};
+    opacity: ${(props) => (props.$isActive ? 1 : 0.3)};
   }
 `;
 
@@ -231,7 +231,7 @@ const ContentColumn = (props: Props) => {
               {scrollSnaps.map((_, index) => (
                 <PaginationDotButton
                   key={index}
-                  isActive={index === selectedIndex}
+                  $isActive={index === selectedIndex}
                   onClick={() => scrollTo(index)}
                   aria-label={`Go to slide ${index + 1}`} // Accessibility
                 />

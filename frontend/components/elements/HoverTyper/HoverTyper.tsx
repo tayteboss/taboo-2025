@@ -10,6 +10,7 @@ import styled from "styled-components";
 type Props = {
   data: string;
   inView: boolean;
+  noHoverAnimation?: boolean;
 };
 
 // Styled components remain the same
@@ -19,7 +20,7 @@ const HoverTyperWrapper = styled.div`
   display: flex;
   align-items: center;
   cursor: default;
-  min-height: 1.2em;
+  min-height: 1.1em;
 `;
 
 const Inner = styled.div`
@@ -44,14 +45,14 @@ const CharSpan = styled.span`
 
 const getRandomChar = () => {
   const chars =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?"; // Added more chars
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?";
   const randomIndex = Math.floor(Math.random() * chars.length);
   return chars[randomIndex];
 };
 
 const BLANK_CHAR = "\u00A0"; // Non-breaking space
 
-const HoverTyper = ({ data, inView }: Props) => {
+const HoverTyper = ({ data, inView, noHoverAnimation = false }: Props) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -70,7 +71,6 @@ const HoverTyper = ({ data, inView }: Props) => {
   }, [originalWords]);
 
   // --- State ---
-  // Start blank, animation will transition from this
   const [displayedWords, setDisplayedWords] = useState<string[]>(blankWords);
 
   // --- Refs ---
@@ -79,96 +79,125 @@ const HoverTyper = ({ data, inView }: Props) => {
   const isAnimatingRef = useRef(isAnimating);
   isAnimatingRef.current = isAnimating;
   const componentJustMountedRef = useRef(true);
+  // Ref to track the target state of the animation ('original' or 'blank')
+  const animationTargetRef = useRef<"original" | "blank">("blank");
 
-  // Refs for timers and intervals (separated for clarity)
-  const scrambleIntervalsRef = useRef<{ [key: number]: NodeJS.Timeout }>({}); // Store interval IDs per word index
-  const scrambleInTimeoutsRef = useRef<{ [key: number]: NodeJS.Timeout }>({}); // Timeouts for stagger-in
-  const resolveTimeoutsRef = useRef<{ [key: number]: NodeJS.Timeout }>({}); // Timeouts for final reveal
+  // Refs for timers and intervals
+  const scrambleIntervalsRef = useRef<{ [key: number]: NodeJS.Timeout }>({});
+  const scrambleInTimeoutsRef = useRef<{ [key: number]: NodeJS.Timeout }>({});
+  const resolveTimeoutsRef = useRef<{ [key: number]: NodeJS.Timeout }>({});
 
-  // --- Helper to Stop Animation ---
-  const stopAndClearAnimation = useCallback(() => {
-    // Clear all scramble intervals
+  // --- Helper to Stop Animation Timers ---
+  // Modified to ONLY clear timers, not change animation state directly
+  const stopAndClearAnimationTimers = useCallback(() => {
     Object.values(scrambleIntervalsRef.current).forEach(clearInterval);
     scrambleIntervalsRef.current = {};
-
-    // Clear all scramble-in timeouts
     Object.values(scrambleInTimeoutsRef.current).forEach(clearTimeout);
     scrambleInTimeoutsRef.current = {};
-
-    // Clear all resolve timeouts
     Object.values(resolveTimeoutsRef.current).forEach(clearTimeout);
     resolveTimeoutsRef.current = {};
-
-    if (isAnimatingRef.current) {
-      setIsAnimating(false);
-    }
   }, []); // No dependencies needed
 
-  // --- Effect for InView Changes & Initial Animation ---
+  // --- Effect for InView Changes & Triggering Animations ---
   useEffect(() => {
     const isCurrentlyBlank =
       JSON.stringify(displayedWords) === JSON.stringify(blankWords);
+    const isCurrentlyOriginal =
+      JSON.stringify(displayedWords) === JSON.stringify(originalWords);
     const justMounted = componentJustMountedRef.current;
 
     if (inView) {
-      // Trigger animation if mounting in view OR scrolling into view when blank
-      if ((justMounted || isCurrentlyBlank) && !isAnimatingRef.current) {
-        setIsAnimating(true);
-      } else if (!isCurrentlyBlank && !isAnimatingRef.current) {
-        // If comes into view already revealed (e.g., quick scroll out/in), just ensure correct text
-        setDisplayedWords(originalWords);
+      // === SCROLLING INTO VIEW ===
+      if (isAnimatingRef.current && animationTargetRef.current === "blank") {
+        // Interrupting an "out" animation to animate "in"
+        stopAndClearAnimationTimers(); // Clear existing timers first
+        animationTargetRef.current = "original";
+        // isAnimating is already true, the main effect will re-run or continue
+        // We need to ensure it restarts cleanly - setting state triggers re-run
+        setIsAnimating(false); // Momentarily set to false
+        queueMicrotask(() => setIsAnimating(true)); // Then true to re-trigger effect cleanly
+      } else if (!isAnimatingRef.current && !isCurrentlyOriginal) {
+        // Not animating, and not showing original text (e.g., blank or partially revealed)
+        animationTargetRef.current = "original"; // Target the original text
+        setIsAnimating(true); // Start the "in" animation
       }
+      // else: already animating IN, or already showing original text -> do nothing
     } else {
-      // Scrolling OUT of view
+      // === SCROLLING OUT OF VIEW ===
       if (!justMounted) {
-        stopAndClearAnimation();
-        if (!isCurrentlyBlank) {
-          setDisplayedWords(blankWords); // Reset to blank
+        if (
+          isAnimatingRef.current &&
+          animationTargetRef.current === "original"
+        ) {
+          // Interrupting an "in" animation to animate "out"
+          stopAndClearAnimationTimers(); // Clear existing timers first
+          animationTargetRef.current = "blank";
+          // isAnimating is already true, re-trigger effect cleanly
+          setIsAnimating(false);
+          queueMicrotask(() => setIsAnimating(true));
+        } else if (!isAnimatingRef.current && isCurrentlyOriginal) {
+          // Not animating, and currently showing the original text
+          animationTargetRef.current = "blank"; // Target the blank state
+          setIsAnimating(true); // Start the "out" animation
         }
-        setIsHovered(false);
+        // else: already animating OUT, or already blank -> do nothing
+
+        setIsHovered(false); // Always reset hover state when out of view
       }
     }
 
     if (justMounted) {
       componentJustMountedRef.current = false;
     }
+    // Add stopAndClearAnimationTimers to dependencies
   }, [
     inView,
-    blankWords,
-    originalWords,
     displayedWords,
-    stopAndClearAnimation,
+    originalWords,
+    blankWords,
+    stopAndClearAnimationTimers,
   ]);
 
   // --- Event Handlers ---
   const handleMouseEnter = () => {
-    if (inView && !isAnimatingRef.current) {
+    // Only trigger hover animation if:
+    // 1. Component is in view
+    // 2. Not currently animating
+    // 3. Hover animation is NOT disabled
+    if (inView && !isAnimatingRef.current && !noHoverAnimation) {
+      // Hover animation always targets the original text
+      animationTargetRef.current = "original";
       setIsHovered(true);
       setIsAnimating(true); // Trigger hover animation
     } else if (inView) {
-      setIsHovered(true); // Track hover even if animating
+      setIsHovered(true); // Set hover state even if not animating hover effect
     }
   };
 
   const handleMouseLeave = () => {
     setIsHovered(false);
+    // We don't trigger the "out" animation on mouse leave, only when scrolling out of view.
   };
 
   // --- Main Animation Effect ---
   useEffect(() => {
+    // Guard: Don't run if not animating or no words
     if (!isAnimating || !originalWords.length) {
       return;
     }
 
-    stopAndClearAnimation(); // Clear any previous timers before starting new ones
-    setIsAnimating(true); // Re-assert animating state after clear
+    // Capture the target for this specific animation run
+    const currentAnimationTarget = animationTargetRef.current;
 
-    // --- Animation Timing Parameters ---
-    const staggerInCharDelay = 15; // ms delay per character for scramble appearance
-    const baseStaggerInDelay = 0; // ms base delay for first scramble character
-    const resolveCharDelay = 20; // ms delay per character for final reveal
-    const baseResolveDelay = 200; // ms base delay for first reveal (ensure > stagger-in)
-    const scrambleUpdateFrequency = 50; // ms interval for changing scrambled chars
+    // Clear any previous timers (e.g., from interrupted animations)
+    stopAndClearAnimationTimers();
+
+    // --- Animation Timing Parameters --- (Remain the same)
+    const staggerInCharDelay = 15;
+    const baseStaggerInDelay = 0;
+    const resolveCharDelay = 20;
+    const baseResolveDelay = 200; // Adjust baseResolveDelay if needed for 'out' anim
+    const scrambleUpdateFrequency = 50;
 
     let charIndexOffset = 0;
     let maxResolveTime = 0;
@@ -176,19 +205,15 @@ const HoverTyper = ({ data, inView }: Props) => {
 
     originalWords.forEach((wordOrSpace, wordIndex) => {
       if (wordOrSpace.trim() === "") {
-        charIndexOffset += wordOrSpace.length; // Account for space length
-        return; // Skip spaces, don't animate them
+        charIndexOffset += wordOrSpace.length;
+        return; // Skip spaces
       }
 
       const word = wordOrSpace;
       const wordLength = word.length;
-
-      // --- Calculate Delays ---
       const currentWordCharStartIndex = charIndexOffset;
-      // When this word *starts* appearing (as scrambled)
       const scrambleInDelay =
         baseStaggerInDelay + currentWordCharStartIndex * staggerInCharDelay;
-      // When this word *finishes* revealing its final characters
       const resolveDelay =
         baseResolveDelay +
         (currentWordCharStartIndex + wordLength - 1) * resolveCharDelay;
@@ -198,36 +223,56 @@ const HoverTyper = ({ data, inView }: Props) => {
         lastWordIndexToResolve = wordIndex;
       }
 
-      // --- 1. Timeout for Staggered Scramble-In ---
+      // --- 1. Timeout for Staggered Scramble Start ---
       scrambleInTimeoutsRef.current[wordIndex] = setTimeout(() => {
-        // Check if animation was cancelled before this timeout fired
-        if (!isAnimatingRef.current) return;
+        // Check if animation state is still valid for this run
+        if (
+          !isAnimatingRef.current ||
+          animationTargetRef.current !== currentAnimationTarget
+        )
+          return;
 
-        // Set this word to scrambled and start its interval
         setDisplayedWords((prev) => {
           const newWords = [...prev];
-          // Initially scramble the word
-          newWords[wordIndex] = word
-            .split("")
-            .map(() => getRandomChar())
-            .join("");
+          // Ensure the word exists before scrambling
+          if (newWords[wordIndex] !== undefined) {
+            newWords[wordIndex] = word
+              .split("")
+              .map(() => getRandomChar())
+              .join("");
+          }
           return newWords;
         });
 
-        // Start the interval to continuously scramble *this word*
+        // --- Start Scramble Interval ---
         scrambleIntervalsRef.current[wordIndex] = setInterval(() => {
           setDisplayedWords((prev) => {
-            // Check if word is already resolved or animation stopped
+            // Check if animation state is still valid for this run before updating
             if (
               !isAnimatingRef.current ||
+              animationTargetRef.current !== currentAnimationTarget ||
               !prev ||
-              !prev[wordIndex] ||
-              prev[wordIndex] === originalWords[wordIndex]
+              !prev[wordIndex]
             ) {
               clearInterval(scrambleIntervalsRef.current[wordIndex]);
               delete scrambleIntervalsRef.current[wordIndex];
               return prev;
             }
+
+            // Determine target word for check (original or blank)
+            const targetWord =
+              currentAnimationTarget === "original"
+                ? originalWords[wordIndex]
+                : blankWords[wordIndex];
+
+            // If word somehow already matches target, stop interval
+            if (prev[wordIndex] === targetWord) {
+              clearInterval(scrambleIntervalsRef.current[wordIndex]);
+              delete scrambleIntervalsRef.current[wordIndex];
+              return prev;
+            }
+
+            // Otherwise, update with random chars
             const newWords = [...prev];
             newWords[wordIndex] = word
               .split("")
@@ -238,47 +283,66 @@ const HoverTyper = ({ data, inView }: Props) => {
         }, scrambleUpdateFrequency);
       }, scrambleInDelay);
 
-      // --- 2. Timeout for Staggered Reveal ---
+      // --- 2. Timeout for Staggered Resolve ---
       resolveTimeoutsRef.current[wordIndex] = setTimeout(() => {
-        // Check if animation was cancelled before this timeout fired
-        if (!isAnimatingRef.current) return;
+        // Check if animation state is still valid for this run
+        if (
+          !isAnimatingRef.current ||
+          animationTargetRef.current !== currentAnimationTarget
+        )
+          return;
 
-        // Stop the scrambling interval for this word
+        // Stop the scrambling interval for this specific word
         if (scrambleIntervalsRef.current[wordIndex]) {
           clearInterval(scrambleIntervalsRef.current[wordIndex]);
           delete scrambleIntervalsRef.current[wordIndex];
         }
 
-        // Set the word to its final, original state
+        // Set the word to its final TARGET state (original or blank)
         setDisplayedWords((prev) => {
           if (!prev) return prev;
           const newWords = [...prev];
-          newWords[wordIndex] = originalWords[wordIndex];
+          newWords[wordIndex] =
+            currentAnimationTarget === "original"
+              ? originalWords[wordIndex]
+              : blankWords[wordIndex]; // Resolve to blank if animating out
           return newWords;
         });
 
-        // --- Check if Last Word ---
+        // --- Check if Last Word Resolved ---
         if (wordIndex === lastWordIndexToResolve) {
           queueMicrotask(() => {
-            // Ensure state update is processed first
-            if (isAnimatingRef.current) {
+            // Check if the animation completed naturally for the intended target
+            if (
+              isAnimatingRef.current &&
+              animationTargetRef.current === currentAnimationTarget
+            ) {
               setIsAnimating(false); // Mark animation as complete
             }
+            // If target changed or isAnimating became false externally, do nothing here
           });
         }
       }, resolveDelay);
 
-      charIndexOffset += wordLength; // Update offset for the next word/space
+      charIndexOffset += wordLength; // Update offset for next word/space
     });
 
     // --- Effect Cleanup ---
+    // Clears timers if the component unmounts OR if `isAnimating` becomes false
+    // OR if dependencies change causing the effect to re-run.
     return () => {
-      stopAndClearAnimation();
+      stopAndClearAnimationTimers();
     };
-  }, [isAnimating, originalWords, data, stopAndClearAnimation]); // Keep dependencies minimal
+    // Dependencies: Run when `isAnimating` changes, or if key data changes.
+  }, [
+    isAnimating,
+    originalWords,
+    blankWords,
+    data,
+    stopAndClearAnimationTimers,
+  ]);
 
-  // --- Render Logic ---
-  // Use blankWords for initial structure and visibility comparison
+  // --- Render Logic --- (Remains the same)
   return (
     <HoverTyperWrapper
       onMouseEnter={handleMouseEnter}
@@ -288,19 +352,19 @@ const HoverTyper = ({ data, inView }: Props) => {
     >
       <Inner>
         {blankWords.map((blankWordOrSpace, index) => {
-          const wordOrSpace = displayedWords[index] ?? blankWordOrSpace; // Use displayed word if available
+          const wordOrSpace = displayedWords[index] ?? blankWordOrSpace;
           const isSpace = originalWords[index]?.trim() === "";
+          // Determine visibility based on comparing with the underlying blank structure
           const isCurrentlyBlankWord =
-            wordOrSpace === blankWordOrSpace && !isSpace;
+            wordOrSpace === blankWords[index] && !isSpace;
 
           if (isSpace) {
-            // Always render spaces, use original space for consistency
             return <span key={index}>{originalWords[index]}</span>;
           } else {
-            // Render words/scrambled words
             return (
               <WordWrapper
                 key={index}
+                // Hide if it's currently identical to the blank version
                 style={{
                   visibility: isCurrentlyBlankWord ? "hidden" : "visible",
                 }}

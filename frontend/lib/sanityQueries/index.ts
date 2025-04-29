@@ -203,6 +203,9 @@ export const simpleProjectListQueryString = `
 		${mediaString}
 	},
 	gridThumbnailRatio,
+	heroMedia {
+		${mediaString}
+	},
 `;
 
 export const projectListQueryString = `

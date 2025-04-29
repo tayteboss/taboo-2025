@@ -207,13 +207,5 @@ export default {
         },
       ],
     },
-
-    {
-      title: 'Related Projects',
-      name: 'relatedProjects',
-      type: 'array',
-      of: [{type: 'reference', to: [{type: 'project'}]}],
-      validation: (Rule: any) => Rule.max(3).unique(),
-    },
   ],
 }

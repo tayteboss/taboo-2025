@@ -41,6 +41,19 @@ export const GlobalStyles = createGlobalStyle`
 		box-shadow: none;
 	}
 
+	.page-builder
+	{
+		transition: opacity 500ms ease;
+	}
+
+	.fade-page-builder-modules
+	{
+		.page-builder, .project-title
+		{
+			opacity: 0;
+		}
+	}
+
 	.color-switch {
 		transition: color var(--transition-speed-default) var(--transition-ease);
 	}

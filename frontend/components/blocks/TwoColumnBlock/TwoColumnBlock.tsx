@@ -38,8 +38,6 @@ const TwoColumnBlock = (props: Props) => {
   const { twoColumn } = props;
   const { ratio, leftColumn, rightColumn } = twoColumn;
 
-  console.log("props", props);
-
   return (
     <TwoColumnBlockWrapper $ratio={ratio}>
       <LayoutWrapper>

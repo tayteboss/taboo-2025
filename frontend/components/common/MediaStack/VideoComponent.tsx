@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { MediaType } from "../../../shared/types/types";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
+import { useState } from "react";
+import LoadingIndicator from "../../elements/LoadingIndicator";
 
 const VideoComponentWrapper = styled.div`
   position: relative;
@@ -63,10 +65,13 @@ type Props = {
   inView: boolean;
   isPriority: boolean;
   noAnimation?: boolean;
+  useLoader?: boolean;
 };
 
 const VideoComponent = (props: Props) => {
-  const { data, inView, isPriority, noAnimation } = props;
+  const { data, inView, isPriority, noAnimation, useLoader } = props;
+
+  const [isLoading, setIsLoading] = useState(true);
 
   const playbackId = data?.media?.video?.asset?.playbackId;
   const posterUrl = `https://image.mux.com/${data?.media?.video?.asset?.playbackId}/thumbnail.png?width=214&height=121&time=1`;
@@ -101,9 +106,13 @@ const VideoComponent = (props: Props) => {
             playsInline={true}
             poster={`${posterUrl}`}
             minResolution="2160p"
+            onPlaying={() => setIsLoading(false)}
           />
         </Inner>
       )}
+      <AnimatePresence>
+        {isLoading && useLoader && <LoadingIndicator />}
+      </AnimatePresence>
     </VideoComponentWrapper>
   );
 };

@@ -11,7 +11,7 @@ import MediaCursor from "../../blocks/MediaCursor";
 const FooterWrapper = styled.footer<{ $isActive: boolean }>`
   margin-bottom: ${pxToRem(20)};
   overflow: hidden;
-  opacity: ${(props) => (props.$isActive ? "1" : "0")};
+  display: ${(props) => (props.$isActive ? "block" : "none")};
 
   transition: all var(--transition-speed-default) var(--transition-ease);
 

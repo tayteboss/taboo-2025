@@ -1,10 +1,12 @@
 export type MediaType = {
-  mediaType: "video" | "image";
-  video: { asset: { playbackId: string } };
-  image: { asset: { url: string; metadata: { lqip: string } }; alt: string };
-  mobileImage?: { asset: { url: string; metadata: { lqip: string } } };
-  mobileVideo?: { asset: { playbackId: string } };
-  caption?: string;
+  media: {
+    mediaType: "video" | "image";
+    video: { asset: { playbackId: string } };
+    image: { asset: { url: string; metadata: { lqip: string } }; alt: string };
+    mobileImage?: { asset: { url: string; metadata: { lqip: string } } };
+    mobileVideo?: { asset: { playbackId: string } };
+    caption?: string;
+  };
 };
 
 export type TransitionsType = {
@@ -175,6 +177,8 @@ export type ProjectType = {
       };
     };
   };
+  nextProject?: ProjectType;
+  projectIndex?: number;
   year: string;
   services: string;
   industries: string;
@@ -204,17 +208,5 @@ export type ProjectType = {
       value: number;
       description: string;
     }>;
-  }>;
-  relatedProjects: Array<{
-    title: string;
-    slug: SlugType;
-    client: {
-      title: string;
-      image: {
-        asset: {
-          url: string;
-        };
-      };
-    };
   }>;
 };

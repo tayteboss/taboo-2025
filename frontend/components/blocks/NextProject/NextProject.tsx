@@ -1,17 +1,28 @@
+import { motion } from "framer-motion";
 import styled from "styled-components";
-import { ProjectType } from "../../../shared/types/types";
-import LayoutWrapper from "../../layout/LayoutWrapper";
 import pxToRem from "../../../utils/pxToRem";
-import LayoutGrid from "../../layout/LayoutGrid";
 import MediaStack from "../../common/MediaStack";
+import LayoutGrid from "../../layout/LayoutGrid";
+import LayoutWrapper from "../../layout/LayoutWrapper";
+import { ProjectType } from "../../../shared/types/types";
+import { useState } from "react";
 import HoverTyper from "../../elements/HoverTyper";
-import { useInView } from "react-intersection-observer";
+import { useRouter } from "next/navigation";
+import { ReactLenis, useLenis } from "@studio-freight/react-lenis";
 
-const ProjectTitleWrapper = styled.section`
+const NextProjectWrapper = styled.section`
   padding-top: ${pxToRem(200)};
   margin-bottom: ${pxToRem(20)};
-  position: relative;
-  z-index: 10;
+  cursor: pointer;
+  background: var(--colour-background);
+  position: absolute;
+  height: 100vh;
+  overflow: hidden;
+  border-radius: ${pxToRem(15)};
+  top: 100%;
+  left: 0;
+  width: 100%;
+  z-index: 5;
 
   @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
     margin-bottom: ${pxToRem(10)};
@@ -30,9 +41,13 @@ const Client = styled.h1`
   color: var(--colour-foreground);
 `;
 
-const Title = styled.div`
+const Title = styled(motion.h2)`
   color: var(--colour-foreground);
   opacity: 0.5;
+
+  transition: {
+    delay: 1;
+  }
 `;
 
 const DetailsWrapper = styled.div`
@@ -97,15 +112,31 @@ const DetailText = styled.span`
   color: var(--colour-foreground);
 `;
 
-const MediaWrapper = styled.div`
+const MediaWrapper = styled(motion.div)<{ $animating: boolean }>`
   width: calc(100% - 40px);
   margin: 0 auto;
   overflow: hidden;
   border-radius: 15px;
+  position: relative;
 
   @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
     width: calc(100% - 20px);
     border-radius: 10px;
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: ${(props) =>
+      props.$animating ? "var(--colour-white)" : "var(--colour-black)"};
+    mix-blend-mode: difference;
+    z-index: 2;
+
+    transition: all 1000ms ease 300ms !important;
   }
 
   .media-wrapper {
@@ -114,30 +145,53 @@ const MediaWrapper = styled.div`
 `;
 
 type Props = {
-  client: ProjectType["client"]["title"];
-  title: ProjectType["title"];
-  services: ProjectType["services"];
-  year: ProjectType["year"];
-  heroMedia: ProjectType["heroMedia"];
-  projectNumber: number;
+  data: ProjectType;
 };
 
-const ProjectTitle = (props: Props) => {
-  const { client, title, services, year, heroMedia, projectNumber } = props;
+const NextProject = (props: Props) => {
+  const { data } = props;
 
-  const { ref, inView } = useInView({
-    triggerOnce: true,
-    threshold: 0.01,
-    rootMargin: "-50px",
-  });
+  const [triggerAnimation, setTriggerAnimation] = useState(false);
+  const lenis = useLenis(({ scroll }) => {});
+
+  const router = useRouter();
+
+  if (!data?.slug?.current) {
+    return null;
+  }
+
+  const nextWorkUrl = `/work/${data.slug.current}`;
+
+  const handleClick = () => {
+    setTriggerAnimation(true);
+
+    if (!lenis) return;
+
+    lenis?.scrollTo("bottom");
+
+    setTimeout(() => {
+      router.push(nextWorkUrl);
+    }, 500);
+  };
 
   return (
-    <ProjectTitleWrapper className="project-title" ref={ref}>
+    <NextProjectWrapper
+      className="cursor-next-project"
+      onClick={() => {
+        handleClick();
+      }}
+    >
       <LayoutWrapper>
         <TitleWrapper>
-          <Client className="color-switch">{client || ""}</Client>
+          <Client className="color-switch">{data?.client?.title || ""}</Client>
           <Title className="color-switch type-h1">
-            <HoverTyper data={title} inView={inView} noHoverAnimation={true} />
+            {data?.title && (
+              <HoverTyper
+                data={data?.title}
+                inView={!triggerAnimation}
+                noHoverAnimation={true}
+              />
+            )}
           </Title>
         </TitleWrapper>
         <DetailsWrapper>
@@ -145,36 +199,35 @@ const ProjectTitle = (props: Props) => {
             <ClientDetail>
               <DetailTitle className="type-mono-small">Client</DetailTitle>
               <DetailText className="type-mono-small">
-                {client || ""}
+                {data?.client?.title || ""}
               </DetailText>
             </ClientDetail>
             <ServicesDetail>
               <DetailTitle className="type-mono-small">Services</DetailTitle>
               <DetailText className="type-mono-small">
-                {services || ""}
+                {data?.services || ""}
               </DetailText>
             </ServicesDetail>
             <YearDetail>
               <DetailTitle className="type-mono-small">Year</DetailTitle>
-              <DetailText className="type-mono-small">{year || ""}</DetailText>
+              <DetailText className="type-mono-small">
+                {data?.year || ""}
+              </DetailText>
             </YearDetail>
             <ProjectDetail>
               <DetailText className="type-mono-small">
-                (P-{projectNumber})
+                (P-
+                {data?.projectIndex !== undefined ? data.projectIndex + 1 : ""})
               </DetailText>
             </ProjectDetail>
           </LayoutGrid>
         </DetailsWrapper>
       </LayoutWrapper>
-      <MediaWrapper
-        className={`view-element-difference ${
-          inView ? "view-element-difference--in-view" : ""
-        }`}
-      >
-        {heroMedia && <MediaStack data={heroMedia} useLoader />}
+      <MediaWrapper $animating={triggerAnimation}>
+        {data?.heroMedia && <MediaStack data={data?.heroMedia} />}
       </MediaWrapper>
-    </ProjectTitleWrapper>
+    </NextProjectWrapper>
   );
 };
 
-export default ProjectTitle;
+export default NextProject;

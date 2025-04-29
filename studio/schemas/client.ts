@@ -8,5 +8,16 @@ export default {
       name: 'title',
       type: 'string',
     },
+    {
+      title: 'Projects',
+      name: 'projects',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          to: [{type: 'project'}],
+        },
+      ],
+    },
   ],
 }

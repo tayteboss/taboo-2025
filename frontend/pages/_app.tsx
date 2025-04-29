@@ -1,79 +1,153 @@
-import { useEffect, useState } from 'react';
-import '../styles/fonts.css';
-import { ThemeProvider } from 'styled-components';
-import { useRouter } from 'next/router';
-import { AnimatePresence } from 'framer-motion';
-import Cookies from 'js-cookie';
-import Layout from '../components/layout';
-import { theme } from '../styles/theme';
-import { GlobalStyles } from '../styles/global';
-import use1vh from '../hooks/use1vh';
-import { TransitionsType } from '../shared/types/types';
-import useHeaderHeight from '../hooks/useHeaderHeight';
+// _app.js
 
-const pageTransitionVariants: TransitionsType = {
-	hidden: { opacity: 0, transition: { duration: 0.3 } },
-	visible: { opacity: 1, transition: { duration: 0.3, delay: 0.25 } },
+import { useEffect, useState, useRef } from "react";
+import "../styles/fonts.css";
+import { ThemeProvider } from "styled-components";
+import { useRouter } from "next/router";
+import { AnimatePresence, motion } from "framer-motion";
+import Layout from "../components/layout";
+import { theme } from "../styles/theme";
+import { GlobalStyles } from "../styles/global";
+import use1vh from "../hooks/use1vh";
+import useHeaderHeight from "../hooks/useHeaderHeight";
+import Cursor from "../components/elements/Cursor";
+
+// --- Define Transition Variants ---
+
+// Variants for standard page transitions (fade)
+const pageTransitionVariants = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1, transition: { duration: 0.3, delay: 0.1 } },
+  exit: { opacity: 0, transition: { duration: 0.2 } },
+};
+
+// Variants for INSTANT swap between work slugs
+const noTransitionVariants = {
+  initial: { opacity: 1, transition: { duration: 0 } }, // Explicit zero duration
+  animate: { opacity: 1, transition: { duration: 0 } }, // Explicit zero duration
+  exit: { opacity: 1, transition: { duration: 0 } }, // Explicit zero duration & stay opaque
 };
 
 type Props = {
-	Component: any;
-	pageProps: {};
+  Component: React.ElementType;
+  pageProps: any;
 };
 
 const App = (props: Props) => {
-	const {
-		Component,
-		pageProps
-	} = props;
+  const { Component, pageProps } = props;
+  const [appCursorRefresh, setAppCursorRefresh] = useState(0);
+  const router = useRouter();
+  const previousPathRef = useRef<string | null>(null);
 
-	const [hasVisited, setHasVisited] = useState<boolean>(false);
+  // Function to check navigation type
+  const isNavigatingBetweenWorkSlugs = (
+    prevPath: string | null,
+    currentPath: string
+  ): boolean => {
+    // Ensure both paths exist, start with /work/, and are different
+    console.log("prevPath", prevPath);
+    console.log("currentPath", currentPath);
+    return (
+      !!prevPath &&
+      prevPath.startsWith("/work/") &&
+      currentPath.startsWith("/work/")
+    );
+  };
 
-	const router= useRouter();
-	const routerEvents = router.events;
+  const handleExitComplete = (): void => {
+    // Scroll to top ONLY if NOT navigating between work slugs
+    if (!isNavigatingBetweenWorkSlugs(previousPathRef.current, router.asPath)) {
+      window.scrollTo(0, 0);
+    }
+    // Note: If using mode="sync", onExitComplete might behave differently or fire earlier
+    // than with "wait". Test if scroll behavior is still correct.
+  };
 
-	const handleExitComplete = (): void => {
-		window.scrollTo(0, 0);
-	};
+  use1vh();
+  useHeaderHeight();
 
-	use1vh();
-	useHeaderHeight();
+  useEffect(() => {
+    previousPathRef.current = router.asPath;
+  }, [router.asPath]);
 
-	useEffect(() => {
-		const hasCookies = Cookies.get('visited');
+  useEffect(() => {
+    setAppCursorRefresh((prev) => prev + 1);
 
-		if (hasCookies) {
-			setHasVisited(true);
-		}
+    const body = document.querySelector("body");
+    if (body) {
+      if (router?.pathname === "/404") {
+        body.classList.add("modal-open");
+      } else {
+        body.classList.remove("modal-open");
+      }
+      body.classList.remove("fade-pagebuilder-modules");
+    }
 
-		const timer = setTimeout(() => {
-			Cookies.set('visited', 'true', { expires: 1, path: '' });
-		}, 5000);
+    const timer = setTimeout(() => {
+      setAppCursorRefresh((prev) => prev + 1);
+    }, 3000);
 
-		return () => {
-			clearTimeout(timer);
-		}
-	}, []);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [router.asPath, router?.pathname]);
 
-	return (
-		<>
-			<GlobalStyles />
-			<ThemeProvider theme={theme}>
-				<Layout>
-					<AnimatePresence
-						mode="wait"
-						onExitComplete={() => handleExitComplete()}
-					>
-						<Component
-							{...pageProps}
-							key={router.asPath}
-							pageTransitionVariants={pageTransitionVariants}
-						/>
-					</AnimatePresence>
-				</Layout>
-			</ThemeProvider>
-		</>
-	);
-}
+  // Determine transition type
+  const navigatingBetweenWork = isNavigatingBetweenWorkSlugs(
+    previousPathRef.current,
+    router.asPath
+  );
+  console.log("navigatingBetweenWork", navigatingBetweenWork);
+
+  const variantsToUse = navigatingBetweenWork
+    ? noTransitionVariants
+    : pageTransitionVariants;
+
+  // --- Select AnimatePresence Mode ---
+  // Use 'sync' for the instant swap between work slugs
+  // Use 'wait' for standard fade transitions elsewhere
+  const animationMode = navigatingBetweenWork ? "sync" : "wait";
+
+  // // --- Debugging --- (Uncomment to check in console during navigation)
+  // Inside the App component in _app.js, before the return statement:
+
+  // console.log(`[APP RENDER] Path: ${router.asPath}`);
+  // console.log(`           Previous Path: ${previousPathRef.current}`);
+  // console.log(
+  //   `           isNavigatingBetweenWorkSlugs: ${navigatingBetweenWork}`
+  // );
+  // console.log(`           animationMode: ${animationMode}`);
+  // console.log(
+  //   `           Using Variants: ${navigatingBetweenWork ? "INSTANT (noTransitionVariants)" : "FADE (pageTransitionVariants)"}`
+  // );
+
+  return (
+    <>
+      <GlobalStyles />
+      <ThemeProvider theme={theme}>
+        <Layout>
+          <AnimatePresence
+            mode={animationMode} // Use 'sync' for instant swap, 'wait' otherwise
+            onExitComplete={handleExitComplete}
+          >
+            <motion.div
+              key={router.asPath} // Essential for AnimatePresence
+              variants={variantsToUse} // Apply the selected variants
+              initial="initial"
+              animate="animate"
+              exit="exit"
+            >
+              <Component {...pageProps} />
+            </motion.div>
+          </AnimatePresence>
+        </Layout>
+        <Cursor
+          cursorRefresh={() => setAppCursorRefresh((prev) => prev + 1)}
+          appCursorRefresh={appCursorRefresh}
+        />
+      </ThemeProvider>
+    </>
+  );
+};
 
 export default App;

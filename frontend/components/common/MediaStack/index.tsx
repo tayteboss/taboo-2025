@@ -11,6 +11,7 @@ type Props = {
   isPriority?: boolean;
   noAnimation?: boolean;
   sizes?: undefined | string;
+  useLoader?: boolean;
 };
 
 const MediaStack = (props: Props) => {
@@ -19,6 +20,7 @@ const MediaStack = (props: Props) => {
     isPriority = false,
     noAnimation = false,
     sizes = undefined,
+    useLoader = false,
   } = props ?? {};
 
   const useVideo = data?.media?.mediaType === "video";
@@ -37,6 +39,7 @@ const MediaStack = (props: Props) => {
           inView={inView}
           isPriority={isPriority}
           noAnimation={noAnimation}
+          useLoader={useLoader}
         />
       )}
       {!useVideo && (

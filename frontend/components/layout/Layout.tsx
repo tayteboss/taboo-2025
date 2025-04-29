@@ -20,16 +20,17 @@ const Layout = (props: Props) => {
 
   const [contactModalIsActive, setContactModalIsActive] = useState(false);
   const [headerIsActive, setHeaderIsActive] = useState(false);
+  const [footerIsActive, setFooterIsActive] = useState(false);
   const router = useRouter();
 
   const lenis = useLenis(({ scroll }) => {});
 
   useEffect(() => {
-    if (router.pathname === "/") {
-      setHeaderIsActive(false);
-    } else {
-      setHeaderIsActive(true);
-    }
+    const isWorkSlugPage = router.pathname === "/work/[...slug]";
+    const isHomePage = router.pathname === "/";
+
+    setHeaderIsActive(!isHomePage);
+    setFooterIsActive(!(isHomePage || isWorkSlugPage));
   }, [router]);
 
   useEffect(() => {
@@ -56,7 +57,7 @@ const Layout = (props: Props) => {
       <ReactLenis root>
         <Main>{children}</Main>
       </ReactLenis>
-      <Footer siteSettings={siteSettings} isActive={headerIsActive} />
+      <Footer siteSettings={siteSettings} isActive={footerIsActive} />
     </>
   );
 };
