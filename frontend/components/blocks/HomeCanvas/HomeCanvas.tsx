@@ -131,7 +131,7 @@ const manualLayoutConfig = [
   // 9
   { top: "20%", left: "-20%", depthFactor: 0.7 },
   // 10
-  { top: "45%", left: "70%", depthFactor: 0.85 },
+  { top: "35%", left: "75%", depthFactor: 0.85 },
   // 11
   { top: "15%", left: "115%", depthFactor: 0.95 },
   // 12
@@ -143,7 +143,7 @@ const manualLayoutConfig = [
   // 15
   { top: "60%", left: "-10%", depthFactor: 0.75 },
   // 16
-  { top: "25%", left: "40%", depthFactor: 0.95 },
+  { top: "15%", left: "40%", depthFactor: 0.95 },
   // 17
   { top: "110%", left: "0%", depthFactor: 0.8 },
   // 18
@@ -414,6 +414,7 @@ const HomeCanvas = React.memo((props: Props) => {
               animate={config.itemAnimate}
               transition={config.itemTransition}
             >
+              <>{config.key}</>
               <CanvasCard
                 description={config.description}
                 link={config.link}
