@@ -102,7 +102,13 @@ const BottomBar = styled.div`
   mix-blend-mode: difference;
 
   .social-card {
-    background: var(--colour-foreground);
+    background: transparent;
+    color: var(--colour-white);
+
+    &:hover {
+      background: var(--colour-background) !important;
+      color: var(--colour-foreground) !important;
+    }
   }
 `;
 

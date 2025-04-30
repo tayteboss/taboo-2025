@@ -58,14 +58,15 @@ const ClientLogosSection = (props: Props) => {
   const { data } = props;
 
   const hasData = data?.logos && data.logos?.length > 0;
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
 
-  // const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { loop: true, skipSnaps: true, dragFreeze: true } as EmblaOptionsType,
     [
       AutoScroll({
         playOnInit: true,
         stopOnInteraction: false,
+        speed: isMobile ? 1 : 2,
       }),
     ]
   );
