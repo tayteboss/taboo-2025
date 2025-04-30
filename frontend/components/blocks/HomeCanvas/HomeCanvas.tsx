@@ -414,7 +414,6 @@ const HomeCanvas = React.memo((props: Props) => {
               animate={config.itemAnimate}
               transition={config.itemTransition}
             >
-              <>{config.key}</>
               <CanvasCard
                 description={config.description}
                 link={config.link}
