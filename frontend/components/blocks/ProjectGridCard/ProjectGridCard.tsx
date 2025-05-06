@@ -138,6 +138,7 @@ type Props = {
   industries: ProjectType["industries"];
   year: ProjectType["year"];
   zoomLevel: number;
+  index: number;
 };
 
 // --- Component ---
@@ -152,6 +153,7 @@ const ProjectGridCard = React.memo((props: Props) => {
     industries,
     year,
     zoomLevel,
+    index,
   } = props;
 
   const [isHovered, setIsHovered] = useState(false);
@@ -208,6 +210,8 @@ const ProjectGridCard = React.memo((props: Props) => {
                 <MediaStack
                   data={gridThumbnailMedia}
                   sizes="(max-width: 768px) 100vw, 33vw"
+                  isPriority={index < 4}
+                  lazyLoad={index > 4}
                 />
               </div>
             )}

@@ -79,16 +79,15 @@ type Props = {
   inView: boolean;
   noAnimation?: boolean;
   sizes: undefined | string;
+  alt?: string;
+  lazyLoad?: boolean;
 };
 
 const ImageComponent = (props: Props) => {
-  const { data, isPriority, inView, noAnimation, sizes } = props;
+  const { data, isPriority, inView, noAnimation, sizes, alt, lazyLoad } = props;
 
   const imageUrl = data?.media?.image?.asset?.url;
   const blurDataURL = data?.media?.image?.asset?.metadata?.lqip;
-
-  // EXAMPLE SIZES PROP
-  // "(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
 
   return (
     <ImageComponentWrapper className="media-wrapper">
@@ -104,7 +103,7 @@ const ImageComponent = (props: Props) => {
               >
                 <Image
                   src={blurDataURL}
-                  alt={data?.media?.image?.alt || ""}
+                  alt={data?.media?.image?.alt || alt || ""}
                   priority={isPriority}
                   blurDataURL={blurDataURL}
                   fill
@@ -112,6 +111,7 @@ const ImageComponent = (props: Props) => {
                     objectFit: "cover",
                   }}
                   sizes="50vw"
+                  loading={lazyLoad ? "lazy" : "eager"}
                 />
               </InnerBlur>
             )}
@@ -127,7 +127,7 @@ const ImageComponent = (props: Props) => {
         {imageUrl && (
           <Image
             src={imageUrl}
-            alt={data?.media?.image?.alt || ""}
+            alt={data?.media?.image?.alt || alt || ""}
             priority={isPriority}
             blurDataURL={blurDataURL}
             fill
@@ -135,6 +135,7 @@ const ImageComponent = (props: Props) => {
               objectFit: "cover",
             }}
             sizes={sizes}
+            loading={lazyLoad ? "lazy" : "eager"}
           />
         )}
       </Inner>

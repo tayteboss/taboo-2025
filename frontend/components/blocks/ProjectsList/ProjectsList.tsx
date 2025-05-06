@@ -86,6 +86,7 @@ const ProjectsList = (props: Props) => {
                       {...project}
                       zoomLevel={zoomLevel}
                       key={`grid-${i}`}
+                      index={3}
                     />
                   ))}
                 </AnimatePresence>

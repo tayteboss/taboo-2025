@@ -4,7 +4,6 @@ import { MediaType } from "../../../shared/types/types";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
-import LoadingIndicator from "../../elements/LoadingIndicator";
 
 const VideoComponentWrapper = styled.div`
   position: relative;
@@ -65,12 +64,12 @@ type Props = {
   inView: boolean;
   isPriority: boolean;
   noAnimation?: boolean;
+  lazyLoad?: boolean;
   useLoader?: boolean;
 };
 
 const VideoComponent = (props: Props) => {
-  const { data, inView, isPriority, noAnimation, useLoader } = props;
-
+  const { data, inView, isPriority, noAnimation, useLoader, lazyLoad } = props;
   const [isLoading, setIsLoading] = useState(true);
 
   const playbackId = data?.media?.video?.asset?.playbackId;
@@ -78,7 +77,7 @@ const VideoComponent = (props: Props) => {
 
   return (
     <VideoComponentWrapper className="media-wrapper">
-      {!noAnimation && (
+      {!noAnimation && posterUrl && (
         <AnimatePresence initial={false}>
           {inView && playbackId && (
             <InnerBlur
@@ -106,7 +105,7 @@ const VideoComponent = (props: Props) => {
             autoPlay="muted"
             loop={true}
             thumbnailTime={1}
-            loading="page"
+            loading={lazyLoad ? "viewport" : "page"}
             preload="auto"
             muted
             playsInline={true}

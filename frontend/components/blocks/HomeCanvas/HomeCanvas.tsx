@@ -5,7 +5,9 @@ import { HomePageType } from "../../../shared/types/types";
 import { useMousePosition } from "../../../hooks/useMousePosition";
 import CanvasCard from "../../elements/CanvasCard";
 import LogoIcon from "../../svgs/LogoIcon";
-import OverviewModal from "../OverviewModal";
+import dynamic from "next/dynamic";
+
+const OverviewModal = dynamic(() => import("../OverviewModal"));
 
 // Styled Components (Unchanged)
 const HomeCanvasWrapper = styled(motion.div)<{ $animationComplete: boolean }>`
@@ -51,20 +53,6 @@ const Outer = styled(motion.div)`
   }
 `;
 
-const Inner = styled(motion.div)`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  mix-blend-mode: normal;
-  pointer-events: none;
-`;
-
 const LogoWrapper = styled(motion.div)`
   display: flex;
   justify-content: center;
@@ -76,10 +64,6 @@ const LogoWrapper = styled(motion.div)`
 const MemoizedLogoInner = React.memo(styled.div`
   transition: all var(--transition-speed-default) var(--transition-ease);
   cursor: pointer;
-
-  &:hover {
-    transform: scale(1.03);
-  }
 
   svg {
     width: 98vw;
@@ -96,7 +80,6 @@ const ItemWrapper = styled(motion.div)`
   z-index: 2;
 `;
 
-// Configuration (Unchanged)
 const MAX_ITEMS_TO_DISPLAY = 20;
 const BASE_PARALLAX_STRENGTH = 1400;
 const LOGO_PARALLAX_STRENGTH = 2000;
