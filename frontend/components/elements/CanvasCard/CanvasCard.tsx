@@ -171,15 +171,16 @@ const CanvasCard = React.memo(
             {useProjectReference ? (
               <>
                 <Title className="type-mono-small">
-                  <HoverTyper
+                  {/* <HoverTyper
                     data={`${project?.client?.title || ""}, ${
                       project?.title || ""
                     }`}
                     inView={isInternalHover} // Controlled by local hover
-                  />
+                  /> */}
+                  {project?.client?.title || ""}, ${project?.title || ""}
                 </Title>
                 <Subtitle className="type-mono-small">
-                  {project?.service}
+                  {project?.services}
                 </Subtitle>
                 <Subtitle className="type-mono-small">{project?.year}</Subtitle>
               </>
@@ -187,7 +188,8 @@ const CanvasCard = React.memo(
               <>
                 <Title className="type-mono-small">
                   {/* Pass title directly if HoverTyper isn't essential or memoize HoverTyper */}
-                  <HoverTyper data={title || ""} inView={isInternalHover} />
+                  {/* <HoverTyper data={title || ""} inView={isInternalHover} /> */}
+                  {title}
                 </Title>
                 <Subtitle className="type-mono-small">
                   {description || ""}
