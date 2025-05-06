@@ -4,6 +4,7 @@ import { MediaType } from "../../../shared/types/types";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
+import LoadingIndicator from "../../elements/LoadingIndicator";
 
 const VideoComponentWrapper = styled.div`
   position: relative;
