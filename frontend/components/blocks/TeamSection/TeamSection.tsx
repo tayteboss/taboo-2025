@@ -5,10 +5,12 @@ import useEmblaCarousel from "embla-carousel-react";
 import TeamCard from "../../elements/TeamCard";
 import pxToRem from "../../../utils/pxToRem";
 import { useEffect, useState } from "react";
-import TeamModal from "../TeamModal";
 import { useLenis } from "@studio-freight/react-lenis";
 import { useInView } from "react-intersection-observer";
 import { motion } from "framer-motion";
+import dynamic from "next/dynamic"; // Import dynamic
+
+const TeamModal = dynamic(() => import("../TeamModal"));
 
 const TeamSectionWrapper = styled.section`
   margin-bottom: ${pxToRem(200)};

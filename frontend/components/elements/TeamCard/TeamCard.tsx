@@ -154,6 +154,7 @@ const TeamCard = (props: Props) => {
                 <MediaStack
                   data={hoverMedia}
                   sizes="(max-width: 600px) 70vw, 33vw"
+                  lazyLoad
                 />
               </HoverMediaWrapper>
             )}

@@ -4,14 +4,27 @@ import { InformationPageType, TransitionsType } from "../shared/types/types";
 import { motion } from "framer-motion";
 import client from "../client";
 import { informationPageQueryString } from "../lib/sanityQueries";
-import AboutSection from "../components/blocks/AboutSection";
-import AchievementsSection from "../components/blocks/AchievementsSection";
-import ClientLogosSection from "../components/blocks/ClientLogosSection";
-import HowWeDoItSection from "../components/blocks/HowWeDoItSection";
-import PrinciplesSection from "../components/blocks/PrinciplesSection";
-import StatisticSection from "../components/blocks/StatisticSection";
-import TeamSection from "../components/blocks/TeamSection";
 import pxToRem from "../utils/pxToRem";
+import dynamic from "next/dynamic"; // Import dynamic
+
+// Keep the potentially above-the-fold component static
+import AboutSection from "../components/blocks/AboutSection";
+import StatisticSection from "../components/blocks/StatisticSection";
+
+// Dynamically import components likely below the fold
+const PrinciplesSection = dynamic(
+  () => import("../components/blocks/PrinciplesSection")
+);
+const AchievementsSection = dynamic(
+  () => import("../components/blocks/AchievementsSection")
+);
+const TeamSection = dynamic(() => import("../components/blocks/TeamSection"));
+const HowWeDoItSection = dynamic(
+  () => import("../components/blocks/HowWeDoItSection")
+);
+const ClientLogosSection = dynamic(
+  () => import("../components/blocks/ClientLogosSection")
+);
 
 const PageWrapper = styled(motion.div)`
   padding-top: ${pxToRem(240)};
@@ -40,8 +53,12 @@ const Page = (props: Props) => {
         title={data?.seoTitle || ""}
         description={data?.seoDescription || ""}
       />
+      {/* Render static component */}
       <AboutSection data={data?.aboutUsSection} />
       <StatisticSection data={data?.statisticsSection} />
+
+      {/* Render dynamically imported components */}
+      {/* Next.js will load the JS for these as they approach the viewport */}
       <PrinciplesSection data={data?.principlesSection} />
       <AchievementsSection data={data?.achievementsSection} />
       <TeamSection data={data?.teamSection} />
