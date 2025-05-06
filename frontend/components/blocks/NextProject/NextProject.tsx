@@ -245,7 +245,9 @@ const NextProject = (props: Props) => {
         </DetailsWrapper>
       </LayoutWrapper>
       <MediaWrapper $animating={triggerAnimation}>
-        {data?.heroMedia && <MediaStack data={data?.heroMedia} />}
+        {data?.heroMedia && (
+          <MediaStack data={data?.heroMedia} lazyLoad sizes="100vw" />
+        )}
       </MediaWrapper>
       <LayoutWrapper>
         <MobileButtonTrigger>

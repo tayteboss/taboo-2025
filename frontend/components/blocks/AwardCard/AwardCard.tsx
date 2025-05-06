@@ -130,9 +130,7 @@ const AwardCard = (props: Props) => {
 
   const content = (
     <>
-      <Number className="type-h4 type-mono color-switch">
-        <HoverTyper data={formatNumber(number)} inView={inView} />
-      </Number>
+      <Number className="type-h4 type-mono color-switch">{number}</Number>
       <Name className="type-h4 type-mono color-switch hover-bar">
         <DesktopWrapper>
           <HoverTyper data={name || ""} inView={inView} />
