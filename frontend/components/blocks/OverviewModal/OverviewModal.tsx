@@ -197,7 +197,12 @@ const OverviewModal = (props: Props) => {
           >
             <MediaWrapper>
               {heroMedia && <MediaStack data={heroMedia} />}
-              <CloseTrigger onClick={() => setOverviewModal(false)}>
+              <CloseTrigger
+                onClick={() => setOverviewModal(false)}
+                role="button"
+                aria-label="Close"
+                tabIndex={-1}
+              >
                 <CrossIcon />
               </CloseTrigger>
             </MediaWrapper>

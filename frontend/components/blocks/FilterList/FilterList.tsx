@@ -54,6 +54,8 @@ const FilterList = (props: Props) => {
           onClick={() => setActive(item.value)}
           key={item.value}
           className="type-mono-small color-switch"
+          role="button"
+          aria-label={`Filter by ${item.title}`}
         >
           ({active === item.value ? "•" : " "}){" "}
           <HoverTyper

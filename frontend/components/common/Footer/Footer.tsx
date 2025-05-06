@@ -209,7 +209,11 @@ const Footer = (props: Props) => {
                 ))}
               </SocialDetails>
             )}
-            <BackToTop onClick={() => handleScrollToTop()}>
+            <BackToTop
+              onClick={() => handleScrollToTop()}
+              role="button"
+              aria-label="Back to top"
+            >
               Back to top (↑)
             </BackToTop>
             <FooterWidget />

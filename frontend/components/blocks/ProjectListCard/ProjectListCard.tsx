@@ -131,7 +131,7 @@ const ProjectListCard = (props: Props) => {
       key={slug.current}
       transition={{ duration: 0.3, ease: "easeInOut" }}
     >
-      <Link href={`/work/${slug.current}`}>
+      <Link href={`/work/${slug.current}`} aria-label={title}>
         <LayoutGrid>
           <Client className="type-p color-switch">
             {/* Client Title - Active when NOT hovered */}

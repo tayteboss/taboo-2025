@@ -172,7 +172,12 @@ const FiltersModal = (props: Props) => {
               <Title className="color-switch type-mono type-h4">
                 Apply Filters
               </Title>
-              <CloseTrigger onClick={() => setIsActive(false)}>
+              <CloseTrigger
+                onClick={() => setIsActive(false)}
+                role="button"
+                aria-label="Close"
+                tabIndex={-1}
+              >
                 <CrossIcon />
               </CloseTrigger>
             </TitleWrapper>

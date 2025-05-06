@@ -36,12 +36,16 @@ const FilterZoom = (props: Props) => {
       <Trigger
         $isInactive={zoomLevel === 1}
         onClick={() => setZoomLevel(zoomLevel - 1)}
+        role="button"
+        aria-label={`Zoom out`}
       >
         (-)
       </Trigger>
       <Trigger
         $isInactive={zoomLevel === 3}
         onClick={() => setZoomLevel(zoomLevel + 1)}
+        role="button"
+        aria-label={`Zoom in`}
       >
         (+)
       </Trigger>

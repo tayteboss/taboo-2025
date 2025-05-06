@@ -69,10 +69,18 @@ const FooterContactCard = (props: Props) => {
       )}
       {email && phone && (
         <LinksWrapper>
-          <Link href={`mailto:${email}`} className="type-h4 color-switch">
+          <Link
+            href={`mailto:${email}`}
+            className="type-h4 color-switch"
+            aria-label="Email"
+          >
             <HoverTyper data={email} inView={true} />
           </Link>
-          <Link href={`tel:${phone}`} className="type-h4 color-switch">
+          <Link
+            href={`tel:${phone}`}
+            className="type-h4 color-switch"
+            aria-label="Phone"
+          >
             <HoverTyper data={phone} inView={true} />
           </Link>
         </LinksWrapper>
@@ -85,6 +93,7 @@ const FooterContactCard = (props: Props) => {
               href={social.link}
               target="_blank"
               className="type-h4 color-switch"
+              aria-label="Social Link"
             >
               <HoverTyper data={social.title} inView={true} />
             </Link>

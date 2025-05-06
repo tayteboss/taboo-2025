@@ -158,7 +158,7 @@ const AwardCard = (props: Props) => {
       transition={{ duration: 0.3, ease: "easeInOut" }}
     >
       {optionalLink ? (
-        <Link href={optionalLink} target="_blank" passHref>
+        <Link href={optionalLink} target="_blank" passHref aria-label="Award">
           <LayoutGrid>{content}</LayoutGrid>
         </Link>
       ) : (

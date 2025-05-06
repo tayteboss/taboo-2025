@@ -79,7 +79,11 @@ const ClientLogosSection = (props: Props) => {
             [...data.logos, ...data.logos].map((item, i) => (
               <Slide className={`embla__slide`} key={i}>
                 {item?.link ? (
-                  <Link href={item?.link} target="_blank">
+                  <Link
+                    href={item?.link}
+                    target="_blank"
+                    aria-label="Client link"
+                  >
                     <ImageWrapper>
                       <Image
                         src={item?.image?.asset?.url}

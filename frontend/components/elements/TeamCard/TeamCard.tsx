@@ -135,6 +135,8 @@ const TeamCard = (props: Props) => {
             <Trigger
               className="bio-trigger"
               onClick={() => setTeamModalIsActive(index)}
+              role="button"
+              aria-label={`Read ${name}'s bio`}
             >
               <PrimaryButton>Read Bio (↗)</PrimaryButton>
             </Trigger>

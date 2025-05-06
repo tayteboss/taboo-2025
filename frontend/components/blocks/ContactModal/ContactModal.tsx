@@ -235,7 +235,12 @@ const ContactModal = (props: Props) => {
           >
             <TitleWrapper>
               <Title>Contact</Title>
-              <CloseTrigger onClick={() => setIsActive(false)}>
+              <CloseTrigger
+                onClick={() => setIsActive(false)}
+                role="button"
+                aria-label="Close"
+                tabIndex={-1}
+              >
                 <CrossIcon />
               </CloseTrigger>
             </TitleWrapper>

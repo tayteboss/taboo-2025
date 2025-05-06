@@ -195,7 +195,12 @@ const ProjectGridCard = React.memo((props: Props) => {
       transition={{ duration: 0.3, ease: "easeInOut" }}
       layout
     >
-      <Link href={`/work/${currentSlug}`} passHref legacyBehavior>
+      <Link
+        href={`/work/${currentSlug}`}
+        passHref
+        legacyBehavior
+        aria-label="Open Case Study"
+      >
         <a style={{ textDecoration: "none" }}>
           {" "}
           <ImageWrapper

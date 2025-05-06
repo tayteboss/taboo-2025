@@ -68,7 +68,11 @@ const DarkModeToggle = () => {
   };
 
   return (
-    <DarkModeToggleWrapper onClick={() => handleLightSwitch()}>
+    <DarkModeToggleWrapper
+      onClick={() => handleLightSwitch()}
+      role="button"
+      aria-label="Toggle dark/light mode"
+    >
       <LightSwitchIcon />
     </DarkModeToggleWrapper>
   );

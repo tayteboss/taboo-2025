@@ -192,7 +192,11 @@ const Menu = (props: Props) => {
           </MenuInner>
         )}
       </AnimatePresence>
-      <Trigger onClick={() => setMenuIsActive(!menuIsActive)}>
+      <Trigger
+        onClick={() => setMenuIsActive(!menuIsActive)}
+        role="button"
+        aria-label={menuIsActive ? "Close menu" : "Open menu"}
+      >
         <AnimatePresence mode="wait">
           {!menuIsActive ? (
             <motion.div

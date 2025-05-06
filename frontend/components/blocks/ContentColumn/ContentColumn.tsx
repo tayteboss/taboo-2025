@@ -233,6 +233,7 @@ const ContentColumn = (props: Props) => {
                   key={index}
                   $isActive={index === selectedIndex}
                   onClick={() => scrollTo(index)}
+                  role="button"
                   aria-label={`Go to slide ${index + 1}`} // Accessibility
                 />
               ))}

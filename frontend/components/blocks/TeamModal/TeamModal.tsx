@@ -219,7 +219,12 @@ const TeamModal = (props: Props) => {
                   {data?.position || ""}
                 </Position>
               </NameWrapper>
-              <CloseTrigger onClick={() => setTeamModalIsActive(false)}>
+              <CloseTrigger
+                onClick={() => setTeamModalIsActive(false)}
+                role="button"
+                aria-label="Close"
+                tabIndex={-1}
+              >
                 <CrossIcon />
               </CloseTrigger>
             </TitleWrapper>
