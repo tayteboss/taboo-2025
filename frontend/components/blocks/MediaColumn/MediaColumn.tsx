@@ -36,7 +36,14 @@ const MediaColumn = (props: Props) => {
         inView ? "view-element-difference--in-view" : ""
       }`}
     >
-      {media && <MediaStack data={media} noAnimation />}
+      {media && (
+        <MediaStack
+          data={media}
+          noAnimation
+          sizes="(max-width: 768px) 100vw, 50vw"
+          lazyLoad
+        />
+      )}
     </MediaColumnWrapper>
   );
 };

@@ -171,7 +171,7 @@ const ProjectTitle = (props: Props) => {
           inView ? "view-element-difference--in-view" : ""
         }`}
       >
-        {heroMedia && <MediaStack data={heroMedia} useLoader />}
+        {heroMedia && <MediaStack data={heroMedia} useLoader sizes="100vw" />}
       </MediaWrapper>
     </ProjectTitleWrapper>
   );

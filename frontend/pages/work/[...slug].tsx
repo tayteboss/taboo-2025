@@ -2,14 +2,21 @@ import styled from "styled-components";
 import client from "../../client";
 import { ProjectType } from "../../shared/types/types";
 import { NextSeo } from "next-seo";
-import PageBuilder from "../../components/common/PageBuilder";
 import {
   projectListQueryString,
   simpleProjectListQueryString,
 } from "../../lib/sanityQueries";
 import ProjectTitle from "../../components/blocks/ProjectTitle";
-import NextProject from "../../components/blocks/NextProject";
 import { useEffect } from "react";
+import dynamic from "next/dynamic";
+
+const PageBuilder = dynamic(
+  () => import("../../components/common/PageBuilder")
+);
+
+const NextProject = dynamic(
+  () => import("../../components/blocks/NextProject")
+);
 
 const PageContainer = styled.div`
   min-height: 100vh;

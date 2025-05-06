@@ -27,6 +27,8 @@ const MediaStack = (props: Props) => {
     useLoader = false,
   } = props ?? {};
 
+  // sizes="(max-width: 768px) 38vw, (max-width: 1024px) 20vw, 15vw"
+
   const useVideo = data?.media?.mediaType === "video";
 
   const { ref, inView } = useInView({

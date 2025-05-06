@@ -68,7 +68,9 @@ const FullMediaBlock = (props: Props) => {
           }`}
           $ratio={ratio}
         >
-          {media && <MediaStack data={media} noAnimation />}
+          {media && (
+            <MediaStack data={media} noAnimation sizes="100vw" lazyLoad />
+          )}
           {caption && <Caption className="type-mono-small">{caption}</Caption>}
         </MediaWrapper>
       </LayoutWrapper>
