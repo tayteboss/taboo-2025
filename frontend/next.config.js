@@ -15,8 +15,9 @@ const nextConfig = {
   },
   images: {
     domains: ['cdn.sanity.io', 'image.mux.com'],
+    loader: 'custom',
+    loaderFile: './lib/sanityImageLoader.ts', // Adjust path if you placed it elsewhere (e.g., './lib/sanityImageLoader.js')
   },
-  // Add any other configurations you might have here
 };
 
 // Use module.exports (CommonJS) to export the wrapped config
