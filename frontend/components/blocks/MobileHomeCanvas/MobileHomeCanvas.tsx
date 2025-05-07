@@ -1,10 +1,12 @@
-import React, { useState, useEffect, useMemo, useRef } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import styled, { useTheme } from "styled-components";
-import { motion, useMotionValue, useTransform } from "framer-motion";
+import { motion, useMotionValue } from "framer-motion";
 import { HomePageType } from "../../../shared/types/types";
 import CanvasCard from "../../elements/CanvasCard";
 import LogoIcon from "../../svgs/LogoIcon";
-import OverviewModal from "../OverviewModal";
+import dynamic from "next/dynamic";
+
+const OverviewModal = dynamic(() => import("../OverviewModal"));
 
 // --- Styled Components ---
 

@@ -9,9 +9,9 @@ const ImageComponentWrapper = styled.div`
   overflow: hidden;
   background: var(--colour-cream);
 
-  mux-player,
+  mux-player, // If you also use this wrapper for Mux Player
   img {
-    display: block;
+    display: block; // Good practice for images
     object-fit: cover;
   }
 `;
@@ -25,6 +25,8 @@ const MotionDivBase = styled(motion.div)`
 
 const InnerBlurWrapper = styled(MotionDivBase)`
   z-index: 2; // Placeholder on top
+  // Ensure the placeholder itself has the blur and scale if not animated initially
+  // This is now handled by the variant's 'visible' state directly
 `;
 
 const InnerMainImageWrapper = styled(MotionDivBase)`
@@ -33,37 +35,34 @@ const InnerMainImageWrapper = styled(MotionDivBase)`
 
 // Variants for the placeholder (LQIP)
 const placeholderVariants = {
-  initial: {
-    opacity: 0,
-  },
-  animate: {
+  // This is the state when the placeholder is visible
+  visible: {
     opacity: 1,
-    filter: "blur(2px)", // Apply blur style
-    scale: 1.05, // Apply scale style
-    transition: { duration: 0.3, ease: "easeOut" },
+    filter: "blur(15px)", // INCREASED BLUR RADIUS SIGNIFICANTLY for testing
+    scale: 1, // TEMPORARILY set scale to 1 to isolate blur effect
   },
+  // This is how the placeholder exits
   exit: {
     opacity: 0,
-    filter: "blur(0px)", // Unblur as it exits
-    scale: 1, // Unzoom as it exits
-    transition: { duration: 0.5, ease: "easeIn", delay: 0 }, // No delay needed once main is loaded
+    filter: "blur(0px)",
+    scale: 1, // Keep scale at 1 for exit during this test
+    transition: { duration: 1, ease: "easeIn" },
   },
 };
 
-// Variants for the main image
+// Variants for the main image (let's keep its scale animation for now,
+// as the "scale down" you see might be this one).
 const mainImageVariants = {
   initial: {
-    // Starts hidden, can also be blurred/scaled if desired to match placeholder exit
     opacity: 0,
-    // filter: "blur(2px)", // Optional: if you want main image to also de-blur
-    // scale: 1.05,         // Optional: if you want main image to also de-scale
+    filter: "blur(15px)", // Optional: If you wanted the main image to also de-blur
+    scale: 1.05,
   },
   animate: {
-    // Animates to fully visible and sharp
     opacity: 1,
     filter: "blur(0px)",
     scale: 1,
-    transition: { duration: 0.75, ease: "easeOut" },
+    transition: { duration: 1, ease: "easeOut" },
   },
 };
 
@@ -72,7 +71,7 @@ type Props = {
   isPriority?: boolean;
   inView: boolean;
   noAnimation?: boolean;
-  sizes: string;
+  sizes: string | undefined;
   alt?: string;
   lazyLoad?: boolean;
 };
@@ -97,27 +96,21 @@ const ImageComponent = (props: Props) => {
       ? "eager"
       : "lazy";
 
-  // State to track if the main image has loaded
-  // If noAnimation is true, we consider it "loaded" immediately for layout purposes.
   const [isMainImageLoaded, setIsMainImageLoaded] = useState(noAnimation);
+
+  useEffect(() => {
+    // Reset 'isMainImageLoaded' to its initial state (based on noAnimation)
+    // if the image URL changes. This ensures new images show their placeholders.
+    setIsMainImageLoaded(noAnimation);
+  }, [imageUrl, noAnimation]);
 
   const handleMainImageLoad = () => {
     if (!noAnimation) {
-      // Only update state if animations are enabled
       setIsMainImageLoaded(true);
     }
   };
 
-  // Reset loaded state if the image URL changes (e.g. in a dynamic context)
-  // or if inView becomes false after being true (image might need to reload or re-animate)
-  useEffect(() => {
-    if (!inView && !isPriority) {
-      // If not in view and not a priority image that should stay loaded
-      setIsMainImageLoaded(noAnimation); // Reset to initial state based on noAnimation
-    }
-  }, [imageUrl, inView, isPriority, noAnimation]);
-
-  // If noAnimation is true, render a simpler structure without Framer Motion.
+  // If noAnimation is true, render a simpler structure.
   if (noAnimation) {
     return (
       <ImageComponentWrapper className="media-wrapper">
@@ -132,16 +125,16 @@ const ImageComponent = (props: Props) => {
             loading={loadingStrategy}
           />
         )}
-        {/* Show LQIP as a static background if no main image and noAnimation */}
+        {/* Fallback to show static blur if no main image */}
         {!imageUrl && blurDataURL && (
           <Image
             src={blurDataURL}
-            alt={imageAltText}
+            alt={imageAltText} // Should indicate it's a placeholder/low quality
             priority={isPriority}
             fill
             style={{
               objectFit: "cover",
-              filter: "blur(2px)",
+              // filter: "blur(20px)",
               transform: "scale(1.05)",
             }}
             sizes={sizes}
@@ -152,28 +145,27 @@ const ImageComponent = (props: Props) => {
     );
   }
 
-  // Determine if conditions are met to show/animate elements
-  const shouldAnimate = inView || isPriority;
+  const shouldAnimateElements = inView || isPriority;
 
   return (
     <ImageComponentWrapper className="media-wrapper">
       <AnimatePresence>
-        {shouldAnimate && blurDataURL && !isMainImageLoaded && (
+        {shouldAnimateElements && blurDataURL && !isMainImageLoaded && (
           <InnerBlurWrapper
             key="placeholder"
             variants={placeholderVariants}
-            initial="initial"
-            animate="animate"
-            exit="exit"
+            initial="visible" // Placeholder is immediately visible in its blurred state
+            animate="visible" // Stays in this state
+            exit="exit" // Animates out using the 'exit' variant
           >
             <Image
               src={blurDataURL}
-              alt={imageAltText} // Placeholder alt
-              priority={isPriority} // Load LQIP eagerly if main image is priority
+              alt={`${imageAltText} (loading placeholder)`}
+              priority={isPriority}
               fill
-              style={{ objectFit: "cover" }}
-              sizes={sizes} // Consistent sizes
-              loading="eager" // Placeholders should generally load eagerly
+              style={{ objectFit: "cover" }} // Styles for the image itself
+              sizes={sizes}
+              loading="eager" // Placeholders must load eagerly
             />
           </InnerBlurWrapper>
         )}
@@ -181,10 +173,12 @@ const ImageComponent = (props: Props) => {
 
       {imageUrl && (
         <InnerMainImageWrapper
-          key="main-image-wrapper"
+          key="main-image-content" // Changed key slightly for potential clarity if debugging
           variants={mainImageVariants}
-          initial="initial"
-          animate={shouldAnimate && isMainImageLoaded ? "animate" : "initial"}
+          initial="initial" // Starts hidden (opacity 0)
+          animate={
+            shouldAnimateElements && isMainImageLoaded ? "animate" : "initial"
+          }
         >
           <Image
             src={imageUrl}
@@ -194,9 +188,8 @@ const ImageComponent = (props: Props) => {
             style={{ objectFit: "cover" }}
             sizes={sizes}
             loading={loadingStrategy}
-            onLoadingComplete={handleMainImageLoad} // Key callback
+            onLoad={handleMainImageLoad}
             onError={() => {
-              // Optional: Handle image load errors
               if (!noAnimation) setIsMainImageLoaded(true); // Hide placeholder even on error
             }}
           />

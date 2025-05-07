@@ -9,10 +9,7 @@ import {
 import ProjectTitle from "../../components/blocks/ProjectTitle";
 import { useEffect } from "react";
 import dynamic from "next/dynamic";
-
-const PageBuilder = dynamic(
-  () => import("../../components/common/PageBuilder")
-);
+import PageBuilder from "../../components/common/PageBuilder";
 
 const NextProject = dynamic(
   () => import("../../components/blocks/NextProject")

@@ -3,9 +3,11 @@ import Header from "../common/Header";
 import Footer from "../common/Footer";
 import { ReactNode, useEffect, useState } from "react";
 import { ReactLenis, useLenis } from "@studio-freight/react-lenis";
-import ContactModal from "../blocks/ContactModal";
 import { SiteSettingsType } from "../../shared/types/types";
 import { useRouter } from "next/router";
+import dynamic from "next/dynamic";
+
+const ContactModal = dynamic(() => import("../blocks/ContactModal"));
 
 const siteSettings: SiteSettingsType = require("../../json/siteSettings.json");
 

@@ -5,26 +5,13 @@ import { motion } from "framer-motion";
 import client from "../client";
 import { informationPageQueryString } from "../lib/sanityQueries";
 import pxToRem from "../utils/pxToRem";
-import dynamic from "next/dynamic"; // Import dynamic
-
-// Keep the potentially above-the-fold component static
 import AboutSection from "../components/blocks/AboutSection";
 import StatisticSection from "../components/blocks/StatisticSection";
-
-// Dynamically import components likely below the fold
-const PrinciplesSection = dynamic(
-  () => import("../components/blocks/PrinciplesSection")
-);
-const AchievementsSection = dynamic(
-  () => import("../components/blocks/AchievementsSection")
-);
-const TeamSection = dynamic(() => import("../components/blocks/TeamSection"));
-const HowWeDoItSection = dynamic(
-  () => import("../components/blocks/HowWeDoItSection")
-);
-const ClientLogosSection = dynamic(
-  () => import("../components/blocks/ClientLogosSection")
-);
+import AchievementsSection from "../components/blocks/AchievementsSection";
+import ClientLogosSection from "../components/blocks/ClientLogosSection";
+import HowWeDoItSection from "../components/blocks/HowWeDoItSection";
+import PrinciplesSection from "../components/blocks/PrinciplesSection";
+import TeamSection from "../components/blocks/TeamSection";
 
 const PageWrapper = styled(motion.div)`
   padding-top: ${pxToRem(240)};

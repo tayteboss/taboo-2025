@@ -16,7 +16,11 @@ import pxToRem from "../../utils/pxToRem";
 import ProjectsList from "../../components/blocks/ProjectsList";
 import FiltersBar from "../../components/blocks/FiltersBar";
 import { useEffect, useState } from "react";
-import FiltersModal from "../../components/blocks/FiltersModal";
+import dynamic from "next/dynamic";
+
+const FiltersModal = dynamic(
+  () => import("../../components/blocks/FiltersModal")
+);
 
 const viewTypes: any = [
   {
