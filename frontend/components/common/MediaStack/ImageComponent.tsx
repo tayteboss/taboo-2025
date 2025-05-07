@@ -87,6 +87,12 @@ const ImageComponent = (props: Props) => {
     lazyLoad,
   } = props;
 
+  // Set responsive image sizes
+  // On mobile, the image should take up 38% of the viewport width
+  // On tablet, the image should take up 20% of the viewport width
+  // On desktop, the image should take up 15% of the viewport width
+  // sizes="(max-width: 768px) 38vw, (max-width: 1024px) 20vw, 15vw"
+
   const imageUrl = data?.media?.image?.asset?.url;
   const blurDataURL = data?.media?.image?.asset?.metadata?.lqip;
   const imageAltText = alt || data?.media?.image?.alt || "Visual media content";
