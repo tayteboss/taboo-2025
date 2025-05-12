@@ -190,10 +190,10 @@ const ContentColumn = (props: Props) => {
       <Inner>
         {!hasMultipleSlides && (
           <SlideInner data-lenis-prevent>
-            {data[0]?.title && (
+            {data && data[0]?.title && (
               <Title className="type-mono-small">{data[0].title}</Title>
             )}
-            {data[0]?.text && (
+            {data && data[0]?.text && (
               <Description className={handleDescriptionClass(data[0].text)}>
                 {data[0].text}
               </Description>
