@@ -99,5 +99,10 @@ export default {
         },
       ],
     },
+    {
+      title: 'Back to Top Button Title',
+      name: 'backToTopButtonTitle',
+      type: 'string',
+    },
   ],
 }

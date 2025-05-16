@@ -6,15 +6,31 @@
 const SANITY_PROJECT_ID = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
 const SANITY_DATASET = "production";
 
+interface ImageLoaderParams {
+  src: string;
+  width: number;
+  quality?: number;
+}
+
 /**
  * Sanity Image Loader for Next.js Image component.
- * @param {object} params
+ * @param {ImageLoaderParams} params
  * @param {string} params.src - The source image URL (from Sanity asset).
  * @param {number} params.width - The width to resize the image to.
  * @param {number} [params.quality] - The quality of the image (1-100).
  * @returns {string} The complete Sanity image URL with transformation parameters.
  */
-export default function sanityImageLoader({ src, width, quality }) {
+export default function sanityImageLoader({
+  src,
+  width,
+  quality,
+}: ImageLoaderParams): string {
+  // Check if it's a Mux URL
+  if (src.includes("image.mux.com")) {
+    // For Mux URLs, we'll just return the original URL as Mux handles its own image optimization
+    return src;
+  }
+
   // The `src` from Sanity already contains the base URL, project ID, dataset, and asset info.
   // Example src: https://cdn.sanity.io/images/e1i1kimz/production/d357bf4ab55b88c1cb7dc3c980d18c9349533d82-2944x1776.jpg
   const url = new URL(src);

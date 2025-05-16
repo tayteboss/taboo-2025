@@ -157,6 +157,7 @@ const Footer = (props: Props) => {
       address,
       addressUrl,
       footerMedia,
+      backToTopButtonTitle,
     },
   } = props;
 
@@ -189,7 +190,7 @@ const Footer = (props: Props) => {
           <MiddleBar>
             <LayoutGrid>
               <FooterContactCard
-                title="Visit"
+                title="Pop in"
                 address={address}
                 addressUrl={addressUrl}
               />
@@ -214,7 +215,7 @@ const Footer = (props: Props) => {
               role="button"
               aria-label="Back to top"
             >
-              Back to top (↑)
+              {backToTopButtonTitle ? backToTopButtonTitle : "Back to top"} (↑)
             </BackToTop>
             <FooterWidget />
           </BottomBar>
@@ -225,7 +226,7 @@ const Footer = (props: Props) => {
           </TopBar>
           <MiddleBar>
             <FooterContactCard
-              title="Visit"
+              title="Pop in"
               address={address}
               addressUrl={addressUrl}
             />

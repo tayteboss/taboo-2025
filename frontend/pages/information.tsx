@@ -47,8 +47,12 @@ const Page = (props: Props) => {
       {/* Render dynamically imported components */}
       {/* Next.js will load the JS for these as they approach the viewport */}
       <PrinciplesSection data={data?.principlesSection} />
-      <AchievementsSection data={data?.achievementsSection} />
-      <TeamSection data={data?.teamSection} />
+      {data?.achievementsSection?.list?.length > 0 && (
+        <AchievementsSection data={data?.achievementsSection} />
+      )}
+      {data?.teamSection?.teamMembers?.length > 0 && (
+        <TeamSection data={data?.teamSection} />
+      )}
       <HowWeDoItSection data={data?.howDoWeDoItSection} />
       <ClientLogosSection data={data?.featuredClientLogosSection} />
     </PageWrapper>

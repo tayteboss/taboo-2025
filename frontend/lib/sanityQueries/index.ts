@@ -17,6 +17,9 @@ export const mediaString = `
 		video {
 			asset-> {
 				playbackId,
+				data {
+					duration,
+				},
 			},
 		},
 	},
@@ -46,6 +49,7 @@ export const siteSettingsQueryString = `
 				${mediaString}
 			}
 		},
+		backToTopButtonTitle
 	}
 `;
 

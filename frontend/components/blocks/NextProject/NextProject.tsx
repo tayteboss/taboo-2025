@@ -111,6 +111,7 @@ const DetailTitle = styled.span`
 const DetailText = styled.span`
   white-space: nowrap;
   color: var(--colour-foreground);
+  text-transform: capitalize;
 `;
 
 const MediaWrapper = styled(motion.div)<{ $animating: boolean }>`
@@ -229,16 +230,11 @@ const NextProject = (props: Props) => {
                 {data?.services || ""}
               </DetailText>
             </ServicesDetail>
-            <YearDetail>
-              <DetailTitle className="type-mono-small">Year</DetailTitle>
-              <DetailText className="type-mono-small">
-                {data?.year || ""}
-              </DetailText>
-            </YearDetail>
+            <YearDetail></YearDetail>
             <ProjectDetail>
               <DetailText className="type-mono-small">
                 (P-
-                {data?.projectIndex !== undefined ? data.projectIndex + 1 : ""})
+                {data?.projectIndex !== undefined ? data.projectIndex : 1})
               </DetailText>
             </ProjectDetail>
           </LayoutGrid>

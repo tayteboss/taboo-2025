@@ -1,7 +1,7 @@
 export type MediaType = {
   media: {
     mediaType: "video" | "image";
-    video: { asset: { playbackId: string } };
+    video: { asset: { playbackId: string; data: { duration: number } } };
     image: { asset: { url: string; metadata: { lqip: string } }; alt: string };
     mobileImage?: { asset: { url: string; metadata: { lqip: string } } };
     mobileVideo?: { asset: { playbackId: string } };
@@ -50,6 +50,7 @@ export type SiteSettingsType = {
     role: string;
     media: MediaType;
   }[];
+  backToTopButtonTitle?: string;
 };
 
 export type InformationPageType = {
@@ -177,9 +178,7 @@ export type ProjectType = {
   };
   nextProject?: ProjectType;
   projectIndex?: number;
-  year: string;
-  services: string;
-  industries: string;
+  services: string[];
   gridThumbnailMedia: MediaType;
   gridThumbnailRatio: string;
   overviewStatistics: Array<{

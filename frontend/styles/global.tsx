@@ -88,6 +88,10 @@ export const GlobalStyles = createGlobalStyle`
 
 	body {
 		position: relative;
+
+		&.hide-cursor {
+			cursor: none;
+		}
 	}
 
 	input,

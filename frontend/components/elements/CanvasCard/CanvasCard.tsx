@@ -61,6 +61,7 @@ const Title = styled.div`
 const Subtitle = styled.div`
   color: var(--colour-foreground);
   opacity: 0.5;
+  text-transform: capitalize;
 `;
 
 type Props = {
@@ -177,7 +178,7 @@ const CanvasCard = React.memo(
                     }`}
                     inView={isInternalHover} // Controlled by local hover
                   /> */}
-                  {project?.client?.title || ""}, ${project?.title || ""}
+                  {project?.client?.title || ""}, {project?.title || ""}
                 </Title>
                 <Subtitle className="type-mono-small">
                   {project?.services}

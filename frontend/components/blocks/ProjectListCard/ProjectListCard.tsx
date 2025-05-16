@@ -69,6 +69,7 @@ const ClientSpan = styled.span<{ $isActive: boolean }>`
 const Service = styled.p`
   grid-column: span 4;
   color: var(--colour-foreground);
+  text-transform: capitalize;
 `;
 
 const Industry = styled.p`
@@ -105,12 +106,10 @@ type Props = {
   slug: ProjectType["slug"];
   client: ProjectType["client"];
   services: ProjectType["services"];
-  industries: ProjectType["industries"];
-  year: ProjectType["year"];
 };
 
 const ProjectListCard = (props: Props) => {
-  const { title, slug, client, services, industries, year } = props;
+  const { title, slug, client, services } = props;
 
   const [isHovered, setIsHovered] = useState(false);
 
@@ -144,11 +143,9 @@ const ProjectListCard = (props: Props) => {
             </AnimatedText>
           </Client>
 
-          <Service className="type-p color-switch">{services || ""}</Service>
-          <Industry className="type-p color-switch">
-            {industries || ""}
-          </Industry>
-          <Year className="type-p color-switch">{year || ""}</Year>
+          <Service className="type-p color-switch">
+            {services.join(", ") || ""}
+          </Service>
         </LayoutGrid>
       </Link>
     </ProjectListCardWrapper>

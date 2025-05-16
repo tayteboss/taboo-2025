@@ -12,19 +12,8 @@ const Client = styled.p`
 `;
 
 const Service = styled.p`
-  grid-column: span 4;
+  grid-column: span 8;
   color: var(--colour-foreground);
-`;
-
-const Industry = styled.p`
-  grid-column: span 3;
-  color: var(--colour-foreground);
-`;
-
-const Year = styled.p`
-  grid-column: span 1;
-  color: var(--colour-foreground);
-  text-align: right;
 `;
 
 const ProjectListHeader = () => {
@@ -32,9 +21,7 @@ const ProjectListHeader = () => {
     <ProjectListHeaderWrapper>
       <LayoutGrid>
         <Client className="type-mono-small color-switch">Client</Client>
-        <Service className="type-mono-small color-switch">Service</Service>
-        <Industry className="type-mono-small color-switch">Industry</Industry>
-        <Year className="type-mono-small color-switch">Year</Year>
+        <Service className="type-mono-small color-switch">Services</Service>
       </LayoutGrid>
     </ProjectListHeaderWrapper>
   );

@@ -70,7 +70,7 @@ type DroppedImage = {
 // --- Constants ---
 const IMAGE_LIFESPAN_MS = 1500; // How long image stays visible
 const FADE_DURATION_S = 0.1; // Exit fade duration
-const MIN_DISTANCE_THRESHOLD = 25; // Pixels mouse must move to drop new image
+const MIN_DISTANCE_THRESHOLD = 10; // Pixels mouse must move to drop new image
 const IMAGE_WIDTH = 230;
 const IMAGE_HEIGHT = 288;
 
@@ -215,7 +215,7 @@ const MediaCursor = memo((props: Props) => {
           >
             <ImageWrapper>
               {/* DifferenceReveal now animates its background */}
-              <DifferenceReveal
+              {/* <DifferenceReveal
                 initial={{ backgroundColor: "var(--colour-white)" }} // Start black
                 animate={{
                   backgroundColor: "var(--colour-black)", // Animate to white
@@ -224,7 +224,7 @@ const MediaCursor = memo((props: Props) => {
                   duration: 0.5, // Duration of background transition
                   ease: "easeInOut",
                 }}
-              />
+              /> */}
               {/* Removed 'priority' prop for performance */}
               <Image
                 src={image.src}

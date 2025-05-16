@@ -11,6 +11,7 @@ const client = sanityClient.createClient({
 const getSiteData = async () => {
     const query = `
         *[_type == 'siteSettings'][0] {
+            ...,
             socialLinks[] {
                 title,
                 link
@@ -53,6 +54,7 @@ const getSiteData = async () => {
                     }
                 }
             },
+            backToTopButtonTitle
         }
     `;
 

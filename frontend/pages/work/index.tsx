@@ -43,16 +43,13 @@ type Props = {
   data: WorkPageType;
   projects: ProjectType[];
   services: CategoryType[];
-  industries: CategoryType[];
   pageTransitionVariants: TransitionsType;
 };
 
 const Page = (props: Props) => {
-  const { data, projects, services, industries, pageTransitionVariants } =
-    props;
+  const { data, projects, services, pageTransitionVariants } = props;
 
   const [activeService, setActiveService] = useState("all");
-  const [activeIndustry, setActiveIndustry] = useState("all");
   const [activeViewType, setActiveViewType] = useState("grid");
   const [zoomLevel, setZoomLevel] = useState(3);
   const [filtersModalIsActive, setFiltersModalIsActive] = useState(false);
@@ -61,14 +58,12 @@ const Page = (props: Props) => {
   useEffect(() => {
     const newFilteredProjects = projects.filter((project) => {
       const serviceMatch =
-        activeService === "all" || project.services === activeService;
-      const industryMatch =
-        activeIndustry === "all" || project.industries === activeIndustry;
-      return serviceMatch && industryMatch;
+        activeService === "all" || project.services.includes(activeService);
+      return serviceMatch;
     });
 
     setFilteredProjects(newFilteredProjects);
-  }, [activeService, activeIndustry, projects]);
+  }, [activeService, projects]);
 
   return (
     <PageWrapper
@@ -83,14 +78,11 @@ const Page = (props: Props) => {
       />
       <FiltersBar
         services={services}
-        industries={industries}
         viewTypes={viewTypes}
         activeService={activeService}
-        activeIndustry={activeIndustry}
         activeViewType={activeViewType}
         zoomLevel={zoomLevel}
         setActiveService={setActiveService}
-        setActiveIndustry={setActiveIndustry}
         setActiveViewType={setActiveViewType}
         setZoomLevel={setZoomLevel}
         setFiltersModalIsActive={setFiltersModalIsActive}
@@ -98,19 +90,15 @@ const Page = (props: Props) => {
       <FiltersModal
         isActive={filtersModalIsActive}
         services={services}
-        industries={industries}
         activeService={activeService}
-        activeIndustry={activeIndustry}
         setIsActive={setFiltersModalIsActive}
         setActiveService={setActiveService}
-        setActiveIndustry={setActiveIndustry}
       />
       <ProjectsList
         data={filteredProjects}
         zoomLevel={zoomLevel}
         activeViewType={activeViewType}
         activeService={activeService}
-        activeIndustry={activeIndustry}
       />
     </PageWrapper>
   );
@@ -128,46 +116,27 @@ export async function getStaticProps() {
     },
   ];
 
-  const industries: CategoryType[] = [
-    {
-      title: "All",
-      value: "all",
-      count: projects.length,
-    },
-  ];
+  // Create a map to track service counts
+  const serviceCounts = new Map<string, number>();
 
   projects.forEach((project: ProjectType) => {
-    const serviceValue = project.services;
-    if (serviceValue) {
-      const service = services.find(
-        (service) => service.value === serviceValue
-      );
-      if (!service) {
-        services.push({
-          title: serviceValue,
-          value: serviceValue,
-          count: 1,
-        });
-      } else {
-        service.count += 1;
+    project.services.forEach((serviceValue) => {
+      if (serviceValue) {
+        serviceCounts.set(
+          serviceValue,
+          (serviceCounts.get(serviceValue) || 0) + 1
+        );
       }
-    }
+    });
+  });
 
-    const industryValue = project.industries;
-    if (industryValue) {
-      const industry = industries.find(
-        (industry) => industry.value === industryValue
-      );
-      if (!industry) {
-        industries.push({
-          title: industryValue,
-          value: industryValue,
-          count: 1,
-        });
-      } else {
-        industry.count += 1;
-      }
-    }
+  // Convert the map to service categories
+  serviceCounts.forEach((count, serviceValue) => {
+    services.push({
+      title: serviceValue,
+      value: serviceValue,
+      count,
+    });
   });
 
   return {
@@ -175,7 +144,6 @@ export async function getStaticProps() {
       data,
       projects,
       services,
-      industries,
     },
   };
 }

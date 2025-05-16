@@ -14,6 +14,7 @@ type Props = {
   alt?: string;
   lazyLoad?: boolean;
   useLoader?: boolean;
+  useVideoControls?: boolean;
 };
 
 const MediaStack = (props: Props) => {
@@ -25,6 +26,7 @@ const MediaStack = (props: Props) => {
     alt,
     lazyLoad = false,
     useLoader = false,
+    useVideoControls = false,
   } = props ?? {};
 
   // sizes="(max-width: 768px) 38vw, (max-width: 1024px) 20vw, 15vw"
@@ -47,6 +49,7 @@ const MediaStack = (props: Props) => {
           noAnimation={noAnimation}
           lazyLoad={lazyLoad}
           useLoader={useLoader}
+          useVideoControls={useVideoControls}
         />
       )}
       {!useVideo && (

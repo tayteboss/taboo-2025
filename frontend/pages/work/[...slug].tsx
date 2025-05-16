@@ -10,6 +10,7 @@ import ProjectTitle from "../../components/blocks/ProjectTitle";
 import { useEffect } from "react";
 import dynamic from "next/dynamic";
 import PageBuilder from "../../components/common/PageBuilder";
+import pxToRem from "../../utils/pxToRem";
 
 const NextProject = dynamic(
   () => import("../../components/blocks/NextProject")
@@ -18,6 +19,11 @@ const NextProject = dynamic(
 const PageContainer = styled.div`
   min-height: 100vh;
   background: var(--colour-background);
+  margin-bottom: ${pxToRem(20)};
+
+  @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+    margin-bottom: ${pxToRem(10)};
+  }
 `;
 
 type Props = {
@@ -59,11 +65,8 @@ const Page = (props: Props) => {
         client={data?.client?.title}
         title={data?.title}
         services={data?.services}
-        year={data?.year}
         heroMedia={data?.heroMedia}
-        projectNumber={
-          data?.projectIndex !== undefined ? data.projectIndex + 1 : 0
-        }
+        projectNumber={data?.projectIndex !== undefined ? data.projectIndex : 1}
       />
       <PageBuilder data={data?.pageBuilder} />
       {data?.nextProject && <NextProject data={data?.nextProject} />}
@@ -121,36 +124,40 @@ export async function getStaticProps({
   let nextProjectData = null;
 
   if (clientData?.title) {
-    const clientProjectsQuery = `
-        *[_type == 'client' && title == $clientTitle][0] {
-          "projects": projects[]-> {
-            ${simpleProjectListQueryString}
-          }
+    // First get the client to access its projects array
+    const clientQuery = `
+      *[_type == 'client' && title == $clientTitle][0] {
+        "projects": projects[]-> {
+          ${simpleProjectListQueryString}
         }
-      `;
-    const clientProjectsResult = await client.fetch(clientProjectsQuery, {
+      }
+    `;
+
+    const clientResult = await client.fetch(clientQuery, {
       clientTitle: clientData.title,
     });
 
-    if (clientProjectsResult?.projects) {
-      const currentClientProjects = clientProjectsResult.projects;
+    if (clientResult?.projects?.length > 0) {
+      const currentClientProjects = clientResult.projects;
       const currentProjectIndex = currentClientProjects.findIndex(
         (project: ProjectType) => project.slug.current === slug
       );
 
       if (currentProjectIndex !== -1) {
-        data.projectIndex = currentProjectIndex;
+        // Add 1 to make index start at 1 instead of 0
+        data.projectIndex = currentProjectIndex + 1;
 
         if (currentClientProjects.length > 1) {
+          // Calculate next index, ensuring we loop back to 0 when we reach the end
           const nextIndex =
-            (currentProjectIndex + 1) % currentClientProjects.length; // Loop back to start
+            (currentProjectIndex + 1) % currentClientProjects.length;
           nextProjectData = currentClientProjects[nextIndex];
-          // Assign the correct index for the *next* project relative to the client list
+
+          // Assign the correct index for the next project (starting at 1)
           if (nextProjectData) {
-            nextProjectData.projectIndex = nextIndex;
+            nextProjectData.projectIndex = nextIndex + 1;
           }
         }
-        // If only one project, nextProject remains null
       }
     }
   }

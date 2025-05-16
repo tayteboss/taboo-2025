@@ -6,7 +6,8 @@ const FilterZoomWrapper = styled.div<{ $isActive: boolean }>`
   display: flex;
   justify-content: flex-end;
   white-space: pre;
-  opacity: ${(props) => (props.$isActive ? "1" : "0")};
+  opacity: ${(props) => (props.$isActive ? "1" : "0.3")};
+  pointer-events: ${(props) => (props.$isActive ? "all" : "none")};
 
   transition: all var(--transition-speed-default) var(--transition-ease);
 `;

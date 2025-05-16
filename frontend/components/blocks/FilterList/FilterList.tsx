@@ -46,6 +46,10 @@ const FilterList = (props: Props) => {
   const isCategoryType =
     className === "industries-list" || className === "services-list";
 
+  const capitalize = (str: string) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
+
   return (
     <FilterListWrapper className={className} ref={ref}>
       {data.map((item) => (
@@ -59,7 +63,7 @@ const FilterList = (props: Props) => {
         >
           ({active === item.value ? "•" : " "}){" "}
           <HoverTyper
-            data={`${item.title} ${isCategoryType ? `(${item?.count})` : ""}`}
+            data={`${capitalize(item.title)} ${isCategoryType ? `(${item?.count})` : ""}`}
             inView={inView}
           />
         </ListItem>

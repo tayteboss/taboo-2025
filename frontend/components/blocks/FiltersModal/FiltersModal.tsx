@@ -5,6 +5,7 @@ import CrossIcon from "../../svgs/CrossIcon";
 import FilterList from "../FilterList";
 import { useRef } from "react";
 import { useClickOutside } from "../../../hooks/useClickOutside";
+import { CategoryType } from "../../../shared/types/types";
 
 const FiltersModalWrapper = styled(motion.div)`
   position: fixed;
@@ -124,26 +125,15 @@ const cardVariants = {
 
 type Props = {
   isActive: boolean;
-  services: Array<{ title: string; value: string }>;
-  industries: Array<{ title: string; value: string }>;
+  services: CategoryType[];
   activeService: string;
-  activeIndustry: string;
   setActiveService: React.Dispatch<React.SetStateAction<string>>;
-  setActiveIndustry: React.Dispatch<React.SetStateAction<string>>;
   setIsActive: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const FiltersModal = (props: Props) => {
-  const {
-    isActive,
-    services,
-    industries,
-    activeService,
-    activeIndustry,
-    setActiveService,
-    setActiveIndustry,
-    setIsActive,
-  } = props;
+  const { isActive, services, activeService, setActiveService, setIsActive } =
+    props;
 
   const ref = useRef<HTMLDivElement>(null!);
 
@@ -187,12 +177,6 @@ const FiltersModal = (props: Props) => {
                 active={activeService}
                 setActive={setActiveService}
                 className="services-list"
-              />
-              <FilterList
-                data={industries}
-                active={activeIndustry}
-                setActive={setActiveIndustry}
-                className="industries-list"
               />
             </FiltersWrapper>
           </Card>

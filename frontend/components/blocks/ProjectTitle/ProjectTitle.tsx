@@ -95,6 +95,7 @@ const DetailTitle = styled.span`
 const DetailText = styled.span`
   white-space: nowrap;
   color: var(--colour-foreground);
+  text-transform: capitalize;
 `;
 
 const MediaWrapper = styled.div`
@@ -117,13 +118,12 @@ type Props = {
   client: ProjectType["client"]["title"];
   title: ProjectType["title"];
   services: ProjectType["services"];
-  year: ProjectType["year"];
   heroMedia: ProjectType["heroMedia"];
   projectNumber: number;
 };
 
 const ProjectTitle = (props: Props) => {
-  const { client, title, services, year, heroMedia, projectNumber } = props;
+  const { client, title, services, heroMedia, projectNumber } = props;
 
   const { ref, inView } = useInView({
     triggerOnce: true,
@@ -151,13 +151,10 @@ const ProjectTitle = (props: Props) => {
             <ServicesDetail>
               <DetailTitle className="type-mono-small">Services</DetailTitle>
               <DetailText className="type-mono-small">
-                {services || ""}
+                {services.map((service) => service).join(", ")}
               </DetailText>
             </ServicesDetail>
-            <YearDetail>
-              <DetailTitle className="type-mono-small">Year</DetailTitle>
-              <DetailText className="type-mono-small">{year || ""}</DetailText>
-            </YearDetail>
+            <YearDetail></YearDetail>
             <ProjectDetail>
               <DetailText className="type-mono-small">
                 (P-{projectNumber})
@@ -171,7 +168,14 @@ const ProjectTitle = (props: Props) => {
           inView ? "view-element-difference--in-view" : ""
         }`}
       >
-        {heroMedia && <MediaStack data={heroMedia} useLoader sizes="100vw" />}
+        {heroMedia && (
+          <MediaStack
+            data={heroMedia}
+            useLoader
+            sizes="100vw"
+            useVideoControls={true}
+          />
+        )}
       </MediaWrapper>
     </ProjectTitleWrapper>
   );

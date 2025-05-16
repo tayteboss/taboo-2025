@@ -124,6 +124,8 @@ const AnimatedText = styled.div<{ $isActive: boolean }>`
 const Subtitle = styled.h4`
   color: var(--colour-foreground);
   opacity: 0.5;
+  text-transform: capitalize;
+
   transition: all var(--transition-speed-default) var(--transition-ease);
 `;
 
@@ -135,8 +137,6 @@ type Props = {
   gridThumbnailMedia: ProjectType["gridThumbnailMedia"];
   gridThumbnailRatio: ProjectType["gridThumbnailRatio"];
   services: ProjectType["services"];
-  industries: ProjectType["industries"];
-  year: ProjectType["year"];
   zoomLevel: number;
   index: number;
 };
@@ -150,8 +150,6 @@ const ProjectGridCard = React.memo((props: Props) => {
     gridThumbnailMedia,
     gridThumbnailRatio,
     services,
-    industries,
-    year,
     zoomLevel,
     index,
   } = props;
@@ -159,10 +157,7 @@ const ProjectGridCard = React.memo((props: Props) => {
   const [isHovered, setIsHovered] = useState(false);
 
   // Memoize derived string
-  const serviceIndustryTitle = useMemo(
-    () => `${services}, ${industries}`,
-    [services, industries]
-  );
+  const serviceTitle = useMemo(() => services.join(", "), [services]);
 
   // Memoize mouse handlers
   const handleMouseOver = useCallback(() => setIsHovered(true), []);
@@ -235,10 +230,7 @@ const ProjectGridCard = React.memo((props: Props) => {
             <MobileTitle>
               {client?.title || ""} — <span>{title || ""}</span>
             </MobileTitle>
-            <Subtitle className="color-switch">
-              {serviceIndustryTitle || ""}
-            </Subtitle>
-            <Subtitle className="color-switch">{year || ""}</Subtitle>
+            <Subtitle className="color-switch">{serviceTitle || ""}</Subtitle>
           </ContentWrapper>
         </a>
       </Link>

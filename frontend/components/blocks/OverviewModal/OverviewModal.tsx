@@ -79,11 +79,13 @@ const TitlesWrapper = styled.div`
 
 const Title = styled.p`
   color: var(--colour-background);
+  text-transform: capitalize;
 `;
 
 const Description = styled.p`
   color: var(--colour-background);
   margin-bottom: ${pxToRem(30)};
+  opacity: 0.75;
 `;
 
 const StatisticsWrapper = styled.div`
@@ -164,8 +166,6 @@ const OverviewModal = (props: Props) => {
     title,
     slug,
     services,
-    industries,
-    year,
     overviewStatistics,
     overviewDescription,
     heroMedia,
@@ -211,10 +211,9 @@ const OverviewModal = (props: Props) => {
                 <Title>
                   {client?.title || ""}, {title || ""}
                 </Title>
-                <Title>
-                  {services || ""}, {industries || ""}
-                </Title>
-                <Title>{year || ""}</Title>
+                {services && (
+                  <Title>{services.map((service) => service).join(", ")}</Title>
+                )}
               </TitlesWrapper>
               <Description className="type-h4">
                 {overviewDescription || ""}

@@ -13,14 +13,17 @@ const FiltersBarWrapper = styled.section`
     padding: ${pxToRem(200)} 0 ${pxToRem(50)};
   }
 
-  .services-list,
-  .industries-list {
+  .services-list {
     grid-column: span 4;
   }
 
   .view-types-list {
     grid-column: span 2;
   }
+`;
+
+const Title = styled.h1`
+  grid-column: span 4;
 `;
 
 const DesktopInner = styled.div`
@@ -38,8 +41,6 @@ const MobileInner = styled.div`
   }
 `;
 
-const Title = styled.h1``;
-
 const FiltersTrigger = styled.div`
   grid-column: span 2;
   text-align: right;
@@ -51,14 +52,11 @@ const FiltersTrigger = styled.div`
 
 type Props = {
   services: CategoryType[];
-  industries: CategoryType[];
   viewTypes: CategoryType[];
   activeService: string;
-  activeIndustry: string;
   activeViewType: string;
   zoomLevel: number;
   setActiveService: (service: string) => void;
-  setActiveIndustry: (industry: string) => void;
   setActiveViewType: (viewType: string) => void;
   setZoomLevel: (zoomLevel: number) => void;
   setFiltersModalIsActive: (value: boolean) => void;
@@ -67,14 +65,11 @@ type Props = {
 const FiltersBar = (props: Props) => {
   const {
     services,
-    industries,
     viewTypes,
     activeService,
-    activeIndustry,
     activeViewType,
     zoomLevel,
     setActiveService,
-    setActiveIndustry,
     setActiveViewType,
     setZoomLevel,
     setFiltersModalIsActive,
@@ -85,17 +80,12 @@ const FiltersBar = (props: Props) => {
       <LayoutWrapper>
         <DesktopInner>
           <LayoutGrid>
+            <Title className="type-mono-small">Work</Title>
             <FilterList
               data={services}
               active={activeService}
               setActive={setActiveService}
               className="services-list"
-            />
-            <FilterList
-              data={industries}
-              active={activeIndustry}
-              setActive={setActiveIndustry}
-              className="industries-list"
             />
             <FilterList
               data={viewTypes}
