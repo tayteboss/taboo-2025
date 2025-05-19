@@ -80,7 +80,7 @@ const FiltersBar = (props: Props) => {
       <LayoutWrapper>
         <DesktopInner>
           <LayoutGrid>
-            <Title className="type-mono-small">Work</Title>
+            <Title className="type-mono-small">Featured Work</Title>
             <FilterList
               data={services}
               active={activeService}
