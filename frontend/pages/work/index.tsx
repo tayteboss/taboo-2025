@@ -120,14 +120,16 @@ export async function getStaticProps() {
   const serviceCounts = new Map<string, number>();
 
   projects.forEach((project: ProjectType) => {
-    project.services.forEach((serviceValue) => {
-      if (serviceValue) {
-        serviceCounts.set(
-          serviceValue,
-          (serviceCounts.get(serviceValue) || 0) + 1
-        );
-      }
-    });
+    if (project.services && project.services.length > 0) {
+      project.services.forEach((serviceValue) => {
+        if (serviceValue) {
+          serviceCounts.set(
+            serviceValue,
+            (serviceCounts.get(serviceValue) || 0) + 1
+          );
+        }
+      });
+    }
   });
 
   // Convert the map to service categories

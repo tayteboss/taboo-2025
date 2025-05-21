@@ -157,7 +157,10 @@ const ProjectGridCard = React.memo((props: Props) => {
   const [isHovered, setIsHovered] = useState(false);
 
   // Memoize derived string
-  const serviceTitle = useMemo(() => services.join(", "), [services]);
+  const serviceTitle = useMemo(
+    () => (services?.length ? services.join(", ") : ""),
+    [services]
+  );
 
   // Memoize mouse handlers
   const handleMouseOver = useCallback(() => setIsHovered(true), []);

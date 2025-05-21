@@ -151,7 +151,9 @@ const ProjectTitle = (props: Props) => {
             <ServicesDetail>
               <DetailTitle className="type-mono-small">Services</DetailTitle>
               <DetailText className="type-mono-small">
-                {services.map((service) => service).join(", ")}
+                {services?.length
+                  ? services.map((service) => service).join(", ")
+                  : ""}
               </DetailText>
             </ServicesDetail>
             <YearDetail></YearDetail>
