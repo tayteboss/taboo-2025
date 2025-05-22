@@ -78,12 +78,12 @@ const StatisticSection = (props: Props) => {
 
   const { ref, inView } = useInView({
     triggerOnce: true,
-    threshold: 0.01,
+    threshold: 0.6,
     rootMargin: "-50px",
   });
 
   return (
-    <StatisticSectionWrapper>
+    <StatisticSectionWrapper ref={ref}>
       <LayoutWrapper>
         {data?.mediaBackground && (
           <MediaWrapper
@@ -96,7 +96,6 @@ const StatisticSection = (props: Props) => {
                 variants={wrapperVariants}
                 initial="hidden"
                 animate={inView ? "visible" : "hidden"}
-                ref={ref}
               >
                 {data.statistics.map((item, i) => (
                   <StatsItem value={item?.value} title={item?.title} key={i} />
