@@ -93,48 +93,48 @@ const springTransition = {
 };
 
 const manualLayoutConfig = [
-  // 0
-  { top: "-50%", left: "25%", depthFactor: 0.8 },
-  // 1
-  { top: "120%", left: "75%", depthFactor: 0.9 },
-  // 2
-  { top: "75%", left: "-30%", depthFactor: 0.7 },
-  // 3
-  { top: "70%", left: "95%", depthFactor: 1.0 },
-  // 4
-  { top: "-30%", left: "110%", depthFactor: 0.85 },
-  // 5
-  { top: "-25%", left: "-30%", depthFactor: 0.75 },
-  // 6
-  { top: "60%", left: "120%", depthFactor: 0.95 },
-  // 7
-  { top: "5%", left: "5%", depthFactor: 0.9 },
-  // 8
-  { top: "115%", left: "35%", depthFactor: 0.8 },
-  // 9
-  { top: "20%", left: "-20%", depthFactor: 0.7 },
-  // 10
-  { top: "35%", left: "75%", depthFactor: 0.85 },
-  // 11
-  { top: "15%", left: "115%", depthFactor: 0.95 },
-  // 12
-  { top: "75%", left: "55%", depthFactor: 0.8 },
-  // 13
-  { top: "115%", left: "112%", depthFactor: 0.9 },
-  // 14
-  { top: "-15%", left: "35%", depthFactor: 0.7 },
-  // 15
-  { top: "60%", left: "-10%", depthFactor: 0.75 },
-  // 16
+  // 0 - Center
   { top: "15%", left: "40%", depthFactor: 0.95 },
+  // 1 - Near Center
+  { top: "65%", left: "25%", depthFactor: 0.85 },
+  // 2
+  { top: "5%", left: "5%", depthFactor: 0.9 },
+  // 3
+  { top: "35%", left: "75%", depthFactor: 0.85 },
+  // 4
+  { top: "75%", left: "55%", depthFactor: 0.8 },
+  // 5
+  { top: "-15%", left: "60%", depthFactor: 0.7 },
+  // 6
+  { top: "20%", left: "-20%", depthFactor: 0.7 },
+  // 7
+  { top: "60%", left: "-10%", depthFactor: 0.75 },
+  // 8
+  { top: "-50%", left: "25%", depthFactor: 0.8 },
+  // 9
+  { top: "70%", left: "95%", depthFactor: 1.0 },
+  // 10
+  { top: "75%", left: "-30%", depthFactor: 0.7 },
+  // 11
+  { top: "-30%", left: "110%", depthFactor: 0.85 },
+  // 12
+  { top: "-25%", left: "-30%", depthFactor: 0.75 },
+  // 13
+  { top: "40%", left: "110%", depthFactor: 0.95 },
+  // 14
+  { top: "115%", left: "35%", depthFactor: 0.8 },
+  // 15
+  { top: "15%", left: "115%", depthFactor: 0.95 },
+  // 16
+  { top: "115%", left: "112%", depthFactor: 0.9 },
   // 17
   { top: "110%", left: "0%", depthFactor: 0.8 },
   // 18
-  { top: "65%", left: "25%", depthFactor: 0.85 },
-  // 19
   { top: "-20%", left: "75%", depthFactor: 0.9 },
-  // 20
+  // 19
   { top: "90%", left: "-15%", depthFactor: 0.7 },
+  // 20
+  { top: "120%", left: "75%", depthFactor: 0.9 },
 ];
 
 // Helper Function (Unchanged)
@@ -409,6 +409,7 @@ const HomeCanvas = React.memo((props: Props) => {
                 setIsHovered={setIsHovered}
                 setOverviewModal={setOverviewModal}
               />
+              {/* <p>{`item-${config.key}-${i}`}</p> */}
             </ItemWrapper>
           ))}
       </HomeCanvasWrapper>
