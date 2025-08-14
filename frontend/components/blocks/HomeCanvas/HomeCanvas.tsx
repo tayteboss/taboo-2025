@@ -122,7 +122,7 @@ const manualLayoutConfig = [
   // 13
   { top: "40%", left: "110%", depthFactor: 0.95 },
   // 14
-  { top: "115%", left: "35%", depthFactor: 0.8 },
+  { top: "105%", left: "35%", depthFactor: 0.8 },
   // 15
   { top: "15%", left: "115%", depthFactor: 0.95 },
   // 16
@@ -409,7 +409,7 @@ const HomeCanvas = React.memo((props: Props) => {
                 setIsHovered={setIsHovered}
                 setOverviewModal={setOverviewModal}
               />
-              {/* <p>{`item-${config.key}-${i}`}</p> */}
+              <p>{`item-${config.key}-${i}`}</p>
             </ItemWrapper>
           ))}
       </HomeCanvasWrapper>

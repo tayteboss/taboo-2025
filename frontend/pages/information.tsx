@@ -12,6 +12,7 @@ import ClientLogosSection from "../components/blocks/ClientLogosSection";
 import HowWeDoItSection from "../components/blocks/HowWeDoItSection";
 import PrinciplesSection from "../components/blocks/PrinciplesSection";
 import TeamSection from "../components/blocks/TeamSection";
+import { useEffect } from "react";
 
 const PageWrapper = styled(motion.div)`
   padding-top: ${pxToRem(240)};
@@ -28,6 +29,10 @@ type Props = {
 
 const Page = (props: Props) => {
   const { data, pageTransitionVariants } = props;
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <PageWrapper
