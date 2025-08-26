@@ -178,9 +178,9 @@ const Header = (props: Props) => {
                   />
                 )}
               </Link>
-              <Link href="/information">
-                <LinkTag className="type-mono-small">Information</LinkTag>
-                {activeLink === "Information" && (
+              <Link href="/about">
+                <LinkTag className="type-mono-small">About</LinkTag>
+                {activeLink === "About" && (
                   <Underline
                     layoutId="navlink-underline"
                     style={{ originY: "0px" }}

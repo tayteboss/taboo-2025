@@ -31,7 +31,7 @@ export default defineConfig({
               .icon(DocumentIcon)
               .child(S.editor().schemaType('homePage').documentId('homePage')),
             S.listItem()
-              .title('Information Page')
+              .title('About Page')
               .icon(DocumentIcon)
               .child(S.editor().schemaType('informationPage').documentId('informationPage')),
             S.listItem()

@@ -1,7 +1,7 @@
 import {mediaBlock} from '../objects'
 
 export default {
-  title: 'Information Page',
+  title: 'About Page',
   name: 'informationPage',
   type: 'document',
   fields: [

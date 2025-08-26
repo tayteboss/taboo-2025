@@ -409,7 +409,7 @@ const HomeCanvas = React.memo((props: Props) => {
                 setIsHovered={setIsHovered}
                 setOverviewModal={setOverviewModal}
               />
-              <p>{`item-${config.key}-${i}`}</p>
+              {/* <p>{`item-${config.key}-${i}`}</p> */}
             </ItemWrapper>
           ))}
       </HomeCanvasWrapper>

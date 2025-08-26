@@ -36,7 +36,7 @@ type Props = {
 
 const TwoColumnBlock = (props: Props) => {
   const { twoColumn } = props;
-  const { ratio, leftColumn, rightColumn } = twoColumn;
+  const { ratio = "100%", leftColumn, rightColumn } = twoColumn;
 
   return (
     <TwoColumnBlockWrapper $ratio={ratio}>

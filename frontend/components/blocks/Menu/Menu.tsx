@@ -176,8 +176,8 @@ const Menu = (props: Props) => {
               <Link href="/work">
                 <LinkTag className="type-mono-small">Work</LinkTag>
               </Link>
-              <Link href="/information">
-                <LinkTag className="type-mono-small">Information</LinkTag>
+              <Link href="/about">
+                <LinkTag className="type-mono-small">About</LinkTag>
               </Link>
               <LinkTag
                 className="type-mono-small"

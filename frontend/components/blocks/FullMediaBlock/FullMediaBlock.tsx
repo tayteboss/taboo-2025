@@ -18,7 +18,7 @@ const MediaWrapper = styled.div<{ $ratio?: string }>`
   }
 
   .media-wrapper {
-    padding-top: ${(props) => props.$ratio || "56.25%"};
+    padding-top: ${(props) => props.$ratio};
   }
 `;
 
@@ -47,7 +47,7 @@ type Props = {
 
 const FullMediaBlock = (props: Props) => {
   const { fullMedia } = props;
-  const { ratio, media: oldMedia, caption } = fullMedia;
+  const { ratio = "56.25%", media: oldMedia, caption } = fullMedia || {};
 
   const media = {
     media: oldMedia,

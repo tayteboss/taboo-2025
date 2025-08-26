@@ -8,8 +8,8 @@ const useActiveLink = (): string => {
   useEffect(() => {
     if (router.pathname === "/") {
       setActiveLink("Home");
-    } else if (router.pathname === "/information") {
-      setActiveLink("Information");
+    } else if (router.pathname === "/about") {
+      setActiveLink("About");
     } else if (
       router.pathname === "/work" ||
       router.pathname === "/work/[slug]"
