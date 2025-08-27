@@ -162,6 +162,22 @@ export async function getStaticProps({
     }
   }
 
+  // If no next project was found from same client, get a random different project
+  if (!nextProjectData) {
+    const randomProjectQuery = `
+      *[_type == 'project' && slug.current != $slug] {
+        ${simpleProjectListQueryString}
+      }
+    `;
+
+    const otherProjects = await client.fetch(randomProjectQuery, { slug });
+
+    if (otherProjects && otherProjects.length > 0) {
+      const randomIndex = Math.floor(Math.random() * otherProjects.length);
+      nextProjectData = otherProjects[randomIndex];
+    }
+  }
+
   // Assign the determined next project (or null) to the main data object
   data.nextProject = nextProjectData;
 

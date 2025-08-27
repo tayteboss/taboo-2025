@@ -12,6 +12,8 @@ const PageBuilderWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${pxToRem(20)};
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 
   @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
     gap: ${pxToRem(10)};
