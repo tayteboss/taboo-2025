@@ -172,7 +172,7 @@ const VideoComponent = (props: Props) => {
             thumbnailTime={1}
             loading={lazyLoad ? "viewport" : "page"}
             preload="auto"
-            muted
+            muted={isMuted}
             playsInline={true}
             poster={`${posterUrl}`}
             minResolution="2160p"
