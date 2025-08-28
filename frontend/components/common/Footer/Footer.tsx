@@ -7,6 +7,7 @@ import { SiteSettingsType } from "../../../shared/types/types";
 import SocialCard from "../../elements/SocialCard";
 import LayoutGrid from "../../layout/LayoutGrid";
 import MediaCursor from "../../blocks/MediaCursor";
+import CreditCard from "../../elements/CreditCard";
 
 const FooterWrapper = styled.footer<{ $isActive: boolean }>`
   margin-bottom: ${pxToRem(20)};
@@ -135,11 +136,23 @@ const SocialDetails = styled.div`
   gap: ${pxToRem(10)};
   padding-top: ${pxToRem(50)};
   flex: 1;
+`;
+
+const CreditDetails = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${pxToRem(6)};
+  padding-top: ${pxToRem(50)};
+  flex: 1;
 
   @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
-    /* padding-top: ${pxToRem(32)}; */
-    justify-content: space-between;
+    justify-content: center;
   }
+`;
+
+const CreditDetailsInner = styled.div`
+  display: flex;
+  gap: ${pxToRem(4)};
 `;
 
 type Props = {
@@ -170,11 +183,11 @@ const Footer = (props: Props) => {
 
   const creditList = [
     {
-      title: "Design: Bien Studio",
+      title: "Bien Studio",
       link: "https://www.bienstudio.com.au/",
     },
     {
-      title: "Dev: Tayte.co",
+      title: "Tayte.co",
       link: "https://tayte.co/",
     },
   ];
@@ -204,11 +217,14 @@ const Footer = (props: Props) => {
           </MiddleBar>
           <BottomBar>
             {creditList && creditList?.length > 0 && (
-              <SocialDetails>
-                {creditList.map((social, i) => (
-                  <SocialCard data={social} key={i} />
-                ))}
-              </SocialDetails>
+              <CreditDetails>
+                <Title>Site by:</Title>
+                <CreditDetailsInner>
+                  {creditList.map((credit, i) => (
+                    <CreditCard data={credit} key={i} />
+                  ))}
+                </CreditDetailsInner>
+              </CreditDetails>
             )}
             <BackToTop
               onClick={() => handleScrollToTop()}
@@ -239,11 +255,14 @@ const Footer = (props: Props) => {
           </MiddleBar>
           <BottomBar>
             {creditList && creditList?.length > 0 && (
-              <SocialDetails>
-                {creditList.map((social, i) => (
-                  <SocialCard data={social} key={i} />
-                ))}
-              </SocialDetails>
+              <CreditDetails>
+                <Title>Site by:</Title>
+                <CreditDetailsInner>
+                  {creditList.map((credit, i) => (
+                    <CreditCard data={credit} key={i} />
+                  ))}
+                </CreditDetailsInner>
+              </CreditDetails>
             )}
           </BottomBar>
         </MobileInner>

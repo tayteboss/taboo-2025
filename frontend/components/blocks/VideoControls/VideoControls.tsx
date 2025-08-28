@@ -107,44 +107,52 @@ const VideoControls = (props: Props) => {
       body.classList.remove("hide-cursor");
     }
 
-    const handleMouseInactive = () => {
-      if (width < 1125) {
-        setIsActive(true);
-        return;
-      }
-
+    const handleInactive = () => {
       timeout = setTimeout(
         () => {
           setIsActive(false);
         },
-        isMobile ? 6000 : 2000
+        isMobile ? 4000 : 2000
       );
     };
 
-    // Call handleMouseInactive initially
-    handleMouseInactive();
+    // Call handleInactive initially
+    handleInactive();
 
-    const handleMouseActive = () => {
-      if (width < 1125) {
-        setIsActive(true);
-        return;
-      }
-
+    const handleActive = () => {
       clearTimeout(timeout);
       setIsActive(true);
 
-      // Restart the timer when the mouse becomes active again
-      handleMouseInactive();
+      // Restart the timer when interaction happens
+      handleInactive();
     };
 
-    const throttledHandleMouseMove = throttle(handleMouseActive, 200);
-    window.addEventListener("mousemove", throttledHandleMouseMove);
+    // Desktop: mouse movement
+    const throttledHandleMouseMove = throttle(handleActive, 200);
+
+    // Mobile: touch and click events
+    const handleTouch = () => {
+      handleActive();
+    };
+
+    // Add event listeners based on device type
+    if (isMobile) {
+      window.addEventListener("touchstart", handleTouch);
+      window.addEventListener("click", handleTouch);
+    } else {
+      window.addEventListener("mousemove", throttledHandleMouseMove);
+    }
 
     return () => {
-      window.removeEventListener("mousemove", handleMouseActive);
+      if (isMobile) {
+        window.removeEventListener("touchstart", handleTouch);
+        window.removeEventListener("click", handleTouch);
+      } else {
+        window.removeEventListener("mousemove", throttledHandleMouseMove);
+      }
       clearTimeout(timeout);
     };
-  }, [isActive, width]);
+  }, [isActive, width, isMobile]);
 
   return (
     <AnimatePresence>
