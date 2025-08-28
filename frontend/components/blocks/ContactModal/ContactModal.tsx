@@ -15,7 +15,7 @@ const ContactModalWrapper = styled(motion.div)`
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 100dvh;
   z-index: 1000;
   display: flex;
   justify-content: center;
@@ -37,7 +37,7 @@ const Card = styled(motion.div)`
   border-radius: 10px;
   padding: 20px;
   z-index: 2;
-  max-height: calc(100vh - 40px);
+  max-height: calc(100dvh - 40px);
   overflow-y: auto;
   cursor: default;
 
