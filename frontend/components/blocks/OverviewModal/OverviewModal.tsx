@@ -200,7 +200,7 @@ const OverviewModal = (props: Props) => {
               <CloseTrigger
                 onClick={() => setOverviewModal(false)}
                 role="button"
-                aria-label="Close"
+                aria-label="Close Overview Modal"
                 tabIndex={-1}
               >
                 <CrossIcon />

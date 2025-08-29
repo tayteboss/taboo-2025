@@ -161,6 +161,7 @@ const CanvasCard = React.memo(
                 noAnimation
                 sizes="(max-width: 768px) 38vw, (max-width: 1024px) 20vw, 15vw"
                 lazyLoad
+                isPriority={inView}
               />
             )}
           </MediaInner>

@@ -24,6 +24,7 @@ const AboutSection = (props: Props) => {
         title={data?.title}
         description={data?.description}
         subTitle={data?.subtitle}
+        useH1={true}
       />
     </AboutSectionWrapper>
   );

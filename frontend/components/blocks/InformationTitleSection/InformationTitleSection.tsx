@@ -10,7 +10,18 @@ import HoverTyper from "../../elements/HoverTyper";
 
 const InformationTitleSectionWrapper = styled.div``;
 
-const Title = styled(motion.h2)`
+const HeadingOne = styled(motion.h1)`
+  grid-column: 1 / 4;
+  padding-top: ${pxToRem(10)};
+  color: var(--colour-foreground);
+
+  @media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+    grid-column: 1 / -1;
+    margin-bottom: ${pxToRem(50)};
+  }
+`;
+
+const HeadingTwo = styled(motion.h2)`
   grid-column: 1 / 4;
   padding-top: ${pxToRem(10)};
   color: var(--colour-foreground);
@@ -61,10 +72,11 @@ type Props = {
   title: InformationPageType["aboutUsSection"]["title"];
   description: InformationPageType["aboutUsSection"]["description"];
   subTitle: InformationPageType["aboutUsSection"]["subtitle"];
+  useH1?: boolean;
 };
 
 const InformationTitleSection = (props: Props) => {
-  const { title, description, subTitle } = props;
+  const { title, description, subTitle, useH1 } = props;
 
   const { ref, inView } = useInView({
     triggerOnce: true,
@@ -76,14 +88,25 @@ const InformationTitleSection = (props: Props) => {
     <InformationTitleSectionWrapper ref={ref}>
       <LayoutWrapper>
         <LayoutGrid>
-          <Title
-            className="type-mono-small color-switch"
-            variants={fadeInLeftVariants}
-            initial="hidden"
-            animate={inView ? "visible" : "hidden"}
-          >
-            <HoverTyper data={title || ""} inView={inView} />
-          </Title>
+          {useH1 ? (
+            <HeadingOne
+              className="type-mono-small color-switch"
+              variants={fadeInLeftVariants}
+              initial="hidden"
+              animate={inView ? "visible" : "hidden"}
+            >
+              <HoverTyper data={title || ""} inView={inView} />
+            </HeadingOne>
+          ) : (
+            <HeadingTwo
+              className="type-mono-small color-switch"
+              variants={fadeInLeftVariants}
+              initial="hidden"
+              animate={inView ? "visible" : "hidden"}
+            >
+              <HoverTyper data={title || ""} inView={inView} />
+            </HeadingTwo>
+          )}
           {description && (
             <Description
               className="type-h2"

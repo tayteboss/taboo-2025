@@ -238,8 +238,8 @@ const ContactModal = (props: Props) => {
               <CloseTrigger
                 onClick={() => setIsActive(false)}
                 role="button"
-                aria-label="Close"
                 tabIndex={-1}
+                aria-label="Close Contact Modal"
               >
                 <CrossIcon />
               </CloseTrigger>

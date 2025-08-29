@@ -165,7 +165,7 @@ const FiltersModal = (props: Props) => {
               <CloseTrigger
                 onClick={() => setIsActive(false)}
                 role="button"
-                aria-label="Close"
+                aria-label="Close Filters Modal"
                 tabIndex={-1}
               >
                 <CrossIcon />

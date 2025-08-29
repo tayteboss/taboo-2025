@@ -160,7 +160,7 @@ const Header = (props: Props) => {
         <LayoutWrapper>
           <DesktopInner>
             <NavLinks>
-              <Link href="/">
+              <Link href="/" aria-label="Navigate to Home page">
                 <LinkTag className="type-mono-small">Home</LinkTag>
                 {activeLink === "Home" && (
                   <Underline
@@ -169,7 +169,7 @@ const Header = (props: Props) => {
                   />
                 )}
               </Link>
-              <Link href="/work">
+              <Link href="/work" aria-label="Navigate to Work page">
                 <LinkTag className="type-mono-small">Work</LinkTag>
                 {activeLink === "Work" && (
                   <Underline
@@ -178,7 +178,7 @@ const Header = (props: Props) => {
                   />
                 )}
               </Link>
-              <Link href="/about">
+              <Link href="/about" aria-label="Navigate to About page">
                 <LinkTag className="type-mono-small">About</LinkTag>
                 {activeLink === "About" && (
                   <Underline
@@ -190,12 +190,15 @@ const Header = (props: Props) => {
               <LinkTag
                 className="type-mono-small"
                 onClick={() => setContactModalIsActive(true)}
+                role="button"
+                aria-label="Open Contact modal"
+                tabIndex={0}
               >
                 Contact
               </LinkTag>
             </NavLinks>
             <LogoWrapper $isActive={isActive}>
-              <Link href="/">
+              <Link href="/" aria-label="Navigate to Home page via logo">
                 <LogoIcon />
               </Link>
             </LogoWrapper>
@@ -206,7 +209,7 @@ const Header = (props: Props) => {
               $hasScrolled={hasScrolled}
               $isActive={isActive}
             >
-              <Link href="/">
+              <Link href="/" aria-label="Navigate to Home page via logo">
                 <LogoIcon />
               </Link>
             </LogoWrapper>

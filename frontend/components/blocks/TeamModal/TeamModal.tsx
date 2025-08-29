@@ -222,7 +222,7 @@ const TeamModal = (props: Props) => {
               <CloseTrigger
                 onClick={() => setTeamModalIsActive(false)}
                 role="button"
-                aria-label="Close"
+                aria-label="Close Team Modal"
                 tabIndex={-1}
               >
                 <CrossIcon />
