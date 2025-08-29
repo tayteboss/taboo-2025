@@ -95,7 +95,7 @@ const InformationTitleSection = (props: Props) => {
               initial="hidden"
               animate={inView ? "visible" : "hidden"}
             >
-              <HoverTyper data={title || ""} inView={inView} />
+              {title || ""}
             </HeadingOne>
           ) : (
             <HeadingTwo
@@ -104,7 +104,7 @@ const InformationTitleSection = (props: Props) => {
               initial="hidden"
               animate={inView ? "visible" : "hidden"}
             >
-              <HoverTyper data={title || ""} inView={inView} />
+              {title || ""}
             </HeadingTwo>
           )}
           {description && (
