@@ -94,7 +94,7 @@ const springTransition = {
 
 const manualLayoutConfig = [
   // 0 - Center
-  { top: "15%", left: "40%", depthFactor: 0.95 },
+  { top: "-15%", left: "40%", depthFactor: 0.95 },
   // 1 - Near Center
   { top: "65%", left: "25%", depthFactor: 0.85 },
   // 2
