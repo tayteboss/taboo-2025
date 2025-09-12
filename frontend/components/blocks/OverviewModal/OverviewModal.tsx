@@ -71,11 +71,13 @@ const CloseTrigger = styled.button`
 
 const ContentWrapper = styled.div`
   padding: ${pxToRem(20)};
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: ${pxToRem(16)};
 `;
 
-const TitlesWrapper = styled.div`
-  margin-bottom: ${pxToRem(30)};
-`;
+const TitlesWrapper = styled.div``;
 
 const Title = styled.p`
   color: var(--colour-background);
@@ -84,7 +86,6 @@ const Title = styled.p`
 
 const Description = styled.p`
   color: var(--colour-background);
-  margin-bottom: ${pxToRem(30)};
   opacity: 0.75;
 `;
 
@@ -97,7 +98,7 @@ const StatisticsWrapper = styled.div`
 `;
 
 const ButtonWrapper = styled.div`
-  padding: ${pxToRem(64)} 0 ${pxToRem(10)};
+  padding: ${pxToRem(16)} 0 ${pxToRem(10)};
   display: flex;
   align-items: flex-start;
 
@@ -218,9 +219,9 @@ const OverviewModal = (props: Props) => {
               <Description className="type-h4">
                 {overviewDescription || ""}
               </Description>
-              <StatisticsWrapper>
-                {hasStatistics &&
-                  [...overviewStatistics, ...overviewStatistics].map(
+              {hasStatistics && (
+                <StatisticsWrapper>
+                  {[...overviewStatistics, ...overviewStatistics].map(
                     (stat, i) => (
                       <OverviewStatisticsCard
                         value={stat.value}
@@ -229,7 +230,8 @@ const OverviewModal = (props: Props) => {
                       />
                     )
                   )}
-              </StatisticsWrapper>
+                </StatisticsWrapper>
+              )}
               <ButtonWrapper>
                 <Link href={`/work/${slug?.current}`}>
                   <PrimaryButton>Full Case Study (↗)</PrimaryButton>

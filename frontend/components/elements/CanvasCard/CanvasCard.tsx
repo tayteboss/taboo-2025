@@ -51,6 +51,7 @@ const MediaInner = styled.div<{ $ratio: string }>`
 const ContentWrapper = styled.div`
   padding-top: ${pxToRem(8)};
   opacity: 0;
+
   transition: all var(--transition-speed-default) var(--transition-ease);
 `;
 
