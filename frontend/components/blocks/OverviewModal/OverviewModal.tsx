@@ -45,7 +45,7 @@ const MediaWrapper = styled.div`
   width: 100%;
 
   .media-wrapper {
-    padding-top: 56.25%;
+    padding-top: 50%;
   }
 `;
 
