@@ -23,6 +23,7 @@ const Title = styled.h1`
   color: var(--colour-background);
   z-index: 1;
   pointer-events: none;
+  opacity: 0;
 `;
 
 type Props = {
