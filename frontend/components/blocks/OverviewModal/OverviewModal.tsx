@@ -221,15 +221,13 @@ const OverviewModal = (props: Props) => {
               </Description>
               {hasStatistics && (
                 <StatisticsWrapper>
-                  {[...overviewStatistics, ...overviewStatistics].map(
-                    (stat, i) => (
-                      <OverviewStatisticsCard
-                        value={stat.value}
-                        description={stat.description}
-                        key={i}
-                      />
-                    )
-                  )}
+                  {overviewStatistics.map((stat, i) => (
+                    <OverviewStatisticsCard
+                      value={stat.value}
+                      description={stat.description}
+                      key={i}
+                    />
+                  ))}
                 </StatisticsWrapper>
               )}
               <ButtonWrapper>

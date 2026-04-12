@@ -7,17 +7,18 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 const nextConfig = {
   // Your existing configurations:
   reactStrictMode: true,
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
   typescript: {
     ignoreBuildErrors: true,
   },
   images: {
-    domains: ['cdn.sanity.io', 'image.mux.com'],
+    remotePatterns: [
+      { protocol: 'https', hostname: 'cdn.sanity.io' },
+      { protocol: 'https', hostname: 'image.mux.com' }
+    ],
     loader: 'custom',
     loaderFile: './lib/sanityImageLoader.ts', // Adjust path if you placed it elsewhere (e.g., './lib/sanityImageLoader.js')
   },
+  turbopack: {},
 };
 
 // Use module.exports (CommonJS) to export the wrapped config
